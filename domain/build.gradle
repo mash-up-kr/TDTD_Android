@@ -1,13 +1,18 @@
-plugins {
-    id 'java-library'
-    id 'kotlin'
-}
+apply plugin: 'kotlin'
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-}
+apply plugin: 'kotlin-kapt'
+
+apply from: '../build-version.gradle'
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //Kotlin
+    implementation "$libraries.kotlin"
+    //Logger
+    implementation "$libraries.timber"
+    //Coroutines
+    implementation "$libraries.coroutinesCore"
+    implementation "$libraries.coroutinesAndroid"
+    //Hilt
+    implementation "$libraries.hilt"
+    kapt "$libraries.hiltCompiler"
 }
