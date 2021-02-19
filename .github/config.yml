@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: pull_request
+    url: https://github.com/mash-up-kr/TDTD_Android
+    about: Create a pull request
