@@ -1,12 +1,10 @@
 package com.tdtd.presentation.ui
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.tdtd.presentation.R
+import com.tdtd.presentation.base.ui.BaseActivity
+import com.tdtd.presentation.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 }
