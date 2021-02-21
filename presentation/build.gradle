@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+
+apply from: '../build-common.gradle'
+
+apply from: '../build-version.gradle'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation project("$modularization.domain")
+    //Android
+    implementation "$libraries.appcompat"
+    implementation "$libraries.ktx"
+    implementation "$libraries.material"
+    implementation "$libraries.constraintLayout"
+    implementation "$libraries.legacySupport"
+    implementation "$libraries.fragmentKtx"
+    //Coroutines
+    implementation "$libraries.coroutinesCore"
+    implementation "$libraries.coroutinesAndroid"
+    //Navigation Component
+    implementation "$libraries.navigationFragment"
+    implementation "$libraries.navigationUi"
+    // lifecycle
+    implementation "$libraries.lifecycleLivedata"
+    implementation "$libraries.lifecycleViewmodel"
+    implementation "$libraries.lifecycleViewmodelState"
+    implementation "$libraries.lifecycleCompiler"
+    //Glide
+    implementation "$libraries.glide"
+    kapt "$libraries.glideCompiler"
+}

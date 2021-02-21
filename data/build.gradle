@@ -1,0 +1,14 @@
+apply plugin: 'com.android.library'
+
+apply from: '../build-common.gradle'
+
+apply from: '../build-config.gradle'
+
+apply from: '../build-version.gradle'
+
+dependencies {
+    implementation project("$modularization.domain")
+
+    //Gson (Legacy, it will be delete when Json file replace with server API)
+    implementation "$libraries.retrofitGson"
+}

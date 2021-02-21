@@ -1,0 +1,56 @@
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply from: '../build-version.gradle'
+
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    compileSdkVersion configs.compileSdk
+    buildToolsVersion configs.buildSdk
+
+    defaultConfig {
+        minSdkVersion configs.minSdk
+        targetSdkVersion configs.targetSdk
+
+        versionCode configs.versionCode
+        versionName configs.versionName
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+}
+
+dependencies {
+    //Kotlin
+    implementation "$libraries.kotlin"
+    //Logger
+    implementation "$libraries.timber"
+    //Coroutines
+    implementation "$libraries.coroutinesCore"
+    implementation "$libraries.coroutinesAndroid"
+    //Hilt
+    implementation "$libraries.hilt"
+    kapt "$libraries.hiltCompiler"
+    implementation "$libraries.hiltLifecycle"
+    kapt "$libraries.hiltLifecycleCompiler"
+}
