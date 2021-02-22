@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="Theme.Voicepaper" parent="Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/beige1</item>
+            <item name="colorPrimaryDark">@color/grayscale1</item>
+            <item name="colorAccent">@color/beige4</item>
+            <item name="android:windowLightStatusBar">true</item>
+            <item name="android:statusBarColor">@color/beige1</item>
+            <item name="android:windowBackground">@color/beige1</item>
+        </style>
+
+
+    <style name="text.20dp.bold.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grayscale1</item>
+    </style>
+
+    <style name="text.20dp.regular.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/grayscale1</item>
+    </style>
+
+    <style name="text.16dp.bold.grayscale2" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grayscale2</item>
+    </style>
+
+    <style name="text.16dp.bold.grayscale3" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grayscale3</item>
+    </style>
+
+    <style name="text.14dp.bold.grayscale2" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grayscale2</item>
+    </style>
+
+</resources>
