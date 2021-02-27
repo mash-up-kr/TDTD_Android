@@ -18,6 +18,13 @@
         <item name="android:textColor">@color/grayscale1</item>
     </style>
 
+    <style name="text.20dp.bold.grayscale4" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grayscale4</item>
+    </style>
+
     <style name="text.20dp.regular.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">20dp</item>
@@ -29,6 +36,13 @@
         <item name="android:textSize">16dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/grayscale2</item>
+    </style>
+
+    <style name="text.16dp.bold.beige6" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/beige6</item>
     </style>
 
     <style name="text.16dp.bold.grayscale3" parent="@android:style/Widget.DeviceDefault.TextView">

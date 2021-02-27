@@ -8,45 +8,79 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             tools:context=".ui.main.MainActivity">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 app:elevation="0dp">
-
+                
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/app_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
-                    app:titleTextColor="@android:color/white" />
+                    app:titleTextColor="@android:color/white"
+                    app:layout_scrollFlags="scroll|enterAlways" >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="16dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/settingButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/background_beige3_radius13"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_setting_24"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rollingPaperAddButton"
+                    android:id="@+id/rollingPaperAddImageView"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
-                    android:background="@drawable/background_beige4_radius16"
+                    android:background="@drawable/background_beige3_radius16"
+                    android:src="@drawable/img_create_room"
+                    android:scaleType="fitXY"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/smallAddButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/background_beige5_radius13"
+                    android:src="@drawable/ic_add_24"
+                    app:layout_constraintTop_toTopOf="@+id/rollingPaperAddImageView"
+                    app:layout_constraintStart_toStartOf="@+id/rollingPaperAddImageView"
+                    app:layout_constraintEnd_toEndOf="@+id/rollingPaperAddImageView"
+                    app:layout_constraintBottom_toTopOf="@+id/rollingPaperAddTextView"
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/rollingPaperAddTextView"
@@ -54,10 +88,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
                     android:text="@string/home_rollingpaper_add_content"
-                    android:textAppearance="@style/text.20dp.bold.grayscale1"
-                    app:layout_constraintStart_toStartOf="@+id/rollingPaperAddButton"
-                    app:layout_constraintEnd_toEndOf="@+id/rollingPaperAddButton"
-                    app:layout_constraintBottom_toBottomOf="@+id/rollingPaperAddButton" />
+                    android:textAppearance="@style/text.16dp.bold.beige6"
+                    app:layout_constraintStart_toStartOf="@+id/rollingPaperAddImageView"
+                    app:layout_constraintEnd_toEndOf="@+id/rollingPaperAddImageView"
+                    app:layout_constraintBottom_toBottomOf="@+id/rollingPaperAddImageView" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/rollingPaPerListTextView"
@@ -66,8 +100,8 @@
                     android:layout_marginTop="24dp"
                     android:textAppearance="@style/text.16dp.bold.grayscale3"
                     android:text="@string/home_rollingpaper_list_content"
-                    app:layout_constraintTop_toBottomOf="@+id/rollingPaperAddButton"
-                    app:layout_constraintStart_toStartOf="@+id/rollingPaperAddButton"
+                    app:layout_constraintTop_toBottomOf="@+id/rollingPaperAddImageView"
+                    app:layout_constraintStart_toStartOf="@+id/rollingPaperAddImageView"
                     tools:text="롤링페이퍼 리스트" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
@@ -77,7 +111,7 @@
                     android:textAppearance="@style/text.16dp.bold.grayscale3"
                     android:text="@string/home_rollingpaper_bookmark"
                     app:layout_constraintTop_toTopOf="@+id/rollingPaPerListTextView"
-                    app:layout_constraintEnd_toEndOf="@+id/rollingPaperAddButton"
+                    app:layout_constraintEnd_toEndOf="@+id/rollingPaperAddImageView"
                     app:layout_constraintBottom_toBottomOf="@+id/rollingPaPerListTextView"
                     tools:text="즐겨찾기" />
 
@@ -92,9 +126,20 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/row_main_user_room_item" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/noRoomTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/home_rollingpaper_no_room_content"
+                    android:textAppearance="@style/text.20dp.bold.grayscale4"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rollingPaPerListTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            </androidx.core.widget.NestedScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
