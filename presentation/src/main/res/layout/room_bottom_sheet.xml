@@ -3,145 +3,145 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/room_bottom_sheet"
+    style="android:style/ButtonBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textRoomName"
+        android:id="@+id/RoomNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/room_name"
-        android:textColor="#393045"
-        android:textSize="20sp"
+        android:text="@string/make_room_bottom_sheet_title"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textRoomNumber"
+        android:id="@+id/RoomNumberTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#393045"
-        android:textSize="14sp"
+        android:textAppearance="@style/text.14dp.bold.grayscale2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="0/35" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editRoomName"
+        android:id="@+id/RoomNameEditView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_room_border"
         android:gravity="center|start"
-        android:hint="@string/room_name_hint"
+        android:hint="@string/room_name_hint_title"
+        android:inputType="text|textVisiblePassword"
         android:maxLength="35"
+        android:maxLines="1"
         android:padding="16dp"
         android:textAlignment="textStart"
-        android:textColorHint="#D3D0D6"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:textColorHint="@color/hint_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textRoomName" />
+        app:layout_constraintTop_toBottomOf="@id/RoomNameTextView" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textPaperDescription"
+        android:id="@+id/DescriptionPaperTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/paper_write"
-        android:textColor="#393045"
-        android:textSize="20sp"
+        android:text="@string/paper_write_content"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editRoomName" />
+        app:layout_constraintTop_toBottomOf="@id/RoomNameEditView" />
 
     <ImageView
-        android:id="@+id/imageVoice"
+        android:id="@+id/VoiceImageView"
         android:layout_width="185dp"
         android:layout_height="164dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_room_border"
-        android:padding="8dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/select_method_img_record"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textPaperDescription"
+        app:layout_constraintTop_toBottomOf="@id/DescriptionPaperTextView"
         tools:ignore="ContentDescription" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textVoice"
+        android:id="@+id/VoiceTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/voice"
-        android:textColor="#393045"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageVoice"
-        app:layout_constraintStart_toStartOf="@+id/imageVoice"
-        app:layout_constraintTop_toTopOf="@+id/imageVoice" />
+        android:text="@string/voice_title"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        app:layout_constraintEnd_toEndOf="@+id/VoiceImageView"
+        app:layout_constraintStart_toStartOf="@+id/VoiceImageView"
+        app:layout_constraintTop_toTopOf="@+id/VoiceImageView" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textVoiceDescription"
+        android:id="@+id/DescriptionVoiceTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="@string/voice_description"
-        android:textColor="#61596A"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageVoice"
-        app:layout_constraintStart_toStartOf="@+id/imageVoice"
-        app:layout_constraintTop_toBottomOf="@id/textVoice" />
+        android:text="@string/voice_description_content"
+        android:textAppearance="@style/text.16dp.bold.grayscale2"
+        app:layout_constraintEnd_toEndOf="@+id/VoiceImageView"
+        app:layout_constraintStart_toStartOf="@+id/VoiceImageView"
+        app:layout_constraintTop_toBottomOf="@id/VoiceTextView" />
 
     <ImageView
-        android:id="@+id/imageText"
+        android:id="@+id/TextImageView"
         android:layout_width="185dp"
         android:layout_height="164dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_room_border"
+        android:scaleType="fitEnd"
+        android:src="@drawable/select_method_img_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textPaperDescription"
+        app:layout_constraintTop_toBottomOf="@id/DescriptionPaperTextView"
         tools:ignore="ContentDescription" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textWrite"
+        android:id="@+id/WriteTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/text"
-        android:textColor="#393045"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/imageText"
-        app:layout_constraintStart_toStartOf="@id/imageText"
-        app:layout_constraintTop_toTopOf="@id/imageText" />
+        android:text="@string/text_title"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        app:layout_constraintEnd_toEndOf="@id/TextImageView"
+        app:layout_constraintStart_toStartOf="@id/TextImageView"
+        app:layout_constraintTop_toTopOf="@id/TextImageView" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textDescription"
+        android:id="@+id/DescriptionTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="@string/text_description"
-        android:textColor="#61596A"
-        android:textSize="16sp"
+        android:text="@string/text_description_content"
+        android:textAppearance="@style/text.16dp.bold.grayscale2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageText"
-        app:layout_constraintStart_toStartOf="@id/imageText"
-        app:layout_constraintTop_toBottomOf="@id/textWrite" />
+        app:layout_constraintStart_toEndOf="@id/TextImageView"
+        app:layout_constraintStart_toStartOf="@id/TextImageView"
+        app:layout_constraintTop_toBottomOf="@id/WriteTextView" />
 
     <Button
-        android:id="@+id/buttonMakeRoom"
+        android:id="@+id/MakeRoomButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/button_border"
-        android:text="@string/make_room"
+        android:text="@string/make_room_title"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
