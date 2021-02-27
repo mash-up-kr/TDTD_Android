@@ -34,6 +34,10 @@
     <string name="detail_user_content_whisper">친구에게 마음을 속삭여보세요!</string>
 
     <!-- 다이얼로그 -->
+    <string name="dialog_delete_room_title">방 삭제하기</string>
+    <string name="dialog_delete_room_content">정말 롤링페이퍼 방을 삭제시겠어요?😭</string>
+    <string name="dialog_delete_room_button_submit">방 삭제하기</string>
+    <string name="dialog_delete_room_button_cancel">안 할래요!</string>
     <string name="dialog_leave_room_title">방 나가기</string>
     <string name="dialog_leave_room_content">정말 롤링페이퍼 방을 나가시겠어요?😭</string>
     <string name="dialog_leave_room_button_submit">방 나가기</string>
