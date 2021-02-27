@@ -42,4 +42,8 @@
     <string name="dialog_leave_room_content">정말 롤링페이퍼 방을 나가시겠어요?😭</string>
     <string name="dialog_leave_room_button_submit">방 나가기</string>
     <string name="dialog_leave_room_button_cancel">안 나갈래요!</string>
+    <string name="dialog_delete_reply_title">답장 삭제하기</string>
+    <string name="dialog_delete_reply_content">정말 답장을 삭제하시겠어요?😭</string>
+    <string name="dialog_delete_reply_button_submit">삭제할래요</string>
+    <string name="dialog_delete_reply_button_cancel">안 할래요!</string>
 </resources>
