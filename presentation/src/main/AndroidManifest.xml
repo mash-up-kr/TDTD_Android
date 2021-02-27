@@ -3,7 +3,7 @@
     package="com.tdtd.presentation">
 
     <application>
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
