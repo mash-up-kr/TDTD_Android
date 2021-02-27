@@ -35,32 +35,41 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initParentHeight()
+        setRoomEditFocus()
         setRoomEditView()
         setRollingPager()
+    }
+
+    private fun setRoomEditFocus() {
+        RoomNameEditView.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) RoomNameEditView.setBackgroundResource(R.drawable.edit_room_click_border)
+            else RoomNameEditView.setBackgroundResource(R.drawable.edit_room_border)
+        }
     }
 
     private fun setRoomEditView() {
         RoomNameEditView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //RoomNameEditView.setBackgroundResource(R.drawable.edit_room_border)
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 RoomNameEditView.setBackgroundResource(R.drawable.edit_room_click_border)
+                InputNumberTextView.text = s.toString()
             }
 
             override fun afterTextChanged(s: Editable?) {
-
+                InputNumberTextView.text = s?.length.toString()
             }
         })
     }
 
     private fun setRollingPager() {
         VoiceImageView.setOnClickListener {
-            VoiceImageView.setImageResource(R.drawable.edit_room_click_border)
+            //VoiceImageView.setImageResource(R.drawable.edit_room_click_border)
         }
         TextImageView.setOnClickListener {
-            TextImageView.setImageResource(R.drawable.edit_room_click_border)
+            //TextImageView.setImageResource(R.drawable.edit_room_click_border)
         }
     }
 

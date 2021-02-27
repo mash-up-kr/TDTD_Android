@@ -10,4 +10,6 @@
     <string name="text_title">텍스트</string>
     <string name="text_description_content">텍스트로 쓰면 %s이가\n 읽어드려요!</string>
     <string name="make_room_title">방 만들기</string>
+    <string name="initial_input_number">0</string>
+    <string name="max_input_number">/35</string>
 </resources>
