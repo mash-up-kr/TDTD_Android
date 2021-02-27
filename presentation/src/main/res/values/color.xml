@@ -16,7 +16,7 @@
     <color name="grayscale3">#888390</color>
     <color name="grayscale4">#D3D0D6</color>
 
-<!--    character-->
+    <!--    character-->
     <color name="character1">#EE7A62</color>
     <color name="character2">#F3E884</color>
     <color name="character3">#5DAD99</color>
@@ -27,4 +27,9 @@
     <color name="point">#FFCA42</color>
     <color name="white">#FFFFFF</color>
 
+    <!-- Room -->
+    <color name="border_stroke">#EDE5DF</color>
+    <color name="button_color">#80393045</color>
+    <color name="hint_color">#D3D0D6</color>
+    <color name="click_border_stroke">#61596A</color>
 </resources>

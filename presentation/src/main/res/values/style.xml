@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-        <style name="Theme.Voicepaper" parent="Theme.AppCompat.Light.NoActionBar">
-            <item name="colorPrimary">@color/beige1</item>
-            <item name="colorPrimaryDark">@color/grayscale1</item>
-            <item name="colorAccent">@color/beige4</item>
-            <item name="android:windowLightStatusBar">true</item>
-            <item name="android:statusBarColor">@color/beige1</item>
-            <item name="android:windowBackground">@color/beige1</item>
-        </style>
+    <style name="Theme.Voicepaper" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/beige1</item>
+        <item name="colorPrimaryDark">@color/grayscale1</item>
+        <item name="colorAccent">@color/beige4</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/beige1</item>
+        <item name="android:windowBackground">@color/beige1</item>
+    </style>
 
 
     <style name="text.20dp.bold.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
@@ -59,4 +59,11 @@
         <item name="android:textColor">@color/grayscale2</item>
     </style>
 
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppBottomSheetModal</item>
+    </style>
+
+    <style name="AppBottomSheetModal" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_border</item>
+    </style>
 </resources>
