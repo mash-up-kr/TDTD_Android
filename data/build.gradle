@@ -8,7 +8,9 @@ apply from: '../build-version.gradle'
 
 dependencies {
     implementation project("$modularization.domain")
-
-    //Gson (Legacy, it will be delete when Json file replace with server API)
+    implementation "$libraries.retrofit"
+    implementation "$libraries.okhttp"
+    implementation "$libraries.converter"
+    implementation "$libraries.okhttpLogging"
     implementation "$libraries.retrofitGson"
 }

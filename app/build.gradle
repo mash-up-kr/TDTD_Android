@@ -21,10 +21,6 @@ android {
             //BuildConfig Value SNS Login (from gradle.properties)
         }
     }
-
-    buildFeatures {
-        dataBinding = true
-    }
 }
 
 dependencies {
@@ -35,5 +31,11 @@ dependencies {
     //Android
     implementation "$libraries.appcompat"
     implementation "$libraries.ktx"
+
+    implementation "$libraries.retrofit"
+    implementation "$libraries.okhttp"
+    implementation "$libraries.converter"
+    implementation "$libraries.okhttpLogging"
+    implementation "$libraries.retrofitGson"
 
 }
