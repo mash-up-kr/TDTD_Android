@@ -2,4 +2,7 @@
     <string name="app_name">TDTD</string>
     
     <string name="home_rollingpaper_add_content">롤링페이퍼 방을 만들어보세요!</string>
+    <string name="home_rollingpaper_made_date">만든 날짜</string>
+    <string name="home_rollingpaper_list_content">롤링페이퍼 리스트</string>
+    <string name="home_rollingpaper_bookmark">즐겨찾기</string>
 </resources>
