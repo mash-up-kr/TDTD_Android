@@ -61,6 +61,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
+                    android:background="@drawable/background_beige3_radius16"
+                    android:src="@drawable/img_create_room"
+                    android:scaleType="fitXY"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
