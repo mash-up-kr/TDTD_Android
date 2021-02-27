@@ -34,7 +34,5 @@ class DetailAdminActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         actionBar = supportActionBar!!
         actionBar.setDisplayShowCustomEnabled(true)
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.title = "6학년 2반 친구들 모여라"
     }
 }
