@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:background="@drawable/bottom_sheet_beige3_radius24">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dateInfoTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/text.16dp.bold.grayscale3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="이 롤링페이퍼 방은 2021년 01월 02일에 만들어졌어요!" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/sharedLinkTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:drawableStart="@drawable/ic_share_32"
+        android:drawablePadding="8dp"
+        android:text="@string/detail_admin_setting_bottom_sheet_share_link_content"
+        android:foreground="@drawable/ripple_radius_8dp"
+        android:textAppearance="@style/text.20dp.bold.grayscale1"
+        app:layout_constraintTop_toBottomOf="@+id/dateInfoTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="작성자 초대 링크 공유하기" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/deleteRoomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:drawablePadding="8dp"
+        android:text="@string/detail_admin_setting_bottom_sheet_delete_room_content"
+        android:foreground="@drawable/ripple_radius_8dp"
+        android:drawableStart="@drawable/ic_trash_32"
+        android:textAppearance="@style/text.20dp.bold.grayscale1"
+        app:layout_constraintTop_toBottomOf="@+id/sharedLinkTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="방 삭제하기" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textAppearance="@style/text.20dp.bold.white"
+        tools:text="아무것도 안할래요"
+        android:background="@drawable/background_grayscale1_radius10"
+        app:layout_constraintTop_toBottomOf="@+id/deleteRoomTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,19 +15,31 @@
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/grayscale1</item>
+    </style>
+
+    <style name="text.20dp.bold.white" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="text.20dp.bold.grayscale4" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/grayscale4</item>
     </style>
 
     <style name="text.20dp.regular.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/grayscale1</item>
     </style>
 
@@ -35,6 +47,7 @@
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">16dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/grayscale2</item>
     </style>
 
@@ -49,6 +62,7 @@
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">16dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/grayscale3</item>
     </style>
 
@@ -56,6 +70,7 @@
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">14dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/grayscale2</item>
     </style>
 
