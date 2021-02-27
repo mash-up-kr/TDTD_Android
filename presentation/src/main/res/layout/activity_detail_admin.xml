@@ -3,16 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data></data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".ui.main.MainActivity">
-
-        <FrameLayout
-            android:id="@+id/detailAdminFrameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -35,7 +32,7 @@
                     android:paddingRight="16dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/appCompatImageView4"
+                        android:id="@+id/backButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/background_beige3_radius16"
@@ -56,12 +53,12 @@
                         android:text="6학년 1반 친구들 모여라!"
                         android:textAppearance="@style/text.20dp.regular.grayscale1"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/appCompatImageView3"
-                        app:layout_constraintStart_toEndOf="@+id/appCompatImageView4"
+                        app:layout_constraintEnd_toStartOf="@+id/moreButton"
+                        app:layout_constraintStart_toEndOf="@+id/backButton"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/appCompatImageView3"
+                        android:id="@+id/moreButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/background_beige3_radius16"
@@ -72,9 +69,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
-
         </com.google.android.material.appbar.AppBarLayout>
+        <FrameLayout
+            android:id="@+id/detailAdminFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <data></data>
 </layout>
