@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/room_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textRoomName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/room_name"
+        android:textColor="#393045"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textRoomNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="#393045"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="0/35" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editRoomName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_room_border"
+        android:gravity="center|start"
+        android:hint="@string/room_name_hint"
+        android:maxLength="35"
+        android:padding="16dp"
+        android:textAlignment="textStart"
+        android:textColorHint="#D3D0D6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textRoomName" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textPaperDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/paper_write"
+        android:textColor="#393045"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editRoomName" />
+
+    <ImageView
+        android:id="@+id/imageVoice"
+        android:layout_width="185dp"
+        android:layout_height="164dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_room_border"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textPaperDescription"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textVoice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/voice"
+        android:textColor="#393045"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageVoice"
+        app:layout_constraintStart_toStartOf="@+id/imageVoice"
+        app:layout_constraintTop_toTopOf="@+id/imageVoice" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textVoiceDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="@string/voice_description"
+        android:textColor="#61596A"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageVoice"
+        app:layout_constraintStart_toStartOf="@+id/imageVoice"
+        app:layout_constraintTop_toBottomOf="@id/textVoice" />
+
+    <ImageView
+        android:id="@+id/imageText"
+        android:layout_width="185dp"
+        android:layout_height="164dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_room_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textPaperDescription"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textWrite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/text"
+        android:textColor="#393045"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/imageText"
+        app:layout_constraintStart_toStartOf="@id/imageText"
+        app:layout_constraintTop_toTopOf="@id/imageText" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="@string/text_description"
+        android:textColor="#61596A"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageText"
+        app:layout_constraintStart_toStartOf="@id/imageText"
+        app:layout_constraintTop_toBottomOf="@id/textWrite" />
+
+    <Button
+        android:id="@+id/buttonMakeRoom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_border"
+        android:text="@string/make_room"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
