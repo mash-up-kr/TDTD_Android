@@ -12,6 +12,7 @@
 
     <!-- Text -->
     <color name="grayscale1">#393045</color>
+    <color name="grayscale1_opacity50">#80393045</color>
     <color name="grayscale2">#61596A</color>
     <color name="grayscale3">#888390</color>
     <color name="grayscale4">#D3D0D6</color>
