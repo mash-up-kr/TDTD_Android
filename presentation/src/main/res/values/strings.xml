@@ -5,4 +5,16 @@
     <string name="home_rollingpaper_made_date">만든 날짜</string>
     <string name="home_rollingpaper_list_content">롤링페이퍼 리스트</string>
     <string name="home_rollingpaper_bookmark">즐겨찾기</string>
+
+    <!-- 방 만들기 -->
+    <string name="make_room_bottom_sheet_title">롤링페이퍼 방 이름</string>
+    <string name="room_name_hint_title">방 이름을 적어주세요</string>
+    <string name="paper_write_content">롤링페이퍼 작성 방법</string>
+    <string name="voice_title">음성</string>
+    <string name="voice_description_content">직접 음성 녹음을\n할 수 있어요!</string>
+    <string name="text_title">텍스트</string>
+    <string name="text_description_content">텍스트로 쓰면 %s이가\n 읽어드려요!</string>
+    <string name="make_room_title">방 만들기</string>
+    <string name="initial_input_number">0</string>
+    <string name="max_input_number">/35</string>
 </resources>
