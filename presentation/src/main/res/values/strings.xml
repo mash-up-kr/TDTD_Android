@@ -30,4 +30,6 @@
 <!-- 상세 페이지 -->
     <string name="detail_admin_button_shared_link">초대 링크 보내기</string>
     <string name="detail_admin_content_shared_link">오른쪽 상단 더보기 버튼을 눌러서\n초대 링크를 보낼 수 있어요!</string>
+    <string name="detail_admin_button_shared_link">초대 링크 보내기</string>
+    <string name="detail_user_content_whisper">친구에게 마음을 속삭여보세요!</string>
 </resources>

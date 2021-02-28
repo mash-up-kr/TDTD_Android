@@ -3,6 +3,7 @@
     package="com.tdtd.presentation">
 
     <application>
+        <activity android:name=".ui.detail.DetailUserActivity" />
         <activity android:name=".ui.detail.DetailAdminActivity" />
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
