@@ -65,6 +65,13 @@
         <item name="android:textColor">@color/grayscale3</item>
     </style>
 
+    <style name="text.20dp.regular.grayscale4" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/grayscale4</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
     <style name="text.14dp.bold.grayscale2" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">14dp</item>
