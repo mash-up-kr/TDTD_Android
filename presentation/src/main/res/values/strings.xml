@@ -19,6 +19,7 @@
     <string name="initial_and_max_input_number">%d/35</string>
 
     <string name="recode_voice_whisper_title">남기고 싶은 말을 속삭여주세요!</string>
+    <string name="recode_voice_title_hint">방마다 닉네임을 다르게 쓸 수 있어요!</string>
     <string name="recode_voice_nickname">닉네임</string>
     <string name="recode_voice_maximum_one_minute">최대 1분</string>
     <string name="recode_voice_record_to_press_button">버튼을 눌러 녹음하기</string>

@@ -37,6 +37,7 @@
         android:paddingBottom="8dp"
         android:maxLength="12"
         android:maxLines="1"
+        android:hint="@string/recode_voice_title_hint"
         android:textCursorDrawable="@drawable/cursor_color"
         android:background="@drawable/edit_room_border"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
