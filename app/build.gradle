@@ -13,6 +13,11 @@ android {
         archivesBaseName = "${application.archiveName}-v${configs.versionName}(${configs.versionCode})"
     }
 
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             //BuildConfig Value SNS Login (from gradle.properties)

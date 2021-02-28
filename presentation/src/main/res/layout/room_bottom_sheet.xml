@@ -20,19 +20,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/InputNumberTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/initial_input_number"
-        android:textAppearance="@style/text.14dp.bold.grayscale2"
-        app:layout_constraintEnd_toStartOf="@id/TextNumberTextView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/TextNumberTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/max_input_number"
         android:textAppearance="@style/text.14dp.bold.grayscale2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +30,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/RoomNameEditView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_room_border"
         android:gravity="center|start"
@@ -48,10 +38,10 @@
         android:inputType="text|textVisiblePassword"
         android:maxLength="35"
         android:maxLines="1"
-        android:padding="16dp"
+        android:paddingStart="16dp"
         android:textAlignment="textStart"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
-        android:textColorHint="@color/hint_color"
+        android:textColorHint="@color/grayscale4"
         android:textCursorDrawable="@drawable/cursor_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -154,10 +144,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@drawable/button_border"
+        android:background="@drawable/background_grayscale1_radius12"
         android:text="@string/make_room_title"
-        android:textAppearance="@style/text.20dp.regular.grayscale1"
-        android:textColor="#FFFFFF"
+        android:textAppearance="@style/text.20dp.regular.white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

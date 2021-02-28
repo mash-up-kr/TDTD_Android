@@ -1,14 +1,14 @@
 package com.tdtd.presentation.ui.main
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.ActivityMainBinding
 import com.tdtd.presentation.entity.Dummy
 import com.tdtd.presentation.entity.getData
+import com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,5 +30,15 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = mainAdapter
         binding.recyclerView.adapter?.notifyDataSetChanged()
 
+
+        initRoomDialogFragment()
+    }
+
+    private fun initRoomDialogFragment() {
+        val bottomSheet = RecordVoiceDialogFragment()
+        bottomSheet.run {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            show(supportFragmentManager, bottomSheet.tag)
+        }
     }
 }

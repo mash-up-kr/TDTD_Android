@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_beige1_radius24"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:text="@string/recode_voice_nickname"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="닉네임" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/currentTextLengthTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/text.14dp.regular.grayscale1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="0/12" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/nicknameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:maxLength="12"
+        android:maxLines="1"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:background="@drawable/edit_room_border"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/contentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:text="@string/recode_voice_whisper_title"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="남기고 싶은 말을 속삭여주세요!" />
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_beige2_radius16"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/contentTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/maximumTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            android:text="@string/recode_voice_maximum_one_minute"
+            tools:text="최대 1분" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/recordDefaultImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_icon_record_default" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:textAppearance="@style/text.16dp.bold.grayscale3"
+            android:text="@string/recode_voice_record_to_press_button"
+            tools:text="버튼을 눌러 녹음하기" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bannerImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_banner"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cancelButton" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancelButton"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_marginEnd="4dp"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:background="@drawable/background_stroke_grayscale3_radius12"
+        android:text="@string/recode_voice_cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/completeButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="취소" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/completeButton"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_marginStart="4dp"
+        android:textAppearance="@style/text.20dp.regular.white"
+        android:background="@drawable/background_grayscale1_radius12"
+        android:text="@string/recode_voice_confirm"
+        app:layout_constraintStart_toEndOf="@id/cancelButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="완료" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

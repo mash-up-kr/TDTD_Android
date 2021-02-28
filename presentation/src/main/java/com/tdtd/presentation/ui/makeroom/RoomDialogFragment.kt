@@ -1,4 +1,4 @@
-package com.tdtd.presentation.ui
+package com.tdtd.presentation.ui.makeroom
 
 import android.app.Dialog
 import android.os.Bundle
@@ -55,11 +55,11 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 RoomNameEditView.setBackgroundResource(R.drawable.edit_room_click_border)
-                InputNumberTextView.text = s.toString()
+                TextNumberTextView.text = getString(R.string.initial_and_max_input_number, s?.length)
             }
 
             override fun afterTextChanged(s: Editable?) {
-                InputNumberTextView.text = s?.length.toString()
+
             }
         })
     }
