@@ -36,4 +36,5 @@ dependencies {
     //Glide
     implementation "$libraries.glide"
     kapt "$libraries.glideCompiler"
+    
 }

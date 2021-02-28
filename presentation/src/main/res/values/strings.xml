@@ -14,8 +14,17 @@
     <string name="voice_title">음성</string>
     <string name="voice_description_content">직접 음성 녹음을\n할 수 있어요!</string>
     <string name="text_title">텍스트</string>
-    <string name="text_description_content">텍스트로 쓰면 %s이가\n 읽어드려요!</string>
+    <string name="text_description_content">텍스트로 쓰면 %s이가\n읽어드려요!</string>
     <string name="make_room_title">방 만들기</string>
-    <string name="initial_input_number">0</string>
-    <string name="max_input_number">/35</string>
+    <string name="initial_and_max_input_number">%d/35</string>
+
+    <string name="recode_voice_whisper_title">남기고 싶은 말을 속삭여주세요!</string>
+    <string name="recode_voice_title_hint">방마다 닉네임을 다르게 쓸 수 있어요!</string>
+    <string name="recode_voice_nickname">닉네임</string>
+    <string name="recode_voice_maximum_one_minute">최대 1분</string>
+    <string name="recode_voice_record_to_press_button">버튼을 눌러 녹음하기</string>
+    <string name="recode_voice_nickname_number">%d/12</string>
+    <string name="recode_voice_cancel">취소</string>
+    <string name="recode_voice_confirm">확인</string>
+
 </resources>
