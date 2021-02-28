@@ -32,4 +32,22 @@
     <string name="detail_admin_content_shared_link">오른쪽 상단 더보기 버튼을 눌러서\n초대 링크를 보낼 수 있어요!</string>
     <string name="detail_admin_button_shared_link">초대 링크 보내기</string>
     <string name="detail_user_content_whisper">친구에게 마음을 속삭여보세요!</string>
+
+    <!-- 다이얼로그 -->
+    <string name="dialog_delete_room_title">방 삭제하기</string>
+    <string name="dialog_delete_room_content">정말 롤링페이퍼 방을 삭제시겠어요?😭</string>
+    <string name="dialog_delete_room_button_submit">방 삭제하기</string>
+    <string name="dialog_delete_room_button_cancel">안 할래요!</string>
+    <string name="dialog_leave_room_title">방 나가기</string>
+    <string name="dialog_leave_room_content">정말 롤링페이퍼 방을 나가시겠어요?😭</string>
+    <string name="dialog_leave_room_button_submit">방 나가기</string>
+    <string name="dialog_leave_room_button_cancel">안 나갈래요!</string>
+    <string name="dialog_delete_reply_title">답장 삭제하기</string>
+    <string name="dialog_delete_reply_content">정말 답장을 삭제하시겠어요?😭</string>
+    <string name="dialog_delete_reply_button_submit">삭제할래요</string>
+    <string name="dialog_delete_reply_button_cancel">안 할래요!</string>
+    <string name="dialog_report_reply_title">답장 신고하기</string>
+    <string name="dialog_report_reply_content">정말 답장을 신고하시겠어요?🚨</string>
+    <string name="dialog_report_reply_button_submit">신고할래요</string>
+    <string name="dialog_report_reply_button_cancel">안 할래요!</string>
 </resources>
