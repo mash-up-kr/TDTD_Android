@@ -9,6 +9,7 @@ import com.tdtd.presentation.databinding.ActivityMainBinding
 import com.tdtd.presentation.entity.Dummy
 import com.tdtd.presentation.entity.getData
 import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
+import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +37,10 @@ class MainActivity : AppCompatActivity() {
     private fun onClickAddImageView() {
         binding.rollingPaperAddImageView.setOnClickListener {
             initRoomDialogFragment()
+        }
+
+        binding.settingButton.setOnClickListener {
+             this@MainActivity.showToast("테스트입니다!", it)
         }
     }
 
