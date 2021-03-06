@@ -49,8 +49,8 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
     private fun setRoomEditFocus() {
         binding.roomNameEditView.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) view.setBackgroundResource(R.drawable.edit_room_click_border)
-            else view.setBackgroundResource(R.drawable.edit_room_border)
+            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
         }
     }
 
@@ -62,7 +62,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.apply {
-                    roomNameEditView.setBackgroundResource(R.drawable.edit_room_click_border)
+                    roomNameEditView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
                     textNumberTextView.text =
                         getString(R.string.initial_and_max_input_number, s?.length)
                 }
@@ -76,14 +76,14 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickVoice() {
         binding.voiceImageView.setOnClickListener {
-            it.setBackgroundResource(R.drawable.edit_room_click_border)
+            it.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
             // 음성 작성 페이지
         }
     }
 
     private fun onClickText() {
         binding.textImageView.setOnClickListener {
-            it.setBackgroundResource(R.drawable.edit_room_click_border)
+            it.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
             // 텍스트 작성 페이지
         }
     }
