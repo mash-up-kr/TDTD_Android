@@ -13,4 +13,7 @@ dependencies {
     implementation "$libraries.converter"
     implementation "$libraries.okhttpLogging"
     implementation "$libraries.retrofitGson"
+    implementation "$testing.junit"
+    implementation "$testing.androidxTest"
+    implementation "$testing.androidxJunit"
 }
