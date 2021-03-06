@@ -42,8 +42,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
     private fun setRoomEditFocus() {
         nicknameEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) nicknameEditText.setBackgroundResource(R.drawable.edit_room_click_border)
-            else nicknameEditText.setBackgroundResource(R.drawable.edit_room_border)
+            if (hasFocus) nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            else nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
         }
     }
 
@@ -56,7 +56,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                nicknameEditText.setBackgroundResource(R.drawable.edit_room_click_border)
+                nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                 currentTextLengthTextView.text = getString(R.string.recode_voice_nickname_number, s?.length)
             }
 
