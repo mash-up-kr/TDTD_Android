@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TDTD</string>
-    
+
     <string name="home_rollingpaper_add_content">롤링페이퍼 만들기!</string>
     <string name="home_rollingpaper_made_date">만든 날짜</string>
     <string name="home_rollingpaper_list_content">롤링페이퍼 리스트</string>
@@ -16,6 +16,7 @@
     <string name="text_title">텍스트</string>
     <string name="text_description_content">텍스트로 쓰면 %s이가\n읽어드려요!</string>
     <string name="make_room_title">방 만들기</string>
+    <string name="initial_input_number">0/35</string>
     <string name="initial_and_max_input_number">%d/35</string>
 
     <string name="recode_voice_whisper_title">남기고 싶은 말을 속삭여주세요!</string>
@@ -27,7 +28,7 @@
     <string name="recode_voice_cancel">취소</string>
     <string name="recode_voice_confirm">확인</string>
 
-<!-- 상세 페이지 -->
+    <!-- 상세 페이지 -->
     <string name="detail_admin_button_shared_link">초대 링크 보내기</string>
     <string name="detail_admin_content_shared_link">오른쪽 상단 더보기 버튼을 눌러서\n초대 링크를 보낼 수 있어요!</string>
     <string name="detail_user_content_whisper">친구에게 마음을 속삭여보세요!</string>

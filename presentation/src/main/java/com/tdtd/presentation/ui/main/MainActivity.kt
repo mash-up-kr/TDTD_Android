@@ -8,7 +8,7 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.ActivityMainBinding
 import com.tdtd.presentation.entity.Dummy
 import com.tdtd.presentation.entity.getData
-import com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment
+import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,12 +30,17 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = mainAdapter
         binding.recyclerView.adapter?.notifyDataSetChanged()
 
+        onClickAddImageView()
+    }
 
-        initRoomDialogFragment()
+    private fun onClickAddImageView() {
+        binding.rollingPaperAddImageView.setOnClickListener {
+            initRoomDialogFragment()
+        }
     }
 
     private fun initRoomDialogFragment() {
-        val bottomSheet = RecordVoiceDialogFragment()
+        val bottomSheet = RoomDialogFragment()
         bottomSheet.run {
             setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
             show(supportFragmentManager, bottomSheet.tag)
