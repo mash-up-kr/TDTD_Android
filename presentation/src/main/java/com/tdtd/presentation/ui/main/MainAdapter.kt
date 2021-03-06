@@ -2,15 +2,18 @@ package com.tdtd.presentation.ui.main
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.tdtd.presentation.BR
 import com.tdtd.presentation.databinding.RowMainUserRoomItemBinding
 import com.tdtd.presentation.entity.Dummy
-import com.tdtd.presentation.BR
 
-class MainAdapter() : ListAdapter<Dummy, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
+class MainAdapter(
+        private val onClick: (position: Int) -> Unit
+) : ListAdapter<Dummy, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -25,11 +28,14 @@ class MainAdapter() : ListAdapter<Dummy, MainAdapter.MainViewHolder>(CategoryDif
     }
 
     inner class MainViewHolder constructor(val binding: RowMainUserRoomItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Dummy) {
             Log.e("df", data.toString())
             binding.setVariable(BR.dummy, data)
+            binding.container.setOnClickListener {
+                onClick(adapterPosition)
+            }
         }
     }
 }
