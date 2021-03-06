@@ -11,6 +11,7 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/write_text_nickname"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,59 +34,42 @@
         android:paddingStart="16dp"
         android:maxLength="12"
         android:maxLines="1"
+        android:hint="@string/write_text_title_hint"
         android:textCursorDrawable="@drawable/cursor_color"
         android:background="@drawable/background_beige2_stroke1_beige3_radius16"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        tools:hint="방마다 닉네임을 다르게 쓸 수 있어요!"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/contentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:text="@string/write_text_title_text"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
         app:layout_constraintTop_toBottomOf="@+id/nicknameEditText"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="남기고 싶은 말을 속삭여주세요!" />
+        tools:text="남기고 싶은 말을 써주세요!" />
 
-    <LinearLayout
-        android:id="@+id/container"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/contentEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/background_beige2_radius16"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/contentTextView"
+        android:layout_height="176dp"
+        android:background="@drawable/background_beige2_stroke1_beige3_radius16"
+        android:maxLength="12"
+        android:maxLines="1"
+        android:padding="16dp"
+        android:hint="@string/write_text_content_hint"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:textCursorDrawable="@drawable/cursor_color"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/maximumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:textAppearance="@style/text.20dp.regular.grayscale1"
-            tools:text="최대 1분" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recordDefaultImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_icon_record_default" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:textAppearance="@style/text.16dp.bold.grayscale3"
-            tools:text="버튼을 눌러 녹음하기" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/contentTextView"
+        tools:hint="남기고 싶은 말을 써주세요!" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bannerImageView"

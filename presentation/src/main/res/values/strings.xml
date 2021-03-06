@@ -28,6 +28,11 @@
     <string name="recode_voice_cancel">취소</string>
     <string name="recode_voice_confirm">확인</string>
 
+    <string name="write_text_nickname">닉네임</string>
+    <string name="write_text_title_hint">방마다 닉네임을 다르게 쓸 수 있어요!</string>
+    <string name="write_text_content_hint">남기고 싶은 말을 써주세요!</string>
+    <string name="write_text_title_text">남기고 싶은 말을 써주세요!</string>
+
     <!-- 상세 페이지 -->
     <string name="detail_admin_button_shared_link">초대 링크 보내기</string>
     <string name="detail_admin_content_shared_link">오른쪽 상단 더보기 버튼을 눌러서\n초대 링크를 보낼 수 있어요!</string>
