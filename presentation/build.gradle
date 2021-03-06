@@ -36,5 +36,8 @@ dependencies {
     //Glide
     implementation "$libraries.glide"
     kapt "$libraries.glideCompiler"
-    
+    //Test
+    implementation "$testing.junit"
+    implementation "$testing.androidxTest"
+    implementation "$testing.androidxJunit"
 }
