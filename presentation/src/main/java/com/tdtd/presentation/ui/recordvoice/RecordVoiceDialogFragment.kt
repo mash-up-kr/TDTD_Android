@@ -14,15 +14,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.util.toPx
 import kotlinx.android.synthetic.main.detail_voice_bottom_sheet.*
-import kotlinx.android.synthetic.main.room_bottom_sheet.*
-import kotlinx.android.synthetic.main.room_bottom_sheet.RoomNameEditView
 
 class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.detail_voice_bottom_sheet, container, false)
     }
