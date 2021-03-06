@@ -1,154 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/room_bottom_sheet"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:padding="16dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/RoomNameTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/make_room_bottom_sheet_title"
-        android:textAppearance="@style/text.20dp.regular.grayscale1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/TextNumberTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/text.14dp.bold.grayscale2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </data>
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/RoomNameEditView"
-        android:layout_width="0dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/edit_room_border"
-        android:gravity="center|start"
-        android:hint="@string/room_name_hint_title"
-        android:inputType="text|textVisiblePassword"
-        android:maxLength="35"
-        android:maxLines="1"
-        android:paddingStart="16dp"
-        android:textAlignment="textStart"
-        android:textAppearance="@style/text.20dp.regular.grayscale1"
-        android:textColorHint="@color/grayscale4"
-        android:textCursorDrawable="@drawable/cursor_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/RoomNameTextView" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/room_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/DescriptionPaperTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/paper_write_content"
-        android:textAppearance="@style/text.20dp.regular.grayscale1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/RoomNameEditView" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/roomNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/make_room_bottom_sheet_title"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/VoiceImageView"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/edit_room_border"
-        android:scaleType="fitEnd"
-        android:src="@drawable/select_method_img_record"
-        app:layout_constraintEnd_toStartOf="@id/TextImageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/DescriptionPaperTextView"
-        tools:ignore="ContentDescription" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textNumberTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/initial_input_number"
+            android:textAppearance="@style/text.14dp.bold.grayscale2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/VoiceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/voice_title"
-        android:textAppearance="@style/text.20dp.regular.grayscale1"
-        app:layout_constraintEnd_toEndOf="@+id/VoiceImageView"
-        app:layout_constraintStart_toStartOf="@+id/VoiceImageView"
-        app:layout_constraintTop_toTopOf="@+id/VoiceImageView" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/roomNameEditView"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edit_room_border"
+            android:gravity="center|start"
+            android:hint="@string/room_name_hint_title"
+            android:inputType="text|textVisiblePassword"
+            android:maxLength="35"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            android:textColorHint="@color/grayscale4"
+            android:textCursorDrawable="@drawable/cursor_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/roomNameTextView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/DescriptionVoiceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="@string/voice_description_content"
-        android:textAppearance="@style/text.16dp.bold.grayscale2"
-        app:layout_constraintEnd_toEndOf="@+id/VoiceImageView"
-        app:layout_constraintStart_toStartOf="@+id/VoiceImageView"
-        app:layout_constraintTop_toBottomOf="@id/VoiceTextView" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/descriptionPaperTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/paper_write_content"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/roomNameEditView" />
 
-    <ImageView
-        android:id="@+id/TextImageView"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/edit_room_border"
-        android:scaleType="fitEnd"
-        android:src="@drawable/select_method_img_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/VoiceImageView"
-        app:layout_constraintTop_toBottomOf="@id/DescriptionPaperTextView"
-        tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/voiceImageView"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/edit_room_border"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/select_method_img_record"
+            app:layout_constraintEnd_toStartOf="@id/textImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionPaperTextView"
+            tools:ignore="ContentDescription" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/WriteTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/text_title"
-        android:textAppearance="@style/text.20dp.regular.grayscale1"
-        app:layout_constraintEnd_toEndOf="@id/TextImageView"
-        app:layout_constraintStart_toStartOf="@id/TextImageView"
-        app:layout_constraintTop_toTopOf="@id/TextImageView" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/voiceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/voice_title"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            app:layout_constraintEnd_toEndOf="@+id/voiceImageView"
+            app:layout_constraintStart_toStartOf="@+id/voiceImageView"
+            app:layout_constraintTop_toTopOf="@+id/voiceImageView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/DescriptionTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="@string/text_description_content"
-        android:textAppearance="@style/text.16dp.bold.grayscale2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/TextImageView"
-        app:layout_constraintStart_toStartOf="@id/TextImageView"
-        app:layout_constraintTop_toBottomOf="@id/WriteTextView" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/descriptionVoiceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/voice_description_content"
+            android:textAppearance="@style/text.16dp.bold.grayscale2"
+            app:layout_constraintEnd_toEndOf="@+id/voiceImageView"
+            app:layout_constraintStart_toStartOf="@+id/voiceImageView"
+            app:layout_constraintTop_toBottomOf="@id/voiceTextView" />
 
-    <Button
-        android:id="@+id/MakeRoomButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/background_grayscale1_radius12"
-        android:text="@string/make_room_title"
-        android:textAppearance="@style/text.20dp.regular.white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/textImageView"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/edit_room_border"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/select_method_img_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/voiceImageView"
+            app:layout_constraintTop_toBottomOf="@id/descriptionPaperTextView"
+            tools:ignore="ContentDescription" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/writeTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/text_title"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            app:layout_constraintEnd_toEndOf="@id/textImageView"
+            app:layout_constraintStart_toStartOf="@id/textImageView"
+            app:layout_constraintTop_toTopOf="@id/textImageView" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/text_description_content"
+            android:textAppearance="@style/text.16dp.bold.grayscale2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textImageView"
+            app:layout_constraintStart_toStartOf="@id/textImageView"
+            app:layout_constraintTop_toBottomOf="@id/writeTextView" />
+
+        <Button
+            android:id="@+id/makeRoomButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/background_grayscale1_radius12"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="@string/make_room_title"
+            android:textAppearance="@style/text.20dp.regular.white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
