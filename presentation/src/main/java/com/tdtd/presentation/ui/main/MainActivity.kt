@@ -2,6 +2,7 @@ package com.tdtd.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -11,6 +12,7 @@ import com.tdtd.presentation.databinding.ActivityMainBinding
 import com.tdtd.presentation.entity.Dummy
 import com.tdtd.presentation.entity.getData
 import com.tdtd.presentation.ui.detail.DetailAdminActivity
+import com.tdtd.presentation.ui.detail.DetailUserActivity
 import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
 import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +22,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private val dummyList: List<Dummy> = getData()
     private var mainAdapter = MainAdapter() { position ->
-        startActivity(Intent(this, DetailAdminActivity::class.java))
+        if (position == 0) {
+            startActivity(Intent(this, DetailAdminActivity::class.java))
+        } else {
+            startActivity(Intent(this, DetailUserActivity::class.java))
+        }
     }
 
     override fun initViews() {
