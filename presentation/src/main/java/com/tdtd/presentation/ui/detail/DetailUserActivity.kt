@@ -31,7 +31,7 @@ class DetailUserActivity : AppCompatActivity() {
 
         inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        view = inflater.inflate(R.layout.layout_detail_user, binding.detailUserFrameLayout, false)
+        view = inflater.inflate(R.layout.layout_detail_user_empty, binding.detailUserFrameLayout, false)
         binding.detailUserFrameLayout.addView(view)
     }
 

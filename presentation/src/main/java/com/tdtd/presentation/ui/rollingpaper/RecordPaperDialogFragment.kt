@@ -1,4 +1,4 @@
-package com.tdtd.presentation.ui.recordvoice
+package com.tdtd.presentation.ui.rollingpaper
 
 import android.app.Dialog
 import android.os.Bundle
@@ -13,16 +13,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.util.toPx
-import kotlinx.android.synthetic.main.detail_voice_bottom_sheet.*
+import kotlinx.android.synthetic.main.bottom_sheet_record_paper.*
 
-class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
+class RecordPaperDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.detail_voice_bottom_sheet, container, false)
+        return inflater.inflate(R.layout.bottom_sheet_record_paper, container, false)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

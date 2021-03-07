@@ -31,7 +31,7 @@ class DetailAdminActivity : AppCompatActivity() {
 
         inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        view = inflater.inflate(R.layout.layout_detail_admin, binding.detailAdminFrameLayout, false)
+        view = inflater.inflate(R.layout.layout_detail_admin_empty, binding.detailAdminFrameLayout, false)
         binding.detailAdminFrameLayout.addView(view)
     }
 
