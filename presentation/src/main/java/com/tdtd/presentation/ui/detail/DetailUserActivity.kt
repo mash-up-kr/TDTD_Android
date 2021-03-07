@@ -3,11 +3,13 @@ package com.tdtd.presentation.ui.detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.ActivityDetailUserBinding
+import com.tdtd.presentation.ui.dialog.LeaveRoomDialog
 import com.tdtd.presentation.ui.rollingpaper.RecordPaperDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +28,7 @@ class DetailUserActivity : AppCompatActivity() {
         initView()
         onClickWriteButton()
         onClickFavoritesButton()
+        onClickLeaveRoomButton()
     }
 
     private fun initView() {
@@ -55,6 +58,15 @@ class DetailUserActivity : AppCompatActivity() {
         bottomSheet.run {
             setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
             show(supportFragmentManager, bottomSheet.tag)
+        }
+    }
+    
+    private fun onClickLeaveRoomButton() {
+        binding.leaveRoomButton.setOnClickListener {
+            val dialog = LeaveRoomDialog.getInstance(submitButtonClicked = {
+                Toast.makeText(applicationContext, "submit!", Toast.LENGTH_SHORT).show()
+            })
+            dialog.show(supportFragmentManager, dialog.tag)
         }
     }
 }

@@ -58,7 +58,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/moreButton"
+                        android:id="@+id/leaveRoomButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/background_beige3_stroke1_beige4_radius16"
