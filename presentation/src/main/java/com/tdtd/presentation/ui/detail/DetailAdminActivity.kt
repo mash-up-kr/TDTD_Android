@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.ActivityDetailAdminBinding
+import com.tdtd.presentation.ui.rollingpaper.RecordPaperDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +24,7 @@ class DetailAdminActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_admin)
 
         initView()
+        onClickWriteButton()
         onClickFavoritesButton()
     }
 
@@ -38,6 +41,20 @@ class DetailAdminActivity : AppCompatActivity() {
     private fun onClickFavoritesButton() {
         binding.favoritesButton.setOnClickListener {
             binding.favoritesButton.isSelected = !binding.favoritesButton.isSelected
+        }
+    }
+
+    private fun onClickWriteButton() {
+        binding.writeButton.setOnClickListener {
+            initVoiceRecordDialogFragment()
+        }
+    }
+
+    private fun initVoiceRecordDialogFragment() {
+        val bottomSheet = RecordPaperDialogFragment()
+        bottomSheet.run {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            show(supportFragmentManager, bottomSheet.tag)
         }
     }
 }
