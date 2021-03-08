@@ -8,6 +8,11 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import com.tdtd.presentation.R
+import com.tdtd.presentation.databinding.ActivityDetailUserBinding
+import com.tdtd.presentation.ui.dialog.LeaveRoomDialog
+import com.tdtd.presentation.ui.rollingpaper.RecordPaperDialogFragment
+import com.tdtd.presentation.ui.rollingpaper.WritePaperDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 class DetailUserActivity : AppCompatActivity() {
 
@@ -31,5 +36,36 @@ class DetailUserActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         actionBar = supportActionBar!!
         actionBar.setDisplayShowCustomEnabled(true)
+    }
+
+    private fun onClickWriteButton() {
+        binding.writeButton.setOnClickListener {
+            initWritePaperDialogFragment()
+        }
+    }
+
+    private fun initWritePaperDialogFragment() {
+        val bottomSheet = WritePaperDialogFragment()
+        bottomSheet.run {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            show(supportFragmentManager, bottomSheet.tag)
+        }
+    }
+
+    private fun initRecordPaperDialogFragment() {
+        val bottomSheet = RecordPaperDialogFragment()
+        bottomSheet.run {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            show(supportFragmentManager, bottomSheet.tag)
+        }
+    }
+    
+    private fun onClickLeaveRoomButton() {
+        binding.leaveRoomButton.setOnClickListener {
+            val dialog = LeaveRoomDialog.getInstance(submitButtonClicked = {
+                Toast.makeText(applicationContext, "submit!", Toast.LENGTH_SHORT).show()
+            })
+            dialog.show(supportFragmentManager, dialog.tag)
+        }
     }
 }

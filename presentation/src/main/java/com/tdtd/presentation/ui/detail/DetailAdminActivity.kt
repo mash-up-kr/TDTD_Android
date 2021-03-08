@@ -8,7 +8,9 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.tdtd.presentation.R
-import com.tdtd.presentation.databinding.ActivityMainBinding
+import com.tdtd.presentation.databinding.ActivityDetailAdminBinding
+import com.tdtd.presentation.ui.rollingpaper.RecordPaperDialogFragment
+import com.tdtd.presentation.ui.rollingpaper.WritePaperDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,5 +36,27 @@ class DetailAdminActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         actionBar = supportActionBar!!
         actionBar.setDisplayShowCustomEnabled(true)
+    }
+
+    private fun onClickWriteButton() {
+        binding.writeButton.setOnClickListener {
+            initRecordPaperDialogFragment()
+        }
+    }
+
+    private fun initWritePaperDialogFragment() {
+        val bottomSheet = WritePaperDialogFragment()
+        bottomSheet.run {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            show(supportFragmentManager, bottomSheet.tag)
+        }
+    }
+
+    private fun initRecordPaperDialogFragment() {
+        val bottomSheet = RecordPaperDialogFragment()
+        bottomSheet.run {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            show(supportFragmentManager, bottomSheet.tag)
+        }
     }
 }
