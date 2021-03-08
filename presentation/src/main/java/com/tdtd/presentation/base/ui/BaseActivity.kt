@@ -13,13 +13,6 @@ abstract class BaseActivity<T: ViewDataBinding>(private val layoutId : Int) : Ap
     protected lateinit var binding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        with(window) {
-            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-            // set an slide transition
-            enterTransition = Slide(Gravity.END)
-            exitTransition = Slide(Gravity.START)
-        }
-
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, layoutId)
