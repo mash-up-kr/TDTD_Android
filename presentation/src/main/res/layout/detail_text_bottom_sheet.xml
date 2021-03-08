@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:text="@string/write_paper_nickname"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="닉네임" />
@@ -21,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/text.14dp.regular.grayscale1"
+        android:text="@string/write_paper_nickname_number"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="0/12" />
@@ -31,8 +33,11 @@
         android:layout_height="44dp"
         android:layout_marginTop="8dp"
         android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:maxLength="12"
         android:maxLines="1"
+        android:hint="@string/write_paper_nickname_hint"
         android:textCursorDrawable="@drawable/cursor_color"
         android:background="@drawable/background_beige2_stroke1_beige3_radius16"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
@@ -46,56 +51,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:text="@string/write_paper_whisper_title"
         app:layout_constraintTop_toBottomOf="@+id/nicknameEditText"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="남기고 싶은 말을 속삭여주세요!" />
+        tools:text="남기고 싶은 말을 써주세요!" />
 
-    <LinearLayout
-        android:id="@+id/container"
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/textEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="176dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/background_beige2_radius16"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/contentTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/maximumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:textAppearance="@style/text.20dp.regular.grayscale1"
-            tools:text="최대 1분" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recordDefaultImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_icon_record_default" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:textAppearance="@style/text.16dp.bold.grayscale3"
-            tools:text="버튼을 눌러 녹음하기" />
-
-    </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bannerImageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_banner"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="top"
+        android:background="@drawable/background_beige2_stroke1_beige3_radius16"
+        android:hint="@string/write_paper_whisper_title"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:textCursorDrawable="@drawable/cursor_color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/cancelButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contentTextView" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancelButton"
@@ -105,6 +85,7 @@
         android:gravity="center"
         android:layout_marginEnd="4dp"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
+        android:text="@string/write_paper_cancel"
         android:background="@drawable/background_stroke_gray3_radius12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/completeButton"
@@ -119,6 +100,7 @@
         android:gravity="center"
         android:layout_marginStart="4dp"
         android:textAppearance="@style/text.20dp.regular.white"
+        android:text="@string/write_paper_confirm"
         android:background="@drawable/background_grayscale1_radius12"
         app:layout_constraintStart_toEndOf="@id/cancelButton"
         app:layout_constraintEnd_toEndOf="parent"
