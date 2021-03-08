@@ -3,15 +3,20 @@
     package="com.tdtd.presentation">
 
     <application>
-        <activity android:name=".ui.detail.DetailUserActivity" />
-        <activity android:name=".ui.detail.DetailAdminActivity" />
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.detail.DetailUserActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.detail.DetailAdminActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+    </application>
 </manifest>

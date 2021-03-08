@@ -64,6 +64,13 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="text.16dp.regular.white" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="text.16dp.bold.grayscale3" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">16dp</item>
@@ -103,4 +110,10 @@
     <style name="AppBottomSheetModal" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_beige1_radius24</item>
     </style>
+
+    <style name="PopupWindowToast">
+        <item name="android:windowEnterAnimation">@anim/toast_animation_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/toast_animation_fade_out</item>
+    </style>
+
 </resources>
