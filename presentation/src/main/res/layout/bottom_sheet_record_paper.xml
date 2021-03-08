@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
-        android:text="@string/recode_voice_nickname"
+        android:text="@string/recode_paper_nickname"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="닉네임" />
@@ -37,7 +37,7 @@
         android:paddingBottom="8dp"
         android:maxLength="12"
         android:maxLines="1"
-        android:hint="@string/recode_voice_title_hint"
+        android:hint="@string/recode_paper_nickname_hint"
         android:textCursorDrawable="@drawable/cursor_color"
         android:background="@drawable/background_beige2_stroke1_beige3_radius16"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
-        android:text="@string/recode_voice_whisper_title"
+        android:text="@string/recode_paper_whisper_title"
         app:layout_constraintTop_toBottomOf="@+id/nicknameEditText"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="남기고 싶은 말을 속삭여주세요!" />
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:textAppearance="@style/text.20dp.regular.grayscale1"
-            android:text="@string/recode_voice_maximum_one_minute"
+            android:text="@string/recode_paper_maximum_one_minute"
             tools:text="최대 1분" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -90,7 +90,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
             android:textAppearance="@style/text.16dp.bold.grayscale3"
-            android:text="@string/recode_voice_record_to_press_button"
+            android:text="@string/recode_paper_record_to_press_button"
             tools:text="버튼을 눌러 녹음하기" />
 
     </LinearLayout>
@@ -115,7 +115,7 @@
         android:layout_marginEnd="4dp"
         android:textAppearance="@style/text.20dp.regular.grayscale1"
         android:background="@drawable/background_stroke_gray3_radius12"
-        android:text="@string/recode_voice_cancel"
+        android:text="@string/recode_paper_cancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/completeButton"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -130,7 +130,7 @@
         android:layout_marginStart="4dp"
         android:textAppearance="@style/text.20dp.regular.white"
         android:background="@drawable/background_grayscale1_radius12"
-        android:text="@string/recode_voice_confirm"
+        android:text="@string/recode_paper_confirm"
         app:layout_constraintStart_toEndOf="@id/cancelButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

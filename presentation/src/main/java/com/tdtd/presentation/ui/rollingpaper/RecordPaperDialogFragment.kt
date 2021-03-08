@@ -15,8 +15,8 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.util.toPx
 import kotlinx.android.synthetic.main.bottom_sheet_record_paper.*
 
-class RecordPaperDialogFragment : BottomSheetDialogFragment() {
 
+class RecordPaperDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -33,22 +33,21 @@ class RecordPaperDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initParentHeight()
-        setRoomEditFocus()
-        setRoomEditView()
+        setNicknameEditFocus()
+        setNicknameEditView()
         setRollingPager()
     }
 
-    private fun setRoomEditFocus() {
+    private fun setNicknameEditFocus() {
         nicknameEditText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
             else nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
         }
     }
 
-    private fun setRoomEditView() {
-        currentTextLengthTextView.text = getString(R.string.recode_voice_nickname_number, 0)
+    private fun setNicknameEditView() {
+        currentTextLengthTextView.text = getString(R.string.recode_paper_nickname_number, 0)
 
         nicknameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -57,7 +56,7 @@ class RecordPaperDialogFragment : BottomSheetDialogFragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
-                currentTextLengthTextView.text = getString(R.string.recode_voice_nickname_number, s?.length)
+                currentTextLengthTextView.text = getString(R.string.recode_paper_nickname_number, s?.length)
             }
 
             override fun afterTextChanged(s: Editable?) {
