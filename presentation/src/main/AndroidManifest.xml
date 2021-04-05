@@ -2,14 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tdtd.presentation">
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application>
-        <activity android:name=".ui.detail.DetailUserActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.detail.DetailUserActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.detail.DetailAdminActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.detail.DetailAdminActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.main.MainActivity"
+        <activity
+            android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

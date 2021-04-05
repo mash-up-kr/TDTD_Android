@@ -9,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
+import com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment
 import com.tdtd.presentation.util.toPx
 
 class RoomDialogFragment : BottomSheetDialogFragment() {
@@ -44,10 +46,11 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         setRoomEditView()
         onClickVoice()
         onClickText()
-        onClickMakeRoomButton()
     }
 
     private fun setRoomEditFocus() {
+        binding.makeRoomButton.isEnabled = false
+
         binding.roomNameEditView.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
             else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
@@ -76,15 +79,29 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickVoice() {
         binding.voiceImageView.setOnClickListener {
-            it.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
-            // 음성 작성 페이지
+            it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            binding.textImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            binding.makeRoomButton.apply {
+                isEnabled = true
+                setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+                setOnClickListener {
+                    showRecordVoiceDialogFragment()
+                }
+            }
         }
     }
 
     private fun onClickText() {
         binding.textImageView.setOnClickListener {
-            it.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
-            // 텍스트 작성 페이지
+            it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            binding.voiceImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            binding.makeRoomButton.apply {
+                isEnabled = true
+                setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+                setOnClickListener {
+                    // Move Text Fragment
+                }
+            }
         }
     }
 
@@ -99,9 +116,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         view?.layoutParams = layoutParams
     }
 
-    private fun onClickMakeRoomButton() {
-        binding.makeRoomButton.setOnClickListener {
-            it.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
-        }
+    private fun showRecordVoiceDialogFragment() {
+        RecordVoiceDialogFragment().show(childFragmentManager, RecordVoiceDialogFragment().tag)
     }
 }

@@ -24,6 +24,8 @@
     <string name="recode_voice_nickname">닉네임</string>
     <string name="recode_voice_maximum_one_minute">최대 1분</string>
     <string name="recode_voice_record_to_press_button">버튼을 눌러 녹음하기</string>
+    <string name="recode_voice_listen">녹음 들어보기</string>
+    <string name="recode_voice_playing">재상하고 있어요!</string>
     <string name="recode_voice_nickname_number">%d/12</string>
     <string name="recode_voice_cancel">취소</string>
     <string name="recode_voice_confirm">확인</string>
