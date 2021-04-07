@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
 import com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment
-import com.tdtd.presentation.util.toPx
+import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
+import com.tdtd.presentation.util.initParentHeight
 
 class RoomDialogFragment : BottomSheetDialogFragment() {
 
@@ -41,7 +41,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initParentHeight()
+        initParentHeight(requireActivity(), view)
         setRoomEditFocus()
         setRoomEditView()
         onClickVoice()
@@ -99,24 +99,27 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                 isEnabled = true
                 setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
                 setOnClickListener {
-                    // Move Text Fragment
+                    showWriteTextDialogFragment()
                 }
             }
         }
     }
 
-    private fun initParentHeight() {
-        val displayMetrics = DisplayMetrics()
-        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+    private fun showRecordVoiceDialogFragment() {
+        val bottomSheet = RecordVoiceDialogFragment()
 
-        val deviceHeight: Int = displayMetrics.heightPixels
-        val layoutParams = view?.layoutParams
-        layoutParams?.height = deviceHeight - 24.toPx()
-
-        view?.layoutParams = layoutParams
+        bottomSheet.also {
+            bottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
 
-    private fun showRecordVoiceDialogFragment() {
-        RecordVoiceDialogFragment().show(childFragmentManager, RecordVoiceDialogFragment().tag)
+    private fun showWriteTextDialogFragment() {
+        val bottomSheet = WriteTextDialogFragment()
+
+        bottomSheet.also {
+            bottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
 }

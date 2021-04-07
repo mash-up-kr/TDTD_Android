@@ -1,9 +1,11 @@
 package com.tdtd.presentation.util
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.os.Handler
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +21,11 @@ fun Context.showToast(text: String, view: View) {
         toastTextView.text = text
     }
 
-    val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    val popupWindow = PopupWindow(
+        popupView,
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    )
 
     popupWindow.apply {
         showAtLocation(view, Gravity.TOP or Gravity.CENTER, 0, 0)
@@ -29,5 +35,15 @@ fun Context.showToast(text: String, view: View) {
             popupWindow.dismiss()
         }, 2000)
     }
+}
 
+fun initParentHeight(activity: Activity, view: View?) {
+    val displayMetrics = DisplayMetrics()
+    activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+    val deviceHeight: Int = displayMetrics.heightPixels
+    val layoutParams = view?.layoutParams
+    layoutParams?.height = deviceHeight - 24.toPx()
+
+    view?.layoutParams = layoutParams
 }

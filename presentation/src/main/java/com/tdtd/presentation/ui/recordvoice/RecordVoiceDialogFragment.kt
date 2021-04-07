@@ -8,7 +8,6 @@ import android.media.MediaRecorder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,15 +19,15 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
-import com.tdtd.presentation.databinding.DetailVoiceBottomSheetBinding
-import com.tdtd.presentation.util.toPx
+import com.tdtd.presentation.databinding.FragmentRecordVoiceBinding
+import com.tdtd.presentation.util.initParentHeight
 import java.io.IOException
 import java.util.*
 import kotlin.concurrent.timer
 
 class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: DetailVoiceBottomSheetBinding
+    private lateinit var binding: FragmentRecordVoiceBinding
     private var mStartPlaying = true
     private var mStartRecording = true
     private var mediaPlayer: MediaPlayer? = null
@@ -40,14 +39,13 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     private var isRunning = false
     private var timerTask: Timer? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.detail_voice_bottom_sheet, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_record_voice, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -61,11 +59,11 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initParentHeight(requireActivity(), view)
         onClickCancelButton()
         initRecorder()
-        initParentHeight()
-        setRoomEditFocus()
-        setRoomEditView()
+        setNickNameEditFocus()
+        observeNickNameEditChange()
         setRecording()
         setCompleteButton()
     }
@@ -79,7 +77,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private fun setRoomEditFocus() {
+    private fun setNickNameEditFocus() {
         binding.completeButton.isEnabled = false
 
         binding.nicknameEditText.setOnFocusChangeListener { view, hasFocus ->
@@ -88,7 +86,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setRoomEditView() {
+    private fun observeNickNameEditChange() {
         binding.currentTextLengthTextView.text = getString(R.string.recode_voice_nickname_number, 0)
 
         binding.nicknameEditText.addTextChangedListener(object : TextWatcher {
@@ -259,17 +257,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
             }
         }
-    }
-
-    private fun initParentHeight() {
-        val displayMetrics = DisplayMetrics()
-        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-        val deviceHeight: Int = displayMetrics.heightPixels
-        val layoutParams = view?.layoutParams
-        layoutParams?.height = deviceHeight - 24.toPx()
-
-        view?.layoutParams = layoutParams
     }
 
     override fun onRequestPermissionsResult(
