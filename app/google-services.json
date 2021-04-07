@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "260898413243",
+    "project_id": "sokdaksokdak-bb355",
+    "storage_bucket": "sokdaksokdak-bb355.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260898413243:android:fbb25418fabf198b79679e",
+        "android_client_info": {
+          "package_name": "com.tdtd.voicepaper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260898413243-et7o11hh2s0aijvnfa4i9b7divqk1tq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqYN-oDqkQRumGFYiUq-Bj2piwYILjjmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260898413243-et7o11hh2s0aijvnfa4i9b7divqk1tq4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "260898413243-d56o0tn70khr2m8qtsjd3uttk0b5bn4s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chan.TDTD",
+                "app_store_id": "1557251130"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
