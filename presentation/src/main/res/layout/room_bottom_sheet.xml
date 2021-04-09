@@ -41,10 +41,10 @@
             android:background="@drawable/background_beige2_stroke1_beige3_radius16"
             android:gravity="center|start"
             android:hint="@string/room_name_hint_title"
-            android:inputType="text|textVisiblePassword"
             android:maxLength="35"
             android:maxLines="1"
             android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textAlignment="textStart"
             android:textAppearance="@style/text.20dp.regular.grayscale1"
             android:textColorHint="@color/grayscale4"
@@ -162,6 +162,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/roomContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

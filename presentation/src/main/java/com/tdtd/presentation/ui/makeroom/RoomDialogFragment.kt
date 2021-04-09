@@ -4,17 +4,19 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
-import com.tdtd.presentation.util.toPx
+import com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment
+import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
+import com.tdtd.presentation.util.initParentHeight
 
 class RoomDialogFragment : BottomSheetDialogFragment() {
 
@@ -39,15 +41,16 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initParentHeight()
+        initParentHeight(requireActivity(), view)
         setRoomEditFocus()
         setRoomEditView()
         onClickVoice()
         onClickText()
-        onClickMakeRoomButton()
     }
 
     private fun setRoomEditFocus() {
+        binding.makeRoomButton.isEnabled = false
+
         binding.roomNameEditView.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
             else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
@@ -76,32 +79,47 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickVoice() {
         binding.voiceImageView.setOnClickListener {
-            it.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
-            // 음성 작성 페이지
+            it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            binding.textImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            binding.makeRoomButton.apply {
+                isEnabled = true
+                setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+                setOnClickListener {
+                    showRecordVoiceDialogFragment()
+                }
+            }
         }
     }
 
     private fun onClickText() {
         binding.textImageView.setOnClickListener {
-            it.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
-            // 텍스트 작성 페이지
+            it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            binding.voiceImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            binding.makeRoomButton.apply {
+                isEnabled = true
+                setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+                setOnClickListener {
+                    showWriteTextDialogFragment()
+                }
+            }
         }
     }
 
-    private fun initParentHeight() {
-        val displayMetrics = DisplayMetrics()
-        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+    private fun showRecordVoiceDialogFragment() {
+        val bottomSheet = RecordVoiceDialogFragment()
 
-        val deviceHeight: Int = displayMetrics.heightPixels
-        val layoutParams = view?.layoutParams
-        layoutParams?.height = deviceHeight - 24.toPx()
-
-        view?.layoutParams = layoutParams
+        bottomSheet.also {
+            bottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
 
-    private fun onClickMakeRoomButton() {
-        binding.makeRoomButton.setOnClickListener {
-            it.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+    private fun showWriteTextDialogFragment() {
+        val bottomSheet = WriteTextDialogFragment()
+
+        bottomSheet.also {
+            bottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
     }
 }
