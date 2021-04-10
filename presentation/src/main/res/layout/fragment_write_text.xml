@@ -27,14 +27,14 @@
             android:id="@+id/currentTextLengthTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/initial_nickname_number"
             android:textAppearance="@style/text.14dp.regular.grayscale1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="0/12" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/nicknameEditText"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_beige2_stroke1_beige3_radius16"
