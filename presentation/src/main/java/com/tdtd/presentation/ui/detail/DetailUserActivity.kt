@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.ActivityDetailUserBinding
-import com.tdtd.presentation.ui.dialog.LeaveRoomDialog
+import com.tdtd.presentation.ui.dialog.DialogConstructor
 import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +28,7 @@ class DetailUserActivity : AppCompatActivity() {
         initView()
         onClickWriteButton()
         onClickFavoritesButton()
+        onClickBackButton()
         onClickLeaveRoomButton()
     }
 
@@ -61,13 +62,19 @@ class DetailUserActivity : AppCompatActivity() {
         }
     }
 
+    private fun onClickBackButton() {
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+    }
+
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
-            val dialog = LeaveRoomDialog.getInstance(submitButtonClicked = {
+            val dialog = DialogConstructor.getInstance(submitButtonClicked = {
                 intent.putExtra("isLeaveRoom", true)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
-            })
+            }, R.layout.dialog_leave_room)
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }

@@ -26,6 +26,8 @@ class DetailAdminActivity : AppCompatActivity() {
         initView()
         onClickWriteButton()
         onClickFavoritesButton()
+        onClickBackButton()
+        onClickMoreButton()
     }
 
     private fun initView() {
@@ -50,10 +52,30 @@ class DetailAdminActivity : AppCompatActivity() {
         }
     }
 
+    private fun onClickBackButton() {
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun onClickMoreButton() {
+        binding.moreButton.setOnClickListener {
+            initDetailAdminDialogFragment()
+        }
+    }
+
     private fun initVoiceRecordDialogFragment() {
         val bottomSheet = RecordVoiceDialogFragment()
         bottomSheet.run {
             setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+            show(supportFragmentManager, bottomSheet.tag)
+        }
+    }
+
+    private fun initDetailAdminDialogFragment() {
+        val bottomSheet = DetailAdminDialogFragment()
+        bottomSheet.run {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.DetailAdminBottomSheetModelTheme)
             show(supportFragmentManager, bottomSheet.tag)
         }
     }

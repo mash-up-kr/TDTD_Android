@@ -50,10 +50,10 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="6학년 1반 친구들 모여라!"
+                        tools:text="6학년 1반 친구들 모여라!"
                         android:textAppearance="@style/text.20dp.regular.grayscale1"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/moreButton"
+                        app:layout_constraintEnd_toStartOf="@+id/leaveRoomButton"
                         app:layout_constraintStart_toEndOf="@+id/backButton"
                         app:layout_constraintTop_toTopOf="parent" />
 
