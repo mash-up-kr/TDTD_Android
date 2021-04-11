@@ -63,11 +63,11 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
-            val dialog = LeaveRoomDialog.getInstance(submitButtonClicked = {
+            val dialog = DialogConstructor.getInstance(submitButtonClicked = {
                 intent.putExtra("isLeaveRoom", true)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
-            })
+            }, R.layout.dialog_leave_room)
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }
