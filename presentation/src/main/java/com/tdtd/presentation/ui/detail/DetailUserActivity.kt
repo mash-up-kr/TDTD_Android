@@ -1,9 +1,9 @@
 package com.tdtd.presentation.ui.detail
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -64,7 +64,9 @@ class DetailUserActivity : AppCompatActivity() {
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
             val dialog = LeaveRoomDialog.getInstance(submitButtonClicked = {
-                Toast.makeText(applicationContext, "submit!", Toast.LENGTH_SHORT).show()
+                intent.putExtra("isLeaveRoom", true)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             })
             dialog.show(supportFragmentManager, dialog.tag)
         }
