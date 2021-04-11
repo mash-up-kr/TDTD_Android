@@ -35,14 +35,14 @@ class DetailAdminDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickSharedLink() {
         binding.sharedLinkTextView.setOnClickListener {
-            TODO("링크가 복사되었어요! 와 같은 Toast 출력? 디자인 파트와 논의 필요")
+            // TODO: 링크가 복사되었어요! 와 같은 Toast 출력? 디자인 파트와 논의 필요
         }
     }
 
     private fun onClickDeleteRoom() {
         binding.deleteRoomTextView.setOnClickListener {
             val dialog = DialogConstructor.getInstance(submitButtonClicked = {
-                TODO("방 삭제 submit button click시 Activity 종료 + 토스트 출력 + API 호출")
+                // TODO: 방 삭제 submit button click시 Activity 종료 + 토스트 출력 + API 호출
             }, R.layout.dialog_delete_room)
             dialog.show(parentFragmentManager, dialog.tag)
         }
