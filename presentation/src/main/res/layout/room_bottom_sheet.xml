@@ -73,6 +73,7 @@
             android:background="@drawable/background_beige2_stroke1_beige3_radius16"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:paddingBottom="1dp"
             android:scaleType="fitEnd"
             android:src="@drawable/select_method_img_record"
             app:layout_constraintEnd_toStartOf="@id/textImageView"
@@ -115,6 +116,7 @@
             android:background="@drawable/background_beige2_stroke1_beige3_radius16"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:paddingBottom="1dp"
             android:scaleType="fitEnd"
             android:src="@drawable/select_method_img_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -162,15 +164,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/roomContainer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

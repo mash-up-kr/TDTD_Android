@@ -18,6 +18,8 @@ import com.tdtd.presentation.util.initParentHeight
 class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentWriteTextBinding
+    private var nickNameText = ""
+    private var contentText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,59 +42,61 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
         initParentHeight(requireActivity(), view)
         setNickNameEditFocus()
-        observeNickNameEditChange()
-        observeWriteTextEditChange()
+        setWriteTextEditFocus()
+        setTextWatcher()
         onClickCancelButton()
-        setCompleteButton()
     }
 
     private fun setNickNameEditFocus() {
-        binding.completeButton.isEnabled = false
-
         binding.nicknameEditText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
             else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
         }
     }
 
-    private fun observeNickNameEditChange() {
-        binding.currentTextLengthTextView.text = getString(R.string.recode_voice_nickname_number, 0)
+    private fun setWriteTextEditFocus() {
+        binding.writeTextEditView.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            else view.setBackgroundResource(R.drawable.background_beige2_radius16)
+        }
+    }
 
-        binding.nicknameEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    private fun setTextWatcher() {
+        binding.apply {
+            nicknameEditText.addTextChangedListener(textWatcher)
+            writeTextEditView.addTextChangedListener(textWatcher)
+        }
+    }
 
-            }
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (binding.nicknameEditText.hasFocus()) {
                 binding.apply {
+                    nickNameText = s.toString()
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
                         getString(R.string.recode_voice_nickname_number, s?.length)
+                    writeTextEditView.setBackgroundResource(R.drawable.background_beige2_radius16)
                 }
             }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-        })
-    }
-
-    private fun observeWriteTextEditChange() {
-        binding.writeTextEditView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
+            if (binding.writeTextEditView.hasFocus()) {
                 binding.apply {
+                    contentText = s.toString()
                     writeTextEditView.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+                    nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
                 }
             }
-        })
+            if (nickNameText.isNotEmpty() && contentText.isNotEmpty()) setCompleteButton()
+            else emptyEditView()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
     }
 
     private fun onClickCancelButton() {
@@ -101,12 +105,17 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun emptyEditView() {
+        binding.apply {
+            completeButton.isEnabled = false
+            completeButton.setBackgroundResource(R.drawable.background_grayscale1_radius12)
+        }
+    }
+
     private fun setCompleteButton() {
-        if (binding.writeTextEditView.text?.isNotEmpty() == true) {
-            binding.completeButton.apply {
-                isEnabled = true
-                setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
-            }
+        binding.apply {
+            completeButton.isEnabled = true
+            completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
         }
     }
 }

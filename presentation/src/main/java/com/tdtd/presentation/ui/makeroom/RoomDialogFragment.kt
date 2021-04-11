@@ -44,15 +44,11 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         initParentHeight(requireActivity(), view)
         setRoomEditFocus()
         setRoomEditView()
-        onClickVoice()
-        onClickText()
     }
 
     private fun setRoomEditFocus() {
-        binding.makeRoomButton.isEnabled = false
-
         binding.roomNameEditView.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
             else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
         }
     }
@@ -64,11 +60,13 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.apply {
-                    roomNameEditView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
-                    textNumberTextView.text =
-                        getString(R.string.initial_and_max_input_number, s?.length)
-                }
+                binding.textNumberTextView.text =
+                    getString(R.string.initial_and_max_input_number, s?.length)
+
+                if (s!!.isNotEmpty()) {
+                    onClickVoice()
+                    onClickText()
+                } else emptyRoomNameEdit()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -77,7 +75,20 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         })
     }
 
+    private fun emptyRoomNameEdit() {
+        binding.apply {
+            voiceImageView.isEnabled = false
+            textImageView.isEnabled = false
+            makeRoomButton.isEnabled = false
+            voiceImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            textImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            makeRoomButton.setBackgroundResource(R.drawable.background_grayscale1_radius12)
+        }
+    }
+
     private fun onClickVoice() {
+        binding.voiceImageView.isEnabled = true
+
         binding.voiceImageView.setOnClickListener {
             it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
             binding.textImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
@@ -92,6 +103,8 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickText() {
+        binding.textImageView.isEnabled = true
+
         binding.textImageView.setOnClickListener {
             it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
             binding.voiceImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)

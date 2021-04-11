@@ -39,7 +39,14 @@ fun Context.showToast(text: String, view: View) {
 
 fun initParentHeight(activity: Activity, view: View?) {
     val displayMetrics = DisplayMetrics()
-    activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+    if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+        val display = activity.display
+        display?.getRealMetrics(displayMetrics)
+    }else {
+        val display = activity.windowManager.defaultDisplay
+        display.getMetrics(displayMetrics)
+    }
 
     val deviceHeight: Int = displayMetrics.heightPixels
     val layoutParams = view?.layoutParams
