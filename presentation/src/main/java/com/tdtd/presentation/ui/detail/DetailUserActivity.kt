@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.ActivityDetailUserBinding
 import com.tdtd.presentation.ui.dialog.LeaveRoomDialog
-import com.tdtd.presentation.ui.rollingpaper.RecordPaperDialogFragment
+import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,13 +54,13 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun initVoiceRecordDialogFragment() {
-        val bottomSheet = RecordPaperDialogFragment()
+        val bottomSheet = WriteTextDialogFragment()
         bottomSheet.run {
             setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
             show(supportFragmentManager, bottomSheet.tag)
         }
     }
-    
+
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
             val dialog = LeaveRoomDialog.getInstance(submitButtonClicked = {
