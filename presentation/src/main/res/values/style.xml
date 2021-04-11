@@ -120,6 +120,15 @@
         <item name="android:background">@drawable/bottom_sheet_beige1_radius24</item>
     </style>
 
+    <style name="DetailAdminBottomSheetModelTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/DetailAdminBottomSheetModel</item>
+    </style>
+
+    <style name="DetailAdminBottomSheetModel" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_beige3_radius24</item>
+        <item name="behavior_peekHeight">236dp</item>
+    </style>
+
     <style name="PopupWindowToast">
         <item name="android:windowEnterAnimation">@anim/toast_animation_fade_in</item>
         <item name="android:windowExitAnimation">@anim/toast_animation_fade_out</item>

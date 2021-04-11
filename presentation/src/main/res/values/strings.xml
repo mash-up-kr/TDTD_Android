@@ -10,6 +10,7 @@
     <string name="detail_admin_setting_bottom_sheet_title">이 롤링페이퍼 방은 %s에 만들어졌어요!</string>
     <string name="detail_admin_setting_bottom_sheet_share_link_content">작성자 초대 링크 공유하기</string>
     <string name="detail_admin_setting_bottom_sheet_delete_room_content">방 삭제하기</string>
+    <string name="detail_admin_setting_bottom_sheet_do_nothing">아무것도 안 할래요</string>
 
 
     <!-- 방 만들기 -->
