@@ -54,4 +54,7 @@
     <string name="dialog_report_reply_content">정말 답장을 신고하시겠어요?🚨</string>
     <string name="dialog_report_reply_button_submit">신고할래요</string>
     <string name="dialog_report_reply_button_cancel">안 할래요!</string>
+
+    <!-- Toast -->
+    <string name="toast_leave_room_success">방에서 탈출했어요!</string>
 </resources>

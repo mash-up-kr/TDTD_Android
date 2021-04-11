@@ -58,7 +58,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/moreButton"
+                        android:id="@+id/leaveRoomButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/background_beige3_stroke1_beige4_radius16"
@@ -81,7 +81,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/fab_shape_beige2_radius18"
-                android:src="@drawable/ic_favorites_off_32"
+                android:src="@drawable/button_selector_favorites"
                 app:layout_constraintBottom_toTopOf="@+id/writeButton"
                 app:layout_constraintEnd_toEndOf="parent" />
 
