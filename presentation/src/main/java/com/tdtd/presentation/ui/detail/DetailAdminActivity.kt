@@ -26,6 +26,7 @@ class DetailAdminActivity : AppCompatActivity() {
         initView()
         onClickWriteButton()
         onClickFavoritesButton()
+        onClickBackButton()
         onClickMoreButton()
     }
 
@@ -51,6 +52,11 @@ class DetailAdminActivity : AppCompatActivity() {
         }
     }
 
+    private fun onClickBackButton() {
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+    }
 
     private fun onClickMoreButton() {
         binding.moreButton.setOnClickListener {

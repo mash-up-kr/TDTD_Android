@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.ActivityDetailUserBinding
-import com.tdtd.presentation.ui.dialog.LeaveRoomDialog
+import com.tdtd.presentation.ui.dialog.DialogConstructor
 import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +28,7 @@ class DetailUserActivity : AppCompatActivity() {
         initView()
         onClickWriteButton()
         onClickFavoritesButton()
+        onClickBackButton()
         onClickLeaveRoomButton()
     }
 
@@ -58,6 +59,12 @@ class DetailUserActivity : AppCompatActivity() {
         bottomSheet.run {
             setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
             show(supportFragmentManager, bottomSheet.tag)
+        }
+    }
+
+    private fun onClickBackButton() {
+        binding.backButton.setOnClickListener {
+            finish()
         }
     }
 
