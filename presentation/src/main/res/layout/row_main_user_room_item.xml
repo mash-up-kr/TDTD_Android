@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="dummy"
-            type="com.tdtd.presentation.entity.Dummy" />
+            name="room"
+            type="com.tdtd.presentation.entity.Room" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{ dummy.content }"
+            android:text="@{ room.title }"
             android:textAppearance="@style/text.20dp.bold.grayscale1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ dummy.date }"
+            android:text="@{ room.created_at }"
             android:layout_marginStart="8dp"
             android:includeFontPadding="false"
             android:textAppearance="@style/text.14dp.bold.grayscale2"
