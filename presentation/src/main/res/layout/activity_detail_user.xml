@@ -33,8 +33,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/backButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/background_beige3_stroke1_beige4_radius16"
                         android:padding="8dp"
                         android:src="@drawable/ic_arrow_left_24"
@@ -59,8 +59,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/leaveRoomButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/background_beige3_stroke1_beige4_radius16"
                         android:padding="8dp"
                         android:src="@drawable/ic_leave_24"
@@ -84,8 +84,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/favoritesButton"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/fab_shape_beige2_radius18"
@@ -95,8 +95,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/writeButton"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/fab_shape_grayscale1_radius18"
