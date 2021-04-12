@@ -1,15 +1,13 @@
 package com.tdtd.presentation.ui.detail
 
 import android.app.Activity
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.tdtd.presentation.R
+import com.tdtd.presentation.base.ui.BaseActivity
 import com.tdtd.presentation.databinding.ActivityDetailUserBinding
 import com.tdtd.presentation.entity.RoomContents
 import com.tdtd.presentation.entity.getDefaultCharacter
@@ -22,12 +20,11 @@ import kotlinx.android.synthetic.main.layout_detail_room_contents.*
 import kotlinx.android.synthetic.main.row_detail_items.view.*
 
 @AndroidEntryPoint
-class DetailUserActivity : AppCompatActivity() {
+class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.activity_detail_user) {
 
     private lateinit var inflater: LayoutInflater
     private lateinit var view: View
 
-    private lateinit var binding: ActivityDetailUserBinding
     private val contentList: List<RoomContents> = getRoomContents()
 
     companion object {
@@ -40,40 +37,23 @@ class DetailUserActivity : AppCompatActivity() {
         prevPosition = currentPosition
         currentPosition = position
         recyclerView.get(prevPosition).characterImageView.setImageResource(
-            getDefaultCharacter(
-                contentList.get(prevPosition).sticker_color
-            )
+                getDefaultCharacter(
+                        contentList.get(prevPosition).sticker_color
+                )
         )
         recyclerView.get(currentPosition).characterImageView.setImageResource(
-            getSelectedCharacter(
-                contentList.get(currentPosition).sticker_color
-            )
+                getSelectedCharacter(
+                        contentList.get(currentPosition).sticker_color
+                )
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_user)
-
-        initView()
-        onClickWriteButton()
-        onClickFavoritesButton()
-        onClickBackButton()
-        onClickLeaveRoomButton()
-    }
-
-    private fun initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_user)
-        binding.lifecycleOwner = this
+    override fun initViews() {
+        super.initViews()
 
         inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
         // TODO: contents 유무에 따라 view가 달라져야 합니다.
-        view = inflater.inflate(
-            R.layout.layout_detail_room_contents,
-            binding.detailUserFrameLayout,
-            false
-        )
+        view = inflater.inflate(R.layout.layout_detail_room_contents, binding.detailUserFrameLayout, false)
 //        view = inflater.inflate(R.layout.layout_detail_user, binding.detailUserFrameLayout, false)
         binding.detailUserFrameLayout.addView(view)
 
@@ -81,6 +61,11 @@ class DetailUserActivity : AppCompatActivity() {
         detailAdapter.submitList(contentList)
         recyclerView.adapter = detailAdapter
         recyclerView.adapter?.notifyDataSetChanged()
+
+        onClickWriteButton()
+        onClickFavoritesButton()
+        onClickBackButton()
+        onClickLeaveRoomButton()
     }
 
     private fun onClickFavoritesButton() {
