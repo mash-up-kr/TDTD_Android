@@ -10,7 +10,9 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseActivity
 import com.tdtd.presentation.databinding.ActivityMainBinding
 import com.tdtd.presentation.entity.Dummy
+import com.tdtd.presentation.entity.Room
 import com.tdtd.presentation.entity.getData
+import com.tdtd.presentation.entity.getRooms
 import com.tdtd.presentation.ui.detail.DetailAdminActivity
 import com.tdtd.presentation.ui.detail.DetailUserActivity
 import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
@@ -20,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    private val dummyList: List<Dummy> = getData()
+    private val roomList: List<Room> = getRooms()
 
     val startActivityForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -43,7 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.initViews()
 
         // TEST
-        mainAdapter.submitList(dummyList)
+        mainAdapter.submitList(roomList)
         binding.recyclerView.adapter = mainAdapter
         binding.recyclerView.adapter?.notifyDataSetChanged()
 

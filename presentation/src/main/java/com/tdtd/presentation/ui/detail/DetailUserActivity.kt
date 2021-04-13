@@ -22,9 +22,6 @@ import kotlinx.android.synthetic.main.row_detail_items.view.*
 @AndroidEntryPoint
 class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.activity_detail_user) {
 
-    private lateinit var inflater: LayoutInflater
-    private lateinit var view: View
-
     private val contentList: List<RoomContents> = getRoomContents()
 
     companion object {
@@ -51,9 +48,9 @@ class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.acti
     override fun initViews() {
         super.initViews()
 
-        inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         // TODO: contents 유무에 따라 view가 달라져야 합니다.
-        view = inflater.inflate(R.layout.layout_detail_room_contents, binding.detailUserFrameLayout, false)
+        val view = inflater.inflate(R.layout.layout_detail_room_contents, binding.detailUserFrameLayout, false)
 //        view = inflater.inflate(R.layout.layout_detail_user, binding.detailUserFrameLayout, false)
         binding.detailUserFrameLayout.addView(view)
 

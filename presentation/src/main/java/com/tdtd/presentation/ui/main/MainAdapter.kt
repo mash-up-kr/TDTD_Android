@@ -2,18 +2,17 @@ package com.tdtd.presentation.ui.main
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tdtd.presentation.BR
 import com.tdtd.presentation.databinding.RowMainUserRoomItemBinding
-import com.tdtd.presentation.entity.Dummy
+import com.tdtd.presentation.entity.Room
 
 class MainAdapter(
         private val onClick: (position: Int) -> Unit
-) : ListAdapter<Dummy, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
+) : ListAdapter<Room, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,9 +29,9 @@ class MainAdapter(
     inner class MainViewHolder constructor(val binding: RowMainUserRoomItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Dummy) {
+        fun bind(data: Room) {
             Log.e("df", data.toString())
-            binding.setVariable(BR.dummy, data)
+            binding.setVariable(BR.room, data)
             binding.container.setOnClickListener {
                 onClick(adapterPosition)
             }
@@ -46,12 +45,12 @@ class MainAdapter(
  * Used by ListAdapter to calculate the minimum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class CategoryDiffCallback : DiffUtil.ItemCallback<Dummy>() {
-    override fun areItemsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
-        return oldItem.id == newItem.id
+class CategoryDiffCallback : DiffUtil.ItemCallback<Room>() {
+    override fun areItemsTheSame(oldItem: Room, newItem: Room): Boolean {
+        return oldItem.room_code == newItem.room_code
     }
 
-    override fun areContentsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
+    override fun areContentsTheSame(oldItem: Room, newItem: Room): Boolean {
         return oldItem == newItem
     }
 }
