@@ -49,15 +49,25 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
     private fun setNickNameEditFocus() {
         binding.nicknameEditText.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
-            else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            if (hasFocus) {
+                view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+                binding.nicknameEditText.hint = null
+            } else {
+                binding.nicknameEditText.hint = getString(R.string.recode_voice_title_hint)
+                view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            }
         }
     }
 
     private fun setWriteTextEditFocus() {
         binding.writeTextEditView.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
-            else view.setBackgroundResource(R.drawable.background_beige2_radius16)
+            if (hasFocus) {
+                view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+                binding.writeTextEditView.hint = null
+            } else {
+                view.setBackgroundResource(R.drawable.background_beige2_radius16)
+                binding.writeTextEditView.hint = getString(R.string.recode_voice_whisper_title)
+            }
         }
     }
 
@@ -83,6 +93,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                     writeTextEditView.setBackgroundResource(R.drawable.background_beige2_radius16)
                 }
             }
+
             if (binding.writeTextEditView.hasFocus()) {
                 binding.apply {
                     contentText = s.toString()
@@ -90,6 +101,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
                 }
             }
+
             if (nickNameText.isNotEmpty() && contentText.isNotEmpty()) setCompleteButton()
             else emptyEditView()
         }
