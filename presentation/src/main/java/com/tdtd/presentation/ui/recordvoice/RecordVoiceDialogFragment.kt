@@ -3,11 +3,11 @@ package com.tdtd.presentation.ui.recordvoice
 import android.Manifest
 import android.app.Dialog
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
-import android.media.MediaRecorder
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,24 +20,25 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentRecordVoiceBinding
+import com.tdtd.presentation.util.Constants
+import com.tdtd.presentation.util.Constants.STATE_NORMAL
+import com.tdtd.presentation.util.Constants.STATE_PAUSE
+import com.tdtd.presentation.util.Constants.STATE_PLAYING
+import com.tdtd.presentation.util.Constants.STATE_RECORD
+import com.tdtd.presentation.util.Constants.STATE_RECORD_STOP
+import com.tdtd.presentation.util.MediaPlayerHelper
+import com.tdtd.presentation.util.MediaRecorderHelper
 import com.tdtd.presentation.util.initParentHeight
-import java.io.IOException
-import java.util.*
-import kotlin.concurrent.timer
 
 class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentRecordVoiceBinding
-    private var mStartPlaying = true
-    private var mStartRecording = true
-    private var mediaPlayer: MediaPlayer? = null
-    private var mediaRecorder: MediaRecorder? = null
-    private var fileName: String = ""
+    private lateinit var file: String
+    private var currentState = STATE_NORMAL
+    private var isPlaying = false
+    private var isRecord = false
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
-    private var time = 0
-    private var isRunning = false
-    private var timerTask: Timer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,44 +61,56 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initParentHeight(requireActivity(), view)
+        initRecord()
         onClickCancelButton()
-        initRecorder()
         setNickNameEditFocus()
         observeNickNameEditChange()
-        setRecording()
-        setCompleteButton()
     }
 
-    private fun initRecorder() {
-        fileName = "${requireActivity().externalCacheDir?.absolutePath}/recording.3gp"
+    // MediaPlayer sound delayed onCreate()
+    override fun onResume() {
+        super.onResume()
+        onClickRecord()
+    }
+
+    private fun initRecord() {
+        file = "${requireActivity().externalCacheDir?.absolutePath}/recording.3gp"
+        MediaRecorderHelper.fileName = file
+
         ActivityCompat.requestPermissions(
             requireActivity(),
             permissions,
-            REQUEST_RECORD_AUDIO_PERMISSION
+            Constants.REQUEST_RECORD_AUDIO_PERMISSION
         )
     }
 
     private fun setNickNameEditFocus() {
-        binding.completeButton.isEnabled = false
-
         binding.nicknameEditText.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
-            else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            if (hasFocus) {
+                binding.nicknameEditText.hint = null
+                view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            } else {
+                binding.nicknameEditText.hint = getString(R.string.room_name_hint_title)
+                view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            }
         }
     }
 
     private fun observeNickNameEditChange() {
-        binding.currentTextLengthTextView.text = getString(R.string.recode_voice_nickname_number, 0)
-
         binding.nicknameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
-                binding.currentTextLengthTextView.text =
-                    getString(R.string.recode_voice_nickname_number, s?.length)
+                binding.apply {
+                    nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+                    currentTextLengthTextView.text =
+                        getString(R.string.recode_voice_nickname_number, s?.length)
+                }
+
+                if (s!!.isNotEmpty() && currentState == 2) onClickCompleteButton()
+                else emptyNickName()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -106,156 +119,194 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         })
     }
 
+    private fun onClickRecord() {
+        binding.recordDefaultImageView.setOnClickListener {
+            changeRecordState()
+        }
+    }
+
+    private fun changeRecordState() {
+        when (currentState) {
+            STATE_NORMAL -> {
+                currentState = STATE_RECORD
+            }
+            STATE_RECORD -> {
+                currentState = STATE_RECORD_STOP
+            }
+            STATE_RECORD_STOP -> {
+                currentState = STATE_PLAYING
+            }
+            STATE_PLAYING -> {
+                currentState = STATE_PAUSE
+            }
+            STATE_PAUSE -> {
+                currentState = STATE_PLAYING
+            }
+        }
+        changeResourceByState(currentState)
+    }
+
+    private fun changeResourceByState(recordState: Int) {
+        when (recordState) {
+            STATE_NORMAL -> {
+                isRecord = false
+                isPlaying = false
+                currentState = STATE_NORMAL
+                binding.recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_default)
+                Log.v(TAG, "STATE_NORMAL isRecord:$isRecord isPlaying:$isPlaying")
+            }
+            STATE_RECORD -> {
+                isRecord = true
+                isPlaying = false
+                currentState = STATE_RECORD
+                MediaRecorderHelper.startRecording()
+                showRecord()
+                Log.v(TAG, "STATE_RECORD isRecord:$isRecord isPlaying:$isPlaying")
+            }
+            STATE_RECORD_STOP -> {
+                isRecord = false
+                isPlaying = false
+                currentState = STATE_RECORD_STOP
+                MediaRecorderHelper.stopAndRelease()
+                showRecordStop()
+                showReRecordPlay()
+                Log.v(TAG, "STATE_RECORD_STOP isRecord:$isRecord isPlaying:$isPlaying")
+            }
+            STATE_PLAYING -> {
+                isPlaying = true
+                isRecord = false
+                currentState = STATE_PLAYING
+                showRecordPlaying()
+                showReRecordStop()
+                Log.v(TAG, "STATE_PLAYING isRecord:$isRecord isPlaying:$isPlaying")
+                MediaPlayerHelper.startPlaying(MediaRecorderHelper.fileName) {
+                    binding.recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
+                    isPlaying = false
+                    isRecord = false
+                    currentState = STATE_PAUSE
+                    Log.v(TAG, "Playing Completed isRecord:$isRecord isPlaying:$isPlaying")
+                }
+            }
+            STATE_PAUSE -> {
+                MediaPlayerHelper.pausePlaying()
+                isRecord = false
+                isPlaying = false
+                currentState = STATE_PAUSE
+                showRecordPause()
+                Log.v(TAG, "STATE_PAUSE isRecord:$isRecord isPlaying:$isPlaying")
+            }
+        }
+    }
+
+    private fun showRecord() {
+        binding.apply {
+            maximumTextView.visibility = View.INVISIBLE
+            recordStatusTextView.setText(R.string.recode_voice_record_to_press_button)
+            recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_active)
+            chronometer.isVisible = true
+            chronometer.base = SystemClock.elapsedRealtime()
+            chronometer.start()
+            chronometer.setOnChronometerTickListener {
+                if (it.text == getString(R.string.recode_voice_maximum_minute)) {
+                    it.stop()
+                    recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
+                    recordStatusTextView.setText(R.string.recode_voice_listen)
+                    isRecord = false
+                    isPlaying = false
+                    currentState = STATE_RECORD_STOP
+                    MediaRecorderHelper.stopAndRelease()
+                    showReRecordPlay()
+                }
+            }
+        }
+    }
+
+    private fun showRecordStop() {
+        binding.apply {
+            recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
+            recordStatusTextView.setText(R.string.recode_voice_listen)
+            chronometer.stop()
+        }
+    }
+
+    private fun showRecordPlaying() {
+        binding.apply {
+            recordStatusTextView.setText(R.string.recode_voice_playing)
+            recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_stop)
+        }
+    }
+
+    private fun showRecordPause() {
+        binding.apply {
+            recordStatusTextView.setText(R.string.recode_voice_listen)
+            recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
+        }
+    }
+
+    private fun showReRecordStop() {
+        if (binding.recordDefaultImageView.drawable.constantState == ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.ic_icon_record_stop,
+                null
+            )?.constantState
+        ) {
+            binding.reRecordImageView.setOnClickListener {
+                binding.reRecordImageView.isVisible = false
+                binding.reRecordTextView.isVisible = false
+                binding.maximumTextView.isVisible = true
+                binding.chronometer.isVisible = false
+                binding.recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_default)
+                isPlaying = false
+                isRecord = false
+                currentState = STATE_NORMAL
+                MediaPlayerHelper.stopAndRelease()
+                Log.v(TAG, "RERECORD in Stop isRecord:$isRecord isPlaying:$isPlaying")
+            }
+        }
+    }
+
+    private fun showReRecordPlay() {
+        binding.apply {
+            reRecordImageView.isVisible = true
+            reRecordTextView.isVisible = true
+
+            if (recordDefaultImageView.drawable.constantState == ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.ic_icon_record_play,
+                    null
+                )?.constantState
+            ) {
+                reRecordImageView.setOnClickListener {
+                    reRecordImageView.isVisible = false
+                    reRecordTextView.isVisible = false
+                    maximumTextView.isVisible = true
+                    chronometer.isVisible = false
+                    binding.recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_default)
+                    currentState = STATE_NORMAL
+                    MediaPlayerHelper.stopAndRelease()
+                    Log.v(TAG, "RERECORD in Play isRecord:$isRecord isPlaying:$isPlaying")
+                }
+            }
+        }
+    }
+
     private fun onClickCancelButton() {
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
     }
 
-    private fun setRecording() {
-        binding.recordDefaultImageView.setOnClickListener {
-            when (binding.recordDefaultImageView.background.constantState) {
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_icon_record_default,
-                    null
-                )?.constantState -> {
-                    it.setBackgroundResource(R.drawable.ic_icon_record_active)
-                    startRecording()
-                }
-
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_icon_record_active,
-                    null
-                )?.constantState -> {
-                    it.setBackgroundResource(R.drawable.ic_icon_record_play)
-                    stopRecording()
-                }
-
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_icon_record_play,
-                    null
-                )?.constantState -> {
-                    it.setBackgroundResource(R.drawable.ic_icon_record_stop)
-                    startPlaying()
-                }
-
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_icon_record_stop,
-                    null
-                )?.constantState -> {
-                    it.setBackgroundResource(R.drawable.ic_icon_record_play)
-                    stopPlaying()
-                }
-            }
-        }
-    }
-
-    private fun startRecording() {
-        binding.recordStatusTextView.setText(R.string.recode_voice_record_to_press_button)
-        mediaRecorder = MediaRecorder().apply {
-            mStartRecording = !mStartRecording
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setOutputFile(fileName)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            try {
-                prepare()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            start()
-
-            isRunning = !isRunning
-            if (isRunning) {
-                timerTask = timer(period = 10) {
-                    time++
-                    val sec = time / 100
-
-                    requireActivity().runOnUiThread {
-                        binding.apply {
-                            maximumTextView.isVisible = false
-                            timerTextView.isVisible = true
-                            "00:$sec".also { timerTextView.text = it }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun stopRecording() {
-        binding.recordStatusTextView.setText(R.string.recode_voice_listen)
-        mStartRecording = !mStartRecording
-        mediaRecorder?.apply {
-            stop()
-            release()
-        }
-        mediaRecorder = null
-        isRunning = !isRunning
-        timerTask?.cancel()
-    }
-
-    private fun startPlaying() {
-        binding.recordStatusTextView.setText(R.string.recode_voice_playing)
-        mStartPlaying = !mStartPlaying
-        mediaPlayer = MediaPlayer().apply {
-            try {
-                setDataSource(fileName)
-                prepare()
-                start()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-
-        isRunning = !isRunning
-        if (isRunning) {
-            timerTask = timer(period = 10) {
-                time++
-                val sec = time / 100
-
-                requireActivity().runOnUiThread {
-                    binding.apply {
-                        maximumTextView.isVisible = false
-                        timerTextView.isVisible = true
-                        "00:$sec".also { timerTextView.text = it }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun stopPlaying() {
-        binding.recordStatusTextView.setText(R.string.recode_voice_listen)
-        mStartPlaying = !mStartPlaying
-        mediaPlayer?.release()
-        mediaPlayer = null
-        isRunning = !isRunning
-        timerTask?.cancel()
-    }
-
-    private fun reset() {
+    private fun emptyNickName() {
         binding.apply {
-            recordDefaultImageView.setBackgroundResource(R.drawable.ic_icon_record_default)
-            maximumTextView.isVisible = true
-            timerTextView.isVisible = false
+            completeButton.isEnabled = false
+            completeButton.setBackgroundResource(R.drawable.background_grayscale1_radius12)
         }
-
-        timerTask?.cancel()
-        time = 0
-        isRunning = false
     }
 
-    private fun setCompleteButton() {
-        if (binding.nicknameEditText.text?.isNotEmpty() == true && binding.timerTextView.isVisible) {
-            binding.completeButton.apply {
-                isEnabled = true
-                setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
-            }
+    private fun onClickCompleteButton() {
+        binding.apply {
+            completeButton.isEnabled = true
+            completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
         }
     }
 
@@ -265,19 +316,22 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+        permissionToRecordAccepted = if (requestCode == Constants.REQUEST_RECORD_AUDIO_PERMISSION) {
             grantResults[0] == PackageManager.PERMISSION_GRANTED
         } else false
         if (!permissionToRecordAccepted) dismiss()
     }
 
-    override fun onPause() {
-        super.onPause()
-        mediaRecorder?.release()
-        mediaRecorder = null
+    override fun onDestroy() {
+        if (isRecord) {
+            binding.chronometer.stop()
+            MediaRecorderHelper.stopAndRelease()
+        }
+        if (isPlaying) MediaPlayerHelper.stopAndRelease()
+        super.onDestroy()
     }
 
     companion object {
-        const val REQUEST_RECORD_AUDIO_PERMISSION = 200
+        const val TAG = "RecordVoiceFragment"
     }
 }
