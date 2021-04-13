@@ -48,8 +48,13 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
     private fun setRoomEditFocus() {
         binding.roomNameEditView.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
-            else view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            if (hasFocus) {
+                binding.roomNameEditView.hint = null
+                view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+            } else {
+                binding.roomNameEditView.hint = getString(R.string.room_name_hint_title)
+                view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+            }
         }
     }
 

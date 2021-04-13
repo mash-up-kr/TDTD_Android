@@ -5,7 +5,7 @@
     <data>
         <variable
             name="listData"
-            type="com.tdtd.presentation.entity.RoomContents" />
+            type="com.tdtd.presentation.entity.Comments" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
