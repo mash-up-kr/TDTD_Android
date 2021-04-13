@@ -41,12 +41,12 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_record_voice, container, false)
+                DataBindingUtil.inflate(inflater, R.layout.fragment_record_voice, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -54,6 +54,17 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), theme).apply {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.peekHeight = 0
+            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                }
+            })
         }
     }
 
@@ -78,9 +89,9 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         MediaRecorderHelper.fileName = file
 
         ActivityCompat.requestPermissions(
-            requireActivity(),
-            permissions,
-            Constants.REQUEST_RECORD_AUDIO_PERMISSION
+                requireActivity(),
+                permissions,
+                REQUEST_RECORD_AUDIO_PERMISSION
         )
     }
 
@@ -311,9 +322,9 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionToRecordAccepted = if (requestCode == Constants.REQUEST_RECORD_AUDIO_PERMISSION) {
