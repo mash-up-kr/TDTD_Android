@@ -9,10 +9,14 @@ object MediaRecorderHelper {
     fun startRecording() {
         mediaRecorder = MediaRecorder()
         mediaRecorder?.let { mediaRecorder ->
-            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
-            mediaRecorder.setOutputFile(fileName)
+            mediaRecorder.apply {
+                setAudioSource(MediaRecorder.AudioSource.MIC)
+                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                setAudioEncodingBitRate(128000)
+                setAudioSamplingRate(96000)
+                setOutputFile(fileName)
+            }
             try {
                 mediaRecorder.prepare()
                 mediaRecorder.start()

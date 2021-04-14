@@ -27,8 +27,9 @@ object MediaPlayerHelper {
             }
 
             mediaPlayer.setOnErrorListener { _, _, _ ->
+                mediaPlayer.stop()
                 mediaPlayer.release()
-                return@setOnErrorListener false
+                return@setOnErrorListener true
             }
         }
     }
