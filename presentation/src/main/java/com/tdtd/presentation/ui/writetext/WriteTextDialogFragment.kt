@@ -22,9 +22,9 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     private var contentText = ""
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_write_text, container, false)
         binding.lifecycleOwner = this
@@ -34,6 +34,17 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), theme).apply {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.peekHeight = 0
+            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                }
+            })
         }
     }
 
@@ -89,7 +100,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                     nickNameText = s.toString()
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
-                        getString(R.string.recode_voice_nickname_number, s?.length)
+                            getString(R.string.recode_voice_nickname_number, s?.length)
                     writeTextEditView.setBackgroundResource(R.drawable.background_beige2_radius16)
                 }
             }

@@ -23,9 +23,9 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     private lateinit var binding: RoomBottomSheetBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.room_bottom_sheet, container, false)
         binding.lifecycleOwner = this
@@ -35,6 +35,17 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), theme).apply {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.peekHeight = 0
+            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                }
+            })
         }
     }
 
@@ -66,7 +77,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.textNumberTextView.text =
-                    getString(R.string.initial_and_max_input_number, s?.length)
+                        getString(R.string.initial_and_max_input_number, s?.length)
 
                 if (s!!.isNotEmpty()) {
                     onClickVoice()
