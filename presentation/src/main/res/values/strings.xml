@@ -6,7 +6,7 @@
     <string name="home_rollingpaper_list_content">롤링페이퍼 리스트</string>
     <string name="home_rollingpaper_bookmark">즐겨찾기</string>
     <string name="home_rollingpaper_no_room_content">아직 만들어진 방이 없어요!\n롤링페이퍼 방을 만들고 공유해보아요</string>
-    
+
     <string name="detail_admin_setting_bottom_sheet_title">이 롤링페이퍼 방은 %s에 만들어졌어요!</string>
     <string name="detail_admin_setting_bottom_sheet_share_link_content">작성자 초대 링크 공유하기</string>
     <string name="detail_admin_setting_bottom_sheet_delete_room_content">방 삭제하기</string>
@@ -30,6 +30,7 @@
     <string name="recode_voice_title_hint">방마다 닉네임을 다르게 쓸 수 있어요!</string>
     <string name="recode_voice_nickname">닉네임</string>
     <string name="recode_voice_maximum_one_minute">최대 1분</string>
+    <string name="recode_voice_maximum_minute">01:00</string>
     <string name="recode_voice_record_to_press_button">버튼을 눌러 녹음하기</string>
     <string name="recode_voice_listen">녹음 들어보기</string>
     <string name="recode_voice_playing">재생하고 있어요!</string>

@@ -9,15 +9,13 @@ import androidx.fragment.app.DialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseActivity
 import com.tdtd.presentation.databinding.ActivityMainBinding
-import com.tdtd.presentation.entity.Dummy
-import com.tdtd.presentation.entity.Room
-import com.tdtd.presentation.entity.getData
-import com.tdtd.presentation.entity.getRooms
+import com.tdtd.presentation.entity.*
 import com.tdtd.presentation.ui.detail.DetailAdminActivity
 import com.tdtd.presentation.ui.detail.DetailUserActivity
 import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
 import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {

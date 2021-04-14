@@ -2,16 +2,15 @@ package com.tdtd.presentation.ui.detail
 
 import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View
 import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseActivity
 import com.tdtd.presentation.databinding.ActivityDetailUserBinding
-import com.tdtd.presentation.entity.RoomContents
+import com.tdtd.presentation.entity.Comments
+import com.tdtd.presentation.entity.getComments
 import com.tdtd.presentation.entity.getDefaultCharacter
-import com.tdtd.presentation.entity.getRoomContents
 import com.tdtd.presentation.entity.getSelectedCharacter
 import com.tdtd.presentation.ui.dialog.DialogConstructor
 import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
@@ -22,7 +21,7 @@ import kotlinx.android.synthetic.main.row_detail_items.view.*
 @AndroidEntryPoint
 class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.activity_detail_user) {
 
-    private val contentList: List<RoomContents> = getRoomContents()
+    private val contentList: List<Comments> = getComments()
 
     companion object {
         var currentPosition: Int = 0
@@ -34,14 +33,14 @@ class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.acti
         prevPosition = currentPosition
         currentPosition = position
         recyclerView.get(prevPosition).characterImageView.setImageResource(
-                getDefaultCharacter(
-                        contentList.get(prevPosition).sticker_color
-                )
+            getDefaultCharacter(
+                contentList.get(prevPosition).sticker_color
+            )
         )
         recyclerView.get(currentPosition).characterImageView.setImageResource(
-                getSelectedCharacter(
-                        contentList.get(currentPosition).sticker_color
-                )
+            getSelectedCharacter(
+                contentList.get(currentPosition).sticker_color
+            )
         )
     }
 
@@ -50,7 +49,11 @@ class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.acti
 
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         // TODO: contents 유무에 따라 view가 달라져야 합니다.
-        val view = inflater.inflate(R.layout.layout_detail_room_contents, binding.detailUserFrameLayout, false)
+        val view = inflater.inflate(
+            R.layout.layout_detail_room_contents,
+            binding.detailUserFrameLayout,
+            false
+        )
 //        view = inflater.inflate(R.layout.layout_detail_user, binding.detailUserFrameLayout, false)
         binding.detailUserFrameLayout.addView(view)
 

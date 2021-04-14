@@ -27,14 +27,14 @@
             android:id="@+id/currentTextLengthTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/initial_nickname_number"
             android:textAppearance="@style/text.14dp.regular.grayscale1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="0/12" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/nicknameEditText"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_beige2_stroke1_beige3_radius16"
@@ -62,60 +62,97 @@
             app:layout_constraintTop_toBottomOf="@+id/nicknameEditText"
             tools:text="남기고 싶은 말을 속삭여주세요!" />
 
-        <LinearLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="168dp"
             android:background="@drawable/background_beige2_radius16"
-            android:gravity="center"
-            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/bannerImageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contentTextView">
+            app:layout_constraintTop_toBottomOf="@id/contentTextView" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/maximumTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/recode_voice_maximum_one_minute"
-                android:textAppearance="@style/text.20dp.regular.grayscale1"
-                tools:text="최대 1분" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/maximumTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/recode_voice_maximum_one_minute"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contentTextView"
+            tools:text="최대 1분" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/timerTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/recode_voice_maximum_one_minute"
-                android:textAppearance="@style/text.20dp.regular.grayscale1"
-                android:visibility="gone"
-                tools:text="00:48" />
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/font"
+            android:includeFontPadding="false"
+            android:text="@string/recode_voice_maximum_one_minute"
+            android:textColor="@color/grayscale1"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contentTextView" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/recordDefaultImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/ic_icon_record_default" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/reRecordImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_icon_record_re_record"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@id/recordDefaultImageView"
+            app:layout_constraintTop_toBottomOf="@id/maximumTextView" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/recordStatusTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/recode_voice_record_to_press_button"
-                android:textAppearance="@style/text.16dp.bold.grayscale3"
-                tools:text="버튼을 눌러 녹음하기" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/reRecordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="18dp"
+            android:text="@string/recode_voice_rerecord"
+            android:textAppearance="@style/text.16dp.bold.grayscale3"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@id/recordDefaultImageView"
+            app:layout_constraintTop_toBottomOf="@id/reRecordImageView" />
 
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/recordDefaultImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:src="@drawable/ic_icon_record_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/maximumTextView" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/recordStatusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/recode_voice_record_to_press_button"
+            android:textAppearance="@style/text.16dp.bold.grayscale3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recordDefaultImageView"
+            tools:text="버튼을 눌러 녹음하기" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/bannerImageView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
             android:layout_marginBottom="16dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_banner"
@@ -128,7 +165,6 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_marginEnd="4dp"
-            android:layout_weight="1"
             android:background="@drawable/background_stroke_gray3_radius12"
             android:gravity="center"
             android:text="@string/recode_voice_cancel"
@@ -143,7 +179,6 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_marginStart="4dp"
-            android:layout_weight="1"
             android:background="@drawable/background_grayscale1_radius12"
             android:gravity="center"
             android:text="@string/recode_voice_confirm"
