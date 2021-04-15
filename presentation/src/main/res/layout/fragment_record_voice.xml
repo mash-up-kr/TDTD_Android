@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recordVoiceBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="16dp"
@@ -68,11 +69,9 @@
         <View
             android:id="@+id/view"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="184dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="168dp"
             android:background="@drawable/background_beige2_radius16"
-            app:layout_constraintBottom_toTopOf="@id/bannerImageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentTextView" />
@@ -81,50 +80,50 @@
             android:id="@+id/maximumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/record_voice_maximum_one_minute"
             android:textAppearance="@style/text.20dp.regular.grayscale1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contentTextView"
+            app:layout_constraintBottom_toTopOf="@+id/recordDefaultImageView"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view"
             tools:text="최대 1분" />
 
         <Chronometer
             android:id="@+id/chronometer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/font"
             android:includeFontPadding="false"
             android:text="@string/record_voice_maximum_one_minute"
             android:textColor="@color/grayscale1"
             android:textSize="20sp"
             android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contentTextView" />
+            app:layout_constraintBottom_toTopOf="@+id/recordDefaultImageView"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/reRecordImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
             android:src="@drawable/ic_icon_record_re_record"
             android:visibility="invisible"
             app:layout_constraintEnd_toStartOf="@id/recordDefaultImageView"
-            app:layout_constraintTop_toBottomOf="@id/maximumTextView" />
+            app:layout_constraintTop_toTopOf="@+id/recordDefaultImageView" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/reRecordTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="18dp"
+            android:layout_marginEnd="24dp"
             android:text="@string/record_voice_rerecord"
             android:textAppearance="@style/text.16dp.bold.grayscale3"
             android:visibility="invisible"
-            app:layout_constraintEnd_toStartOf="@id/recordDefaultImageView"
+            app:layout_constraintEnd_toStartOf="@+id/recordDefaultImageView"
             app:layout_constraintTop_toBottomOf="@id/reRecordImageView" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -132,12 +131,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:focusableInTouchMode="true"
             android:focusable="true"
+            android:focusableInTouchMode="true"
             android:src="@drawable/ic_icon_record_default"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/maximumTextView" />
+            app:layout_constraintTop_toTopOf="@+id/view" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/recordStatusTextView"
@@ -145,23 +145,40 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/record_voice_record_to_press_button"
-            android:text="@string/recode_voice_record_to_press_button"
             android:textAppearance="@style/text.16dp.bold.grayscale3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recordDefaultImageView"
             tools:text="버튼을 눌러 녹음하기" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/bannerImageView"
+        <View
+            android:id="@+id/bannerView"
             android:layout_width="0dp"
             android:layout_height="96dp"
             android:layout_marginBottom="16dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_banner"
+            android:background="@drawable/background_beige3_radius16"
             app:layout_constraintBottom_toTopOf="@+id/cancelButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/record_voice_banner_title"
+            android:textAppearance="@style/text.18dp.regular.grayscale2"
+            app:layout_constraintBottom_toBottomOf="@+id/bannerView"
+            app:layout_constraintStart_toStartOf="@+id/bannerView"
+            app:layout_constraintTop_toTopOf="@+id/bannerView"
+            tools:text="친구와 롤링페이퍼로\n즐겁게 얘기를 나눠보세요" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bannerImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_banner"
+            app:layout_constraintBottom_toBottomOf="@+id/bannerView"
+            app:layout_constraintEnd_toEndOf="@+id/bannerView" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelButton"
