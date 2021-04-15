@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import com.tdtd.presentation.R
 import kotlinx.android.synthetic.main.layout_toast.view.*
+import kotlin.math.roundToInt
 
 fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
@@ -22,9 +23,9 @@ fun Context.showToast(text: String, view: View) {
     }
 
     val popupWindow = PopupWindow(
-        popupView,
-        ViewGroup.LayoutParams.WRAP_CONTENT,
-        ViewGroup.LayoutParams.WRAP_CONTENT
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
     )
 
     popupWindow.apply {
@@ -53,4 +54,17 @@ fun initParentHeight(activity: Activity, view: View?) {
     layoutParams?.height = deviceHeight - 24.toPx()
 
     view?.layoutParams = layoutParams
+}
+
+fun getBottomNavigationBarHeight(view: View): Int {
+    var bottomBarHeight = 0
+    val resourceIdBottom: Int = view.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    if (resourceIdBottom > 0) bottomBarHeight = view.resources.getDimensionPixelSize(resourceIdBottom)
+
+    return bottomBarHeight
+}
+
+fun dpToPx(view: View, dp: Int): Int {
+    val dense = view.resources.displayMetrics.density
+    return (dp * dense).roundToInt()
 }

@@ -8,4 +8,5 @@ object Constants {
     const val STATE_RECORD_STOP = 2
     const val STATE_PLAYING = 3
     const val STATE_PAUSE = 4
+    const val BOTTOM_NAVIGATION_HEIGHT = 168
 }
