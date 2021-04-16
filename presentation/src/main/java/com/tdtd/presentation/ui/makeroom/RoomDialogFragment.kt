@@ -16,6 +16,9 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
 import com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment
 import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
+import com.tdtd.presentation.util.Constants
+import com.tdtd.presentation.util.dpToPx
+import com.tdtd.presentation.util.getBottomNavigationBarHeight
 import com.tdtd.presentation.util.initParentHeight
 
 class RoomDialogFragment : BottomSheetDialogFragment() {
@@ -53,6 +56,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initParentHeight(requireActivity(), view)
+        setBottomSheetPadding(view)
         setRoomEditFocus()
         setRoomEditView()
     }
@@ -149,6 +153,13 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         bottomSheet.also {
             bottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
+    }
+
+
+    private fun setBottomSheetPadding(view: View) {
+        if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
+            binding.roomBottomSheet.setPadding(dpToPx(view, 16), dpToPx(view, 16), dpToPx(view, 24), dpToPx(view, 32))
         }
     }
 }

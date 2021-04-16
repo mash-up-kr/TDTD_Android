@@ -20,16 +20,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentRecordVoiceBinding
-import com.tdtd.presentation.util.Constants
+import com.tdtd.presentation.util.*
 import com.tdtd.presentation.util.Constants.REQUEST_RECORD_AUDIO_PERMISSION
 import com.tdtd.presentation.util.Constants.STATE_NORMAL
 import com.tdtd.presentation.util.Constants.STATE_PAUSE
 import com.tdtd.presentation.util.Constants.STATE_PLAYING
 import com.tdtd.presentation.util.Constants.STATE_RECORD
 import com.tdtd.presentation.util.Constants.STATE_RECORD_STOP
-import com.tdtd.presentation.util.MediaPlayerHelper
-import com.tdtd.presentation.util.MediaRecorderHelper
-import com.tdtd.presentation.util.initParentHeight
 
 class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
@@ -73,6 +70,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initParentHeight(requireActivity(), view)
+        setBottomSheetPadding(view)
         initRecord()
         onClickCancelButton()
         setNickNameEditFocus()
@@ -83,6 +81,12 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     override fun onResume() {
         super.onResume()
         onClickRecord()
+    }
+
+    private fun setBottomSheetPadding(view: View) {
+        if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
+            binding.recordVoiceBottomSheet.setPadding(dpToPx(view, 16), dpToPx(view, 16), dpToPx(view, 24), dpToPx(view, 32))
+        }
     }
 
     private fun initRecord() {
@@ -118,7 +122,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 binding.apply {
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
-                        getString(R.string.recode_voice_nickname_number, s?.length)
+                        getString(R.string.record_voice_nickname_number, s?.length)
                 }
 
                 if (s!!.isNotEmpty() && currentState == 2) onClickCompleteButton()
@@ -213,16 +217,16 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     private fun showRecord() {
         binding.apply {
             maximumTextView.visibility = View.INVISIBLE
-            recordStatusTextView.setText(R.string.recode_voice_record_to_press_button)
+            recordStatusTextView.setText(R.string.record_voice_record_to_press_button)
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_active)
             chronometer.isVisible = true
             chronometer.base = SystemClock.elapsedRealtime()
             chronometer.start()
             chronometer.setOnChronometerTickListener {
-                if (it.text == getString(R.string.recode_voice_maximum_minute)) {
+                if (it.text == getString(R.string.record_voice_maximum_minute)) {
                     it.stop()
                     recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
-                    recordStatusTextView.setText(R.string.recode_voice_listen)
+                    recordStatusTextView.setText(R.string.record_voice_listen)
                     isRecord = false
                     isPlaying = false
                     currentState = STATE_RECORD_STOP
@@ -236,21 +240,21 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     private fun showRecordStop() {
         binding.apply {
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
-            recordStatusTextView.setText(R.string.recode_voice_listen)
+            recordStatusTextView.setText(R.string.record_voice_listen)
             chronometer.stop()
         }
     }
 
     private fun showRecordPlaying() {
         binding.apply {
-            recordStatusTextView.setText(R.string.recode_voice_playing)
+            recordStatusTextView.setText(R.string.record_voice_playing)
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_stop)
         }
     }
 
     private fun showRecordPause() {
         binding.apply {
-            recordStatusTextView.setText(R.string.recode_voice_listen)
+            recordStatusTextView.setText(R.string.record_voice_listen)
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
         }
     }

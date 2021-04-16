@@ -13,6 +13,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
+import com.tdtd.presentation.util.Constants
+import com.tdtd.presentation.util.dpToPx
+import com.tdtd.presentation.util.getBottomNavigationBarHeight
 import com.tdtd.presentation.util.initParentHeight
 
 class WriteTextDialogFragment : BottomSheetDialogFragment() {
@@ -51,6 +54,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setBottomSheetPadding(view)
         initParentHeight(requireActivity(), view)
         setNickNameEditFocus()
         setWriteTextEditFocus()
@@ -64,7 +68,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                 binding.nicknameEditText.hint = null
             } else {
-                binding.nicknameEditText.hint = getString(R.string.recode_voice_title_hint)
+                binding.nicknameEditText.hint = getString(R.string.record_voice_title_hint)
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
             }
         }
@@ -77,7 +81,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                 binding.writeTextEditView.hint = null
             } else {
                 view.setBackgroundResource(R.drawable.background_beige2_radius16)
-                binding.writeTextEditView.hint = getString(R.string.recode_voice_whisper_title)
+                binding.writeTextEditView.hint = getString(R.string.record_voice_whisper_title)
             }
         }
     }
@@ -100,7 +104,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                     nickNameText = s.toString()
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
-                            getString(R.string.recode_voice_nickname_number, s?.length)
+                            getString(R.string.record_voice_nickname_number, s?.length)
                     writeTextEditView.setBackgroundResource(R.drawable.background_beige2_radius16)
                 }
             }
@@ -139,6 +143,12 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
         binding.apply {
             completeButton.isEnabled = true
             completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+        }
+    }
+
+    private fun setBottomSheetPadding(view: View) {
+        if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
+            binding.writeTextBottomSheet.setPadding(dpToPx(view, 16), dpToPx(view, 16), dpToPx(view, 24), dpToPx(view, 32))
         }
     }
 }
