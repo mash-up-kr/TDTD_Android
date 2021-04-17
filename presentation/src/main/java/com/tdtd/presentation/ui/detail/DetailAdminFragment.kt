@@ -29,7 +29,7 @@ class DetailAdminFragment : BaseFragment<FragmentDetailAdminBinding>(R.layout.fr
 
     private fun onClickBackButton() {
         binding.backButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            requireActivity().onBackPressed()
         }
     }
 }

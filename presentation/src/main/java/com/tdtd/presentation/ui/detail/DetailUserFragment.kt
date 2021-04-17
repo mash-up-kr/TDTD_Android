@@ -11,7 +11,7 @@ import com.tdtd.presentation.entity.Comments
 import com.tdtd.presentation.entity.getComments
 import com.tdtd.presentation.entity.getDefaultCharacter
 import com.tdtd.presentation.entity.getSelectedCharacter
-import com.tdtd.presentation.ui.dialog.DialogConstructor
+import com.tdtd.presentation.ui.dialog.CustomDialogFragment
 import com.tdtd.presentation.util.setNavigationResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.layout_detail_room_contents.*
@@ -53,7 +53,6 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
             binding.detailUserFrameLayout,
             false
         )
-//        view = inflater.inflate(R.layout.layout_detail_user, binding.detailUserFrameLayout, false)
         binding.detailUserFrameLayout.addView(view)
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -71,18 +70,17 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
         }
     }
 
-
     private fun onClickBackButton() {
         binding.backButton.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            requireActivity().onBackPressed()
         }
     }
 
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
             setNavigationResult(getString(R.string.toast_leave_room_success))
-            val dialog = DialogConstructor(R.layout.dialog_leave_room)
-            dialog.show(requireActivity().supportFragmentManager, dialog.tag)
+            val dialog = CustomDialogFragment(R.layout.dialog_leave_room)
+            dialog.show(childFragmentManager, dialog.tag)
         }
     }
 }

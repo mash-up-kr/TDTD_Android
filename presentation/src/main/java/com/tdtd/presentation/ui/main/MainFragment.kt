@@ -30,9 +30,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             requireActivity().showToast(result, requireView())
         }
 
-        // TEST
+        binding.mainRecyclerView.adapter = mainAdapter
         mainAdapter.submitList(roomList)
-        binding.recyclerView.adapter = mainAdapter
 
         onClickAddImageView()
     }
@@ -45,6 +44,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         findNavController().navigate(R.id.action_mainFragment_to_detailUserFragment)
     }
 
+    private fun initRoomDialogFragment() {
+        findNavController().navigate(R.id.action_mainFragment_to_roomDialogFragment)
+    }
+
     private fun onClickAddImageView() {
         binding.rollingPaperAddImageView.setOnClickListener {
             initRoomDialogFragment()
@@ -53,9 +56,5 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.settingButton.setOnClickListener {
             requireActivity().showToast("테스트입니다!", it)
         }
-    }
-
-    private fun initRoomDialogFragment() {
-        findNavController().navigate(R.id.action_mainFragment_to_roomDialogFragment)
     }
 }
