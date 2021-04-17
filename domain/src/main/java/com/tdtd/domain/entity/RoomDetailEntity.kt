@@ -10,10 +10,10 @@ data class ResultRoomInfoEntity(
     val title: String,
     val type: MakeRoomType,
     val shareUrl: String,
-    val comments: List<UserCommentEntity>
+    val comments: List<UserDetailCommentEntity>
 )
 
-data class UserCommentEntity(
+data class UserDetailCommentEntity(
     val id: String,
     val nickname: String,
     val text: String? = null,

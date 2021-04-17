@@ -1,10 +1,7 @@
 package com.tdtd.data.response.room
 
 import com.google.gson.annotations.SerializedName
-import com.tdtd.domain.entity.MakeRoomType
-import com.tdtd.domain.entity.ResultRoomInfoEntity
-import com.tdtd.domain.entity.RoomDetailEntity
-import com.tdtd.domain.entity.UserCommentEntity
+import com.tdtd.domain.entity.*
 
 data class RoomDetailResponse(
     val code: String,
@@ -23,7 +20,7 @@ data class ResultRoomInfoResponse(
     val type: MakeRoomType,
     @SerializedName("share_url")
     val shareUrl: String,
-    val comments: List<UserCommentResponse>
+    val comments: List<UserDetailCommentResponse>
 ) {
     fun toEntity() = ResultRoomInfoEntity(
         title = title,
@@ -33,7 +30,7 @@ data class ResultRoomInfoResponse(
     )
 }
 
-data class UserCommentResponse(
+data class UserDetailCommentResponse(
     val id: String,
     val nickname: String,
     val text: String? = null,
@@ -47,7 +44,7 @@ data class UserCommentResponse(
     val createAt: String,
     val isMine: Boolean
 ) {
-    fun toEntity() = UserCommentEntity(
+    fun toEntity() = UserDetailCommentEntity(
         id = id,
         nickname = nickname,
         text = text,

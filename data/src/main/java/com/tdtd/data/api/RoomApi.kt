@@ -12,7 +12,7 @@ interface RoomApi {
 
     @POST("/api/v1/users/{roomCode}")
     fun postParticipateByRoomCode(
-        @Path("roomCode") roomCode: Long
+        @Path("roomCode") roomCode: String
     ): Result<RoomsResponse>
 
     @GET("/api/v1/rooms")
@@ -25,12 +25,12 @@ interface RoomApi {
 
     @DELETE("/api/v1/users/{roomCode}")
     fun deleteParticipatedUserRoom(
-        @Path("roomCode") roomCode: Long
+        @Path("roomCode") roomCode: String
     ): Result<RoomsResponse>
 
     @GET("api/v1/rooms/{roomCode}")
     fun getRoomDetailByRoomCode(
-        @Path("roomCode") roomCode: Long
+        @Path("roomCode") roomCode: String
     ): Result<RoomDetailResponse>
 
 }

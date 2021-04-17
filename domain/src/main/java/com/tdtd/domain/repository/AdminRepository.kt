@@ -1,5 +1,9 @@
 package com.tdtd.domain.repository
 
+import com.tdtd.domain.entity.RoomsEntity
+import com.tdtd.domain.Result
+import com.tdtd.domain.entity.RoomUrlEntity
+
 /**
  * 관리자
  */
@@ -8,11 +12,16 @@ interface AdminRepository {
     /**
      * 방 호스트가 만든 방을 삭제한다.
      */
-    fun deleteRoom(roomCode: Long)
+    suspend fun deleteRoom(roomCode: String): Result<RoomsEntity>
+
+    /**
+     * 방의 공유 URL 을 얻어온다.
+     */
+    suspend fun getSharedRoomUrl(roomCode: String): Result<RoomUrlEntity>
 
     /**
      * 방 호스트가 다른 사용자의 답장을 삭제한다.
      */
-    fun deleteOtherCommentByAdmin()
+    suspend fun deleteOtherCommentByAdmin(): Result<RoomsEntity>
 
 }
