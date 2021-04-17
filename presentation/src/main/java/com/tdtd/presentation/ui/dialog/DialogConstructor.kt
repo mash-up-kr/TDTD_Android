@@ -22,8 +22,8 @@ class DialogConstructor(private val dialogLayout: Int) : DialogFragment(),
 
         view.apply {
             submitButton.setOnClickListener {
-                dismiss()
                 requireActivity().onBackPressedDispatcher.onBackPressed()
+                dismiss()
             }
             cancelButton.setOnClickListener {
                 dismiss()
@@ -38,6 +38,8 @@ class DialogConstructor(private val dialogLayout: Int) : DialogFragment(),
             this.submitButtonClicked = submitButtonClicked
             return DialogConstructor(dialogLayout)
         }
+
+        fun onBackPressed(): Boolean = false
     }
 
     override fun onClick(p0: View?) {

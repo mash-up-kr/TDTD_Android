@@ -26,9 +26,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun initViews() {
         super.initViews()
 
-        getNavigationResult()?.observe(viewLifecycleOwner) { result ->
+        getNavigationResult<String>(R.id.mainFragment) { result ->
             requireActivity().showToast(result, requireView())
         }
+
         // TEST
         mainAdapter.submitList(roomList)
         binding.recyclerView.adapter = mainAdapter
