@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 
-class DialogConstructor(val dialogLayout: Int) : DialogFragment(),
+class DialogConstructor(private val dialogLayout: Int) : DialogFragment(),
         View.OnClickListener {
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -22,8 +22,8 @@ class DialogConstructor(val dialogLayout: Int) : DialogFragment(),
 
         view.apply {
             submitButton.setOnClickListener {
-                submitButtonClicked(true)
                 dismiss()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             cancelButton.setOnClickListener {
                 dismiss()
