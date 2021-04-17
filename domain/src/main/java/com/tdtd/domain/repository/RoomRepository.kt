@@ -1,5 +1,8 @@
 package com.tdtd.domain.repository
 
+import com.tdtd.domain.Result
+import com.tdtd.domain.entity.*
+
 /**
  * 롤링페이퍼 방
  */
@@ -8,26 +11,26 @@ interface RoomRepository {
     /**
      * 링크를 통해 초대된 사용자가 room-code에 해당하는 방에 참여한다.
      */
-    fun postParticipateByRoomCode(roomCode: Long)
+    suspend fun postParticipateByRoomCode(roomCode: Long): Result<RoomsEntity>
 
     /**
      * 사용자의 방 목록을 가져온다.
      */
-    fun getUserRoomList()
+    suspend fun getUserRoomList(): Result<List<RoomsEntity>>
 
     /**
      * 사용자가 방을 만든다.
      */
-    fun postCreateUserRoom()
+    suspend fun postCreateUserRoom(makeRoomInfo: MakeRoomEntity): Result<RoomCodeEntity>
 
     /**
      * 사용자가 방을 나간다.
      */
-    fun deleteParticipatedUserRoom(roomCode: Long)
+    suspend fun deleteParticipatedUserRoom(roomCode: Long): Result<RoomsEntity>
 
     /**
      * room-code에 해당하는 방의 상세 정보를 가져온다.
      */
-    fun getRoomDetailByRoomCode(roomCode: Long)
+    suspend fun getRoomDetailByRoomCode(roomCode: Long): Result<RoomDetailEntity>
 
 }
