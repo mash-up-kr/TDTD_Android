@@ -19,7 +19,9 @@ interface RoomApi {
     fun getUserRoomList(): Result<List<RoomsResponse>>
 
     @POST("/api/v1/rooms")
-    fun postCreateUserRoom(makeRoomInfo: MakeRoomRequest): Result<RoomCodeResponse>
+    fun postCreateUserRoom(
+        @Body makeRoomInfo: MakeRoomRequest
+    ): Result<RoomCodeResponse>
 
     @DELETE("/api/v1/users/{roomCode}")
     fun deleteParticipatedUserRoom(
