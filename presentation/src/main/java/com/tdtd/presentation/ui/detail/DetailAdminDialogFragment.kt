@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
 import com.tdtd.presentation.ui.dialog.DialogConstructor
+import com.tdtd.presentation.util.setNavigationResult
 
 class DetailAdminDialogFragment : BottomSheetDialogFragment() {
 
@@ -41,10 +42,10 @@ class DetailAdminDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickDeleteRoom() {
         binding.deleteRoomTextView.setOnClickListener {
-            val dialog = DialogConstructor.getInstance(submitButtonClicked = {
-                // TODO: 방 삭제 submit button click시 Activity 종료 + 토스트 출력 + API 호출
-            }, R.layout.dialog_delete_room)
-            dialog.show(parentFragmentManager, dialog.tag)
+            setNavigationResult(getString(R.string.dialog_delete_room_button_submit))
+            val dialog = DialogConstructor(R.layout.dialog_delete_room)
+            dialog.show(requireActivity().supportFragmentManager, dialog.tag)
+            // TODO: 방 삭제 submit button click시 Activity 종료 + 토스트 출력 + API 호출
         }
     }
 
