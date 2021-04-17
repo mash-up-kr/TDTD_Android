@@ -1,80 +1,25 @@
 package com.tdtd.presentation.ui.main
 
-import android.app.Activity
-import android.content.Intent
-import android.view.View
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.tdtd.presentation.R
-import com.tdtd.presentation.base.ui.BaseActivity
-import com.tdtd.presentation.databinding.ActivityMainBinding
-import com.tdtd.presentation.entity.*
-import com.tdtd.presentation.ui.detail.DetailAdminActivity
-import com.tdtd.presentation.ui.detail.DetailUserActivity
-import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
-import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-    private val roomList: List<Room> = getRooms()
-
-    val startActivityForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val isLeaveRoom = result.data?.getBooleanExtra("isLeaveRoom", false)
-            if (isLeaveRoom == true) {
-                this@MainActivity.showToast(getString(R.string.toast_leave_room_success), View(applicationContext))
-            }
-        }
+        initNavigation()
     }
 
-    private var mainAdapter = MainAdapter() { position ->
-        if (position == 0) {
-            startDetailAdminActivity()
-        } else {
-            startDetailUserActivity()
-        }
-    }
+    private fun initNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
 
-    override fun initViews() {
-        super.initViews()
-
-        // TEST
-        mainAdapter.submitList(roomList)
-        binding.recyclerView.adapter = mainAdapter
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-
-        onClickAddImageView()
-    }
-
-    private fun startDetailAdminActivity() {
-        val intent = Intent(this, DetailAdminActivity::class.java)
-        startActivityForResult.launch(intent)
-    }
-
-    private fun startDetailUserActivity() {
-        val intent = Intent(this, DetailUserActivity::class.java)
-        startActivityForResult.launch(intent)
-    }
-
-    private fun onClickAddImageView() {
-        binding.rollingPaperAddImageView.setOnClickListener {
-            initRoomDialogFragment()
-        }
-
-        binding.settingButton.setOnClickListener {
-            this@MainActivity.showToast("테스트입니다!", it)
-        }
-    }
-
-    private fun initRoomDialogFragment() {
-        val bottomSheet = RoomDialogFragment()
-        bottomSheet.run {
-            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-            show(supportFragmentManager, bottomSheet.tag)
-        }
+        navController.navigate(R.id.action_global_mainFragment)
     }
 }
