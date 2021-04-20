@@ -19,7 +19,7 @@ class RoomRepositoryImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RoomRepository {
 
-    override suspend fun postParticipateByRoomCode(roomCode: Long): Result<RoomsEntity> =
+    override suspend fun postParticipateByRoomCode(roomCode: String): Result<RoomsEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 roomApi.postParticipateByRoomCode(roomCode).let {
@@ -65,7 +65,7 @@ class RoomRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun deleteParticipatedUserRoom(roomCode: Long): Result<RoomsEntity> =
+    override suspend fun deleteParticipatedUserRoom(roomCode: String): Result<RoomsEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 roomApi.deleteParticipatedUserRoom(roomCode).let {
@@ -80,7 +80,7 @@ class RoomRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getRoomDetailByRoomCode(roomCode: Long): Result<RoomDetailEntity> =
+    override suspend fun getRoomDetailByRoomCode(roomCode: String): Result<RoomDetailEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 roomApi.getRoomDetailByRoomCode(roomCode).let {
