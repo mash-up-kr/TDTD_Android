@@ -32,7 +32,7 @@
     <string name="record_voice_maximum_one_minute">최대 1분</string>
     <string name="record_voice_maximum_minute">01:00</string>
     <string name="record_voice_record_to_press_button">버튼을 눌러 녹음하기</string>
-    <string name="record_voice_banner_title">친구와 롤링페이퍼로\n즐겁게 얘기를 나눠보세요</string>
+    <string name="record_voice_banner_title">친구와 롤링페이퍼로\n즐겁게 얘기를 나눠보세요!</string>
     <string name="record_voice_listen">녹음 들어보기</string>
     <string name="record_voice_playing">재생하고 있어요!</string>
     <string name="record_voice_nickname_number">%d/12</string>
