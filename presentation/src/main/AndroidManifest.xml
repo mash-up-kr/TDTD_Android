@@ -8,14 +8,6 @@
 
     <application>
         <activity
-            android:name=".ui.detail.DetailUserActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".ui.detail.DetailAdminActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.tdtd.presentation.ui.main.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_roomDialogFragment"
+            app:destination="@id/roomDialogFragment"
+            app:popUpTo="@id/roomDialogFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailAdminFragment"
+            app:destination="@id/detailAdminFragment"
+            app:popUpTo="@id/detailAdminFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailUserFragment"
+            app:destination="@id/detailUserFragment"
+            app:popUpTo="@id/detailUserFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/roomDialogFragment"
+        android:name="com.tdtd.presentation.ui.makeroom.RoomDialogFragment"
+        android:label="RoomDialogFragment"
+        app:startDestination="@id/action_roomDialogFragment_to_recordVoiceDialogFragment"
+        tools:layout="@layout/room_bottom_sheet">
+        <action
+            android:id="@+id/action_roomDialogFragment_to_writeTextDialogFragment"
+            app:destination="@id/writeTextDialogFragment"
+            app:popUpTo="@id/writeTextDialogFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_roomDialogFragment_to_recordVoiceDialogFragment"
+            app:destination="@id/recordVoiceDialogFragment"
+            app:popUpTo="@id/recordVoiceDialogFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/writeTextDialogFragment"
+        android:name="com.tdtd.presentation.ui.writetext.WriteTextDialogFragment"
+        android:label="WriteTextDialogFragment"
+        tools:layout="@layout/fragment_write_text" />
+
+    <dialog
+        android:id="@+id/recordVoiceDialogFragment"
+        android:name="com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment"
+        android:label="RecordVoiceDialogFragment"
+        tools:layout="@layout/fragment_record_voice" />
+
+    <fragment
+        android:id="@+id/detailAdminFragment"
+        android:name="com.tdtd.presentation.ui.detail.DetailAdminFragment"
+        android:label="DetailAdminFragment"
+        tools:layout="@layout/fragment_detail_admin" />
+
+    <fragment
+        android:id="@+id/detailUserFragment"
+        android:name="com.tdtd.presentation.ui.detail.DetailUserFragment"
+        android:label="DetailUserFragment"
+        tools:layout="@layout/fragment_detail_user" />
+
+    <action
+        android:id="@+id/action_global_mainFragment"
+        app:destination="@id/mainFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="true" />
+</navigation>

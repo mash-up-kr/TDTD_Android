@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -139,21 +140,11 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun showRecordVoiceDialogFragment() {
-        val bottomSheet = RecordVoiceDialogFragment()
-
-        bottomSheet.also {
-            bottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        }
+        findNavController().navigate(R.id.action_roomDialogFragment_to_recordVoiceDialogFragment)
     }
 
     private fun showWriteTextDialogFragment() {
-        val bottomSheet = WriteTextDialogFragment()
-
-        bottomSheet.also {
-            bottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        }
+        findNavController().navigate(R.id.action_roomDialogFragment_to_writeTextDialogFragment)
     }
 
 

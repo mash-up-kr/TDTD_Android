@@ -1,25 +1,24 @@
 package com.tdtd.presentation.ui.detail
 
-import android.app.Activity
+import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.view.LayoutInflater
 import androidx.core.view.get
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.tdtd.presentation.R
-import com.tdtd.presentation.base.ui.BaseActivity
-import com.tdtd.presentation.databinding.ActivityDetailUserBinding
+import com.tdtd.presentation.base.ui.BaseFragment
+import com.tdtd.presentation.databinding.FragmentDetailUserBinding
 import com.tdtd.presentation.entity.Comments
 import com.tdtd.presentation.entity.getComments
 import com.tdtd.presentation.entity.getDefaultCharacter
 import com.tdtd.presentation.entity.getSelectedCharacter
-import com.tdtd.presentation.ui.dialog.DialogConstructor
-import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
+import com.tdtd.presentation.ui.dialog.CustomDialogFragment
+import com.tdtd.presentation.util.setNavigationResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.layout_detail_room_contents.*
 import kotlinx.android.synthetic.main.row_detail_items.view.*
 
 @AndroidEntryPoint
-class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.activity_detail_user) {
+class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.fragment_detail_user) {
 
     private val contentList: List<Comments> = getComments()
 
@@ -47,22 +46,19 @@ class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.acti
     override fun initViews() {
         super.initViews()
 
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         // TODO: contents 유무에 따라 view가 달라져야 합니다.
         val view = inflater.inflate(
             R.layout.layout_detail_room_contents,
             binding.detailUserFrameLayout,
             false
         )
-//        view = inflater.inflate(R.layout.layout_detail_user, binding.detailUserFrameLayout, false)
         binding.detailUserFrameLayout.addView(view)
 
-        recyclerView.layoutManager = GridLayoutManager(this, 3)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         detailAdapter.submitList(contentList)
         recyclerView.adapter = detailAdapter
-        recyclerView.adapter?.notifyDataSetChanged()
 
-        onClickWriteButton()
         onClickFavoritesButton()
         onClickBackButton()
         onClickLeaveRoomButton()
@@ -74,34 +70,17 @@ class DetailUserActivity : BaseActivity<ActivityDetailUserBinding>(R.layout.acti
         }
     }
 
-    private fun onClickWriteButton() {
-        binding.writeButton.setOnClickListener {
-            initVoiceRecordDialogFragment()
-        }
-    }
-
-    private fun initVoiceRecordDialogFragment() {
-        val bottomSheet = WriteTextDialogFragment()
-        bottomSheet.run {
-            setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
-            show(supportFragmentManager, bottomSheet.tag)
-        }
-    }
-
     private fun onClickBackButton() {
         binding.backButton.setOnClickListener {
-            finish()
+            requireActivity().onBackPressed()
         }
     }
 
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
-            val dialog = DialogConstructor.getInstance(submitButtonClicked = {
-                intent.putExtra("isLeaveRoom", true)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
-            }, R.layout.dialog_leave_room)
-            dialog.show(supportFragmentManager, dialog.tag)
+            setNavigationResult(getString(R.string.toast_leave_room_success))
+            val dialog = CustomDialogFragment(R.layout.dialog_leave_room)
+            dialog.show(childFragmentManager, dialog.tag)
         }
     }
 }
