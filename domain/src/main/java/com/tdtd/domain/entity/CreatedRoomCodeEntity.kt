@@ -1,7 +1,7 @@
 package com.tdtd.domain.entity
 
-data class RoomsEntity(
+data class CreatedRoomCodeEntity(
     var code: Int,
     var message: String,
-    var rooms: List<RoomEntity>?
+    var result: RoomCodeEntity
 )

@@ -1,7 +1,12 @@
 package com.tdtd.voicepaper.di.module
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.tdtd.presentation.util.Constants
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
+import com.tdtd.data.api.AdminApi
+import com.tdtd.data.api.BookmarkApi
+import com.tdtd.data.api.ReplyApi
+import com.tdtd.data.api.RoomApi
+import com.tdtd.presentation.util.Constants.BASE_URL
 import com.tdtd.voicepaper.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -17,15 +22,19 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
-
     @Provides
     @Singleton
     fun provideUserRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val baseUrl: String = Constants.BASE_URL
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .baseUrl(BASE_URL)
+            //.addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+                )
+            )
             .client(okHttpClient)
             .build()
     }
@@ -36,14 +45,14 @@ object NetworkModule {
         val builder = OkHttpClient.Builder()
         // header
         builder.addInterceptor { chain ->
-                val deviceId = "test-device"
-                var request = chain.request()
-                request = request.newBuilder()
-                    .addHeader("Device-Id", deviceId)
-                    .build()
+            val deviceId = "device-11"
+            var request = chain.request()
+            request = request.newBuilder()
+                .addHeader("Device-Id", deviceId)
+                .build()
 
-                chain.proceed(request)
-            }
+            chain.proceed(request)
+        }
 
         // log
         if (BuildConfig.DEBUG) {
@@ -58,4 +67,21 @@ object NetworkModule {
 
         return builder.build()
     }
+
+    @Provides
+    @Singleton
+    fun provideRoomApiService(retrofit: Retrofit) = retrofit.create(RoomApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReplyApiService(retrofit: Retrofit) = retrofit.create(ReplyApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBookmarkApiService(retrofit: Retrofit) = retrofit.create(BookmarkApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAdminApiService(retrofit: Retrofit) = retrofit.create(AdminApi::class.java)
+
 }
