@@ -11,18 +11,18 @@ import com.tdtd.domain.Result
 interface BookmarkApi {
 
     @GET("api/v1/bookmarks")
-    fun getUserBookmarkList(): Result<List<RoomResponse>>
+    suspend fun getUserBookmarkList(): Result<List<RoomResponse>>
 
     /**
      * postBookmarkByRoomCode & deleteBookMarkByRoomCode 명세서 미완성
      */
     @POST("api/v1/bookmarks/{roomCode}")
-    fun postBookmarkByRoomCode(
+    suspend fun postBookmarkByRoomCode(
         @Path("roomCode") roomCode: String
     ): Result<RoomsResponse>
 
     @DELETE("api/v1/bookmarks/{roomCode}")
-    fun deleteBookmarkByRoomCode(
+    suspend fun deleteBookmarkByRoomCode(
         @Path("roomCode") roomCode: String
     ): Result<RoomsResponse>
 }

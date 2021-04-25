@@ -10,15 +10,15 @@ import com.tdtd.domain.Result
 interface AdminApi {
 
     @DELETE("api/v1/rooms/{roomCode}")
-    fun deleteRoom(
+    suspend fun deleteRoom(
         @Path("roomCode") roomCode: String
     ): Result<RoomsResponse>
 
     @GET("/api/v1/host/rooms/{roomCode}")
-    fun getSharedRoomUrl(
+    suspend fun getSharedRoomUrl(
         @Path("roomCode") roomCode: String
     ): Result<RoomUrlResponse>
 
     @DELETE("api/v1/host/comments")
-    fun deleteOtherCommentByAdmin(): Result<RoomsResponse>
+    suspend fun deleteOtherCommentByAdmin(): Result<RoomsResponse>
 }
