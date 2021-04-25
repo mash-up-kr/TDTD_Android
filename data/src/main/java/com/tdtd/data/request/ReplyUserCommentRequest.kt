@@ -2,6 +2,7 @@ package com.tdtd.data.request
 
 import com.google.gson.annotations.SerializedName
 import com.tdtd.domain.entity.MakeRoomType
+import com.tdtd.domain.entity.StickerColorType
 
 data class ReplyUserCommentRequest(
     val nickname: String,
@@ -12,7 +13,7 @@ data class ReplyUserCommentRequest(
     @SerializedName("voice_file")
     val voiceFile: String?,
     @SerializedName("sticker_color")
-    val stickerColor: String,     //todo: sehee Enum Type 으로 변경해야함
+    val stickerColor: StickerColorType,
     @SerializedName("sticker_angle")
     val stickerAngle: Int
 )
