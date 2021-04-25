@@ -34,16 +34,14 @@ class RoomRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getUserRoomList(): Result<List<RoomsEntity>> = withContext(ioDispatcher) {
+    override suspend fun getUserRoomList(): Result<RoomsEntity> = withContext(ioDispatcher) {
         return@withContext try {
             roomApi.getUserRoomList().let {
-                if (it is Result.Success) {
-                    Result.Success(it.data.map { roomsResponse ->
-                        roomsResponse.toEntity()
-                    })
-                } else {
-                    Result.Error(NetworkErrorException())
-                }
+//                if (it is Result.Success) {
+                    Result.Success(it.toEntity())
+//                } else {
+//                    Result.Error(NetworkErrorException())
+//                }
             }
         } catch (e: Exception) {
             Result.Error(e)

@@ -6,13 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.tdtd.domain.entity.RoomEntity
+import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.presentation.BR
 import com.tdtd.presentation.databinding.RowMainUserRoomItemBinding
 import com.tdtd.presentation.entity.Room
 
 class MainAdapter(
         private val onClick: (position: Int) -> Unit
-) : ListAdapter<Room, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
+) : ListAdapter<RoomEntity, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -29,7 +31,7 @@ class MainAdapter(
     inner class MainViewHolder constructor(val binding: RowMainUserRoomItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Room) {
+        fun bind(data: RoomEntity) {
             Log.e("df", data.toString())
             binding.setVariable(BR.room, data)
             binding.container.setOnClickListener {
@@ -45,12 +47,12 @@ class MainAdapter(
  * Used by ListAdapter to calculate the minimum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class CategoryDiffCallback : DiffUtil.ItemCallback<Room>() {
-    override fun areItemsTheSame(oldItem: Room, newItem: Room): Boolean {
-        return oldItem.room_code == newItem.room_code
+class CategoryDiffCallback : DiffUtil.ItemCallback<RoomEntity>() {
+    override fun areItemsTheSame(oldItem: RoomEntity, newItem: RoomEntity): Boolean {
+        return oldItem.roomCode == newItem.roomCode
     }
 
-    override fun areContentsTheSame(oldItem: Room, newItem: Room): Boolean {
+    override fun areContentsTheSame(oldItem: RoomEntity, newItem: RoomEntity): Boolean {
         return oldItem == newItem
     }
 }

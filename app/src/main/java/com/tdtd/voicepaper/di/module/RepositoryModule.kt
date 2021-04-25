@@ -10,8 +10,10 @@ import com.tdtd.domain.repository.ReplyRepository
 import com.tdtd.domain.repository.RoomRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -41,5 +43,12 @@ abstract class RepositoryModule {
     abstract fun bindsAdminRepository(
         adminRepositoryImpl: AdminRepositoryImpl
     ): AdminRepository
+}
 
+@Module
+@InstallIn(SingletonComponent::class)
+object SchedulerModule {
+    @Singleton
+    @Provides
+    fun provideIoDispatcher() = Dispatchers.IO
 }

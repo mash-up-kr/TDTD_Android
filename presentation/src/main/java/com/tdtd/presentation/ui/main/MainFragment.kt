@@ -1,11 +1,10 @@
 package com.tdtd.presentation.ui.main
 
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
-import com.tdtd.presentation.entity.Room
-import com.tdtd.presentation.entity.getRooms
 import com.tdtd.presentation.util.getNavigationResult
 import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
-    private val roomList: List<Room> = getRooms()
+    private val viewModel by viewModels<MainViewModel>()
 
     private var mainAdapter = MainAdapter() { position ->
         if (position == 0) {
@@ -31,7 +30,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         binding.mainRecyclerView.adapter = mainAdapter
-        mainAdapter.submitList(roomList)
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.getRooms()
+        viewModel.result.observe(viewLifecycleOwner) {
+            mainAdapter.submitList(it.toMutableList())
+        }
 
         onClickAddImageView()
     }

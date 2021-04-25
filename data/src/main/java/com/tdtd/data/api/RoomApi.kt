@@ -16,7 +16,7 @@ interface RoomApi {
     ): Result<RoomsResponse>
 
     @GET("/api/v1/rooms")
-    fun getUserRoomList(): Result<List<RoomsResponse>>
+    fun getUserRoomList(): RoomsResponse
 
     @POST("/api/v1/rooms")
     fun postCreateUserRoom(

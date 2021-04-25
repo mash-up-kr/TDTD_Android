@@ -16,7 +16,7 @@ interface RoomRepository {
     /**
      * 사용자의 방 목록을 가져온다.
      */
-    suspend fun getUserRoomList(): Result<List<RoomsEntity>>
+    suspend fun getUserRoomList(): Result<RoomsEntity>
 
     /**
      * 사용자가 방을 만든다.

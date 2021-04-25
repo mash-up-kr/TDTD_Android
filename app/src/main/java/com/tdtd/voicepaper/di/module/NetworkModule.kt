@@ -2,6 +2,7 @@ package com.tdtd.voicepaper.di.module
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.tdtd.data.api.AdminApi
 import com.tdtd.data.api.BookmarkApi
 import com.tdtd.data.api.ReplyApi
@@ -27,14 +28,15 @@ object NetworkModule {
     fun provideUserRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            //.addConverterFactory(GsonConverterFactory.create())
-            .addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder()
-                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                        .create()
-                )
-            )
+            .addConverterFactory(GsonConverterFactory.create())
+//            .addConverterFactory(
+//                GsonConverterFactory.create(
+//                    GsonBuilder()
+//                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+//                        .create()
+//                )
+//            )
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(okHttpClient)
             .build()
     }
