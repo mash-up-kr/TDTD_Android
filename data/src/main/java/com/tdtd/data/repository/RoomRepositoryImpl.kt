@@ -3,6 +3,7 @@ package com.tdtd.data.repository
 import android.accounts.NetworkErrorException
 import com.tdtd.data.api.RoomApi
 import com.tdtd.data.mapper.toNetworkModel
+import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.MakeRoomEntity
 import com.tdtd.domain.entity.RoomCodeEntity
@@ -16,9 +17,8 @@ import javax.inject.Inject
 
 class RoomRepositoryImpl @Inject constructor(
     private val roomApi: RoomApi,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RoomRepository {
-
     override suspend fun postParticipateByRoomCode(roomCode: String): Result<RoomsEntity> =
         withContext(ioDispatcher) {
             return@withContext try {

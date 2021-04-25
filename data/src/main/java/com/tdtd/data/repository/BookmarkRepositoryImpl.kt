@@ -2,6 +2,7 @@ package com.tdtd.data.repository
 
 import android.accounts.NetworkErrorException
 import com.tdtd.data.api.BookmarkApi
+import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.RoomEntity
 import com.tdtd.domain.entity.RoomsEntity
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class BookmarkRepositoryImpl @Inject constructor(
     private val bookmarkApi: BookmarkApi,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BookmarkRepository {
 
     override suspend fun getUserBookmarkList(): Result<List<RoomEntity>> =

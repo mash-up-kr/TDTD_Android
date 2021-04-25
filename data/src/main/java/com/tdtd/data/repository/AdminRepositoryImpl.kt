@@ -2,6 +2,7 @@ package com.tdtd.data.repository
 
 import android.accounts.NetworkErrorException
 import com.tdtd.data.api.AdminApi
+import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.repository.AdminRepository
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 class AdminRepositoryImpl @Inject constructor(
     private val adminApi: AdminApi,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AdminRepository {
     override suspend fun deleteRoom(roomCode: String): Result<RoomsEntity> =
         withContext(ioDispatcher) {
