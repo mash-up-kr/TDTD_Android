@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textCommentBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="34dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nicknameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_beige3_radius100"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:textAppearance="@style/text.16dp.bold.beige7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="닉네임최대열두자입니다요" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/reportImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_report_24"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameTextView"
+            app:layout_constraintEnd_toStartOf="@+id/removeImageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/removeImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_remove_24"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameTextView"
+            app:layout_constraintEnd_toStartOf="@+id/closeImageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/closeImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_24"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_beige2_radius16"
+            android:padding="16dp"
+            android:textAppearance="@style/text.16dp.bold.grayscale1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameTextView"
+            tools:text="안녕하세요 감사합니다 반갑습니다\n오예 오예 테스트 문자열 테스트 문자열 테스트 테스트 테스트으 룰루랄라 신난다 내일은 수요일 수 요 일\n수요일은 힘들어" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
