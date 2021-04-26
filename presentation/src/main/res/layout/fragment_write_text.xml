@@ -97,6 +97,35 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="취소" />
 
+        <View
+            android:id="@+id/bannerView"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/background_beige3_radius16"
+            app:layout_constraintBottom_toTopOf="@+id/cancelButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/record_voice_banner_title"
+            android:textAppearance="@style/text.18dp.regular.grayscale2"
+            app:layout_constraintBottom_toBottomOf="@+id/bannerView"
+            app:layout_constraintStart_toStartOf="@+id/bannerView"
+            app:layout_constraintTop_toTopOf="@+id/bannerView"
+            tools:text="친구와 롤링페이퍼로\n즐겁게 얘기를 나눠보세요!" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bannerImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_banner"
+            app:layout_constraintBottom_toBottomOf="@+id/bannerView"
+            app:layout_constraintEnd_toEndOf="@+id/bannerView" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/completeButton"
             android:layout_width="0dp"

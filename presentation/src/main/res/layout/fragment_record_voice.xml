@@ -170,7 +170,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/bannerView"
             app:layout_constraintStart_toStartOf="@+id/bannerView"
             app:layout_constraintTop_toTopOf="@+id/bannerView"
-            tools:text="친구와 롤링페이퍼로\n즐겁게 얘기를 나눠보세요" />
+            tools:text="친구와 롤링페이퍼로\n즐겁게 얘기를 나눠보세요!" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/bannerImageView"

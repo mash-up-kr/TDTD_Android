@@ -75,6 +75,14 @@
         <item name="android:textColor">@color/beige6</item>
     </style>
 
+    <style name="text.16dp.bold.beige7" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/beige7</item>
+    </style>
+
     <style name="text.16dp.bold.white" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">16dp</item>
@@ -97,6 +105,14 @@
         <item name="android:textColor">@color/grayscale3</item>
     </style>
 
+    <style name="text.16dp.bold.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/grayscale1</item>
+    </style>
+
     <style name="text.20dp.regular.grayscale4" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
         <item name="android:textSize">20dp</item>
@@ -110,6 +126,14 @@
         <item name="android:textStyle">bold</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/grayscale2</item>
+    </style>
+
+    <style name="text.14dp.bold.grayscale3" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="fontFamily">@font/font</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/grayscale3</item>
     </style>
 
     <style name="text.14dp.regular.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
@@ -136,6 +160,14 @@
     <style name="DetailAdminBottomSheetModel" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_beige3_radius24</item>
         <item name="behavior_peekHeight">236dp</item>
+    </style>
+
+    <style name="CommentBottomSheetModelTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CommentBottomSheetModel</item>
+    </style>
+
+    <style name="CommentBottomSheetModel" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_white_radius24</item>
     </style>
 
     <style name="PopupWindowToast">
