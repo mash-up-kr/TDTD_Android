@@ -5,6 +5,6 @@ data class ReplyUserCommentWithFileEntity(
     val messageType: MakeRoomType,
     val textMessage: String?,
     val voiceFile: String?,
-    val stickerColor: String,     //todo: sehee Enum Type 으로 변경해야함
+    val stickerColor: StickerColorType,
     val stickerAngle: Int
 )

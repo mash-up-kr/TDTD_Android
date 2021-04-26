@@ -3,6 +3,7 @@ package com.tdtd.data.repository
 import android.accounts.NetworkErrorException
 import com.tdtd.data.api.ReplyApi
 import com.tdtd.data.mapper.toNetworkModel
+import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
 import com.tdtd.domain.entity.ReplyUserEntity
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 class ReplyRepositoryImpl @Inject constructor(
     private val replyApi: ReplyApi,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ReplyRepository {
     override suspend fun postReplyUserComment(
         roomCode: String,
