@@ -11,7 +11,7 @@ import com.tdtd.presentation.databinding.RowMainUserRoomItemBinding
 import com.tdtd.presentation.entity.Room
 
 class MainAdapter(
-        private val onClick: (position: Int) -> Unit
+    private val onClick: (room: Room) -> Unit
 ) : ListAdapter<Room, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -27,13 +27,13 @@ class MainAdapter(
     }
 
     inner class MainViewHolder constructor(val binding: RowMainUserRoomItemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Room) {
             Log.e("df", data.toString())
             binding.setVariable(BR.room, data)
             binding.container.setOnClickListener {
-                onClick(adapterPosition)
+                onClick(data)
             }
         }
     }
@@ -47,7 +47,7 @@ class MainAdapter(
  */
 class CategoryDiffCallback : DiffUtil.ItemCallback<Room>() {
     override fun areItemsTheSame(oldItem: Room, newItem: Room): Boolean {
-        return oldItem.room_code == newItem.room_code
+        return oldItem.created_at == newItem.created_at
     }
 
     override fun areContentsTheSame(oldItem: Room, newItem: Room): Boolean {

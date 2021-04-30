@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="room"
             type="com.tdtd.presentation.entity.Room" />
@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{ room.title }"
+            android:text="@{ room.title}"
             android:textAppearance="@style/text.20dp.bold.grayscale1"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="타이틀이 한 줄일 때 카드 높이 값은 122" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -36,20 +36,20 @@
             android:layout_height="wrap_content"
             android:text="@string/home_rollingpaper_made_date"
             android:textAppearance="@style/text.16dp.bold.grayscale2"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="만든 날짜" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ room.created_at }"
             android:layout_marginStart="8dp"
             android:includeFontPadding="false"
+            android:text="@{room.created_at.replace('-','/').substring(0,10)}"
             android:textAppearance="@style/text.14dp.bold.grayscale2"
-            app:layout_constraintTop_toTopOf="@+id/dateTextView"
-            app:layout_constraintStart_toEndOf="@+id/dateTextView"
             app:layout_constraintBottom_toBottomOf="@+id/dateTextView"
+            app:layout_constraintStart_toEndOf="@+id/dateTextView"
+            app:layout_constraintTop_toTopOf="@+id/dateTextView"
             tools:text="2020/01/02" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -57,16 +57,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_crown_24"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorites_on_16"
             android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:src="@drawable/ic_favorites_off_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
