@@ -1,7 +1,10 @@
 package com.tdtd.data.response.room
 
 import com.google.gson.annotations.SerializedName
-import com.tdtd.domain.entity.*
+import com.tdtd.domain.entity.MakeRoomType
+import com.tdtd.domain.entity.ResultRoomInfoEntity
+import com.tdtd.domain.entity.RoomDetailEntity
+import com.tdtd.domain.entity.UserDetailCommentEntity
 
 data class RoomDetailResponse(
     val code: String,

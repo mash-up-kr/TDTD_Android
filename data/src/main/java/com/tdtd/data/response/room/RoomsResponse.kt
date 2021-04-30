@@ -1,5 +1,6 @@
 package com.tdtd.data.response.room
 
+import com.google.gson.annotations.SerializedName
 import com.tdtd.domain.entity.RoomsEntity
 
 /**
@@ -11,6 +12,7 @@ import com.tdtd.domain.entity.RoomsEntity
 data class RoomsResponse(
     var code: Int,
     var message: String,
+    @SerializedName("result")
     var rooms: List<RoomResponse>?
 ) {
     fun toEntity() = RoomsEntity(
