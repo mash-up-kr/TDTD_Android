@@ -2,6 +2,7 @@ package com.tdtd.data.repository
 
 import android.accounts.NetworkErrorException
 import com.tdtd.data.api.BookmarkApi
+import com.tdtd.data.mapper.toListRoomEntity
 import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.RoomEntity
@@ -20,7 +21,10 @@ class BookmarkRepositoryImpl @Inject constructor(
     override suspend fun getUserBookmarkList(): Result<List<RoomEntity>> =
         withContext(ioDispatcher) {
             return@withContext try {
-                bookmarkApi.getUserBookmarkList().let {
+                bookmarkApi.getUserBookmarkList().let { roomsResponse ->
+                    Result.Success(roomsResponse.toListRoomEntity())
+                }
+                /*bookmarkApi.getUserBookmarkList().let {
                     if (it is Result.Success) {
                         Result.Success(it.data.map { roomResponse ->
                             roomResponse.toEntity()
@@ -28,7 +32,7 @@ class BookmarkRepositoryImpl @Inject constructor(
                     } else {
                         Result.Error(NetworkErrorException())
                     }
-                }
+                }*/
             } catch (e: Exception) {
                 Result.Error(e)
             }

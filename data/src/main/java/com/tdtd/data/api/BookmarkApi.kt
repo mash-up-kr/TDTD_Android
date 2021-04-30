@@ -11,7 +11,7 @@ import com.tdtd.domain.Result
 interface BookmarkApi {
 
     @GET("api/v1/bookmarks")
-    suspend fun getUserBookmarkList(): Result<List<RoomResponse>>
+    suspend fun getUserBookmarkList(): RoomsResponse
 
     /**
      * postBookmarkByRoomCode & deleteBookMarkByRoomCode 명세서 미완성
