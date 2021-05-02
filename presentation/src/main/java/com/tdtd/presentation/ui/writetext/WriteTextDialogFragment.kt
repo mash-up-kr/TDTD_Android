@@ -25,9 +25,9 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     private var contentText = ""
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_write_text, container, false)
         binding.lifecycleOwner = this
@@ -104,7 +104,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                     nickNameText = s.toString()
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
-                            getString(R.string.record_voice_nickname_number, s?.length)
+                        getString(R.string.record_voice_nickname_number, s?.length)
                     writeTextEditView.setBackgroundResource(R.drawable.background_beige2_radius16)
                 }
             }
@@ -113,6 +113,8 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                 binding.apply {
                     contentText = s.toString()
                     writeTextEditView.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
+                    currentContentTextView.text =
+                        getString(R.string.initial_and_max_content_number, s?.length)
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
                 }
             }
@@ -148,7 +150,12 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
     private fun setBottomSheetPadding(view: View) {
         if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
-            binding.writeTextBottomSheet.setPadding(dpToPx(view, 16), dpToPx(view, 16), dpToPx(view, 24), dpToPx(view, 32))
+            binding.writeTextBottomSheet.setPadding(
+                dpToPx(view, 16),
+                dpToPx(view, 16),
+                dpToPx(view, 24),
+                dpToPx(view, 32)
+            )
         }
     }
 }
