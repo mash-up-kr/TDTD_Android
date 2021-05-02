@@ -1,5 +1,6 @@
 package com.tdtd.presentation.ui.main
 
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -7,7 +8,9 @@ import androidx.navigation.fragment.findNavController
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
+import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
 import com.tdtd.presentation.util.getNavigationResult
+import com.tdtd.presentation.util.getNavigationResultLiveData
 import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,8 +50,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun setAdapter() {
-        mainAdapter = MainAdapter {
-            // TODO: /api/v1/rooms/{roomCode} 방의 상세 정보
+        mainAdapter = MainAdapter { room ->
+            if (room.is_host) {
+                startDetailAdminFragment(room.room_code)
+            } else {
+                startDetailUserFragment(room.room_code)
+            }
         }
 
         binding.mainRecyclerView.adapter = mainAdapter
@@ -64,21 +71,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun setNavigationResult() {
-        getNavigationResult<String>(R.id.mainFragment) { result ->
+        getNavigationResultLiveData<String>("create_room")?.observe(viewLifecycleOwner, Observer {
+            mainViewModel.getUserRoomList()
+        })
+
+        getNavigationResult<String>(R.id.mainFragment, "detail") { result ->
             requireActivity().showToast(result, requireView())
+        }.let {
+           mainViewModel.getUserRoomList()
         }
     }
 
-    private fun startDetailAdminFragment() {
-        findNavController().navigate(R.id.action_mainFragment_to_detailAdminFragment)
+    private fun startDetailAdminFragment(roomCode: String) {
+        val action = MainFragmentDirections.actionMainFragmentToDetailAdminFragment(roomCode)
+        findNavController().navigate(action)
     }
 
-    private fun startDetailUserFragment() {
-        findNavController().navigate(R.id.action_mainFragment_to_detailUserFragment)
-    }
-
-    private fun initRoomDialogFragment() {
-        findNavController().navigate(R.id.action_mainFragment_to_roomDialogFragment)
+    private fun startDetailUserFragment(roomCode: String) {
+        val action = MainFragmentDirections.actionMainFragmentToDetailUserFragment(roomCode)
+        findNavController().navigate(action)
     }
 
     private fun showRecyclerView() {
@@ -99,7 +110,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun onClickAddImageView() {
         binding.rollingPaperAddImageView.setOnClickListener {
-            initRoomDialogFragment()
+            RoomDialogFragment().show(childFragmentManager, RoomDialogFragment().tag)
         }
 
         binding.settingButton.setOnClickListener {

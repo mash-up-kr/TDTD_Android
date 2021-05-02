@@ -1,11 +1,9 @@
 package com.tdtd.data.api
 
 import com.tdtd.data.request.MakeRoomRequest
-import com.tdtd.data.response.room.RoomCodeResponse
-import com.tdtd.data.response.room.RoomDetailResponse
-import com.tdtd.data.response.room.RoomsResponse
-import retrofit2.http.*
+import com.tdtd.data.response.room.*
 import com.tdtd.domain.Result
+import retrofit2.http.*
 
 
 interface RoomApi {
@@ -21,15 +19,15 @@ interface RoomApi {
     @POST("/api/v1/rooms")
     suspend fun postCreateUserRoom(
         @Body makeRoomInfo: MakeRoomRequest
-    ): Result<RoomCodeResponse>
+    ): CreatedRoomCodeResponse
 
     @DELETE("/api/v1/users/{roomCode}")
     suspend fun deleteParticipatedUserRoom(
         @Path("roomCode") roomCode: String
-    ): Result<RoomsResponse>
+    ): DeleteResponse
 
     @GET("api/v1/rooms/{roomCode}")
     suspend fun getRoomDetailByRoomCode(
         @Path("roomCode") roomCode: String
-    ): Result<RoomDetailResponse>
+    ): RoomDetailResponse
 }
