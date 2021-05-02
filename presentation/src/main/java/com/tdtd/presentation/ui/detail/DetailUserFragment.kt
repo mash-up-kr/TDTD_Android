@@ -2,6 +2,7 @@ package com.tdtd.presentation.ui.detail
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.view.LayoutInflater
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,7 +13,6 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailUserBinding
 import com.tdtd.presentation.ui.dialog.CustomDialogFragment
-import com.tdtd.presentation.util.setNavigationResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -138,11 +138,9 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
 
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
-            setNavigationResult(getString(R.string.toast_leave_room_success), "detail")
             val dialog = CustomDialogFragment(R.layout.dialog_leave_room)
-            dialog.show(childFragmentManager, dialog.tag).also {
-                detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
-            }
+            dialog.arguments = bundleOf("roomCode" to safeArgs.roomCode)
+            dialog.show(childFragmentManager, dialog.tag)
         }
     }
 }
