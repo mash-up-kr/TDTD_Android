@@ -3,7 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.tdtd.presentation.ui.detail.DetailViewModel" />
+    </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -47,15 +52,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:ellipsize="end"
-                        tools:text="6학년 1반 친구들 모여라!"
                         android:textAppearance="@style/text.20dp.regular.grayscale1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/leaveRoomButton"
                         app:layout_constraintStart_toEndOf="@+id/backButton"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="6학년 1반 친구들 모여라!" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/leaveRoomButton"
@@ -70,17 +75,46 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
             android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/sharedLinkTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/detail_user_content_whisper"
+                android:textAppearance="@style/text.20dp.regular.grayscale4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detailRecyclerView"
+                bindRoomDetail="@{viewModel.detailRoom}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="3"
+                tools:listitem="@layout/row_detail_items" />
 
             <FrameLayout
                 android:id="@+id/detailUserFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="?attr/actionBarSize"
-                android:fitsSystemWindows="true"/>
+                android:fitsSystemWindows="true" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/favoritesButton"

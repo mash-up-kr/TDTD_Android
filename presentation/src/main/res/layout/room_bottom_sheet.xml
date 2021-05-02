@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="model"
+            type="com.tdtd.presentation.entity.MakeRoom" />
+        <variable
+            name="viewModel"
+            type="com.tdtd.presentation.ui.main.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

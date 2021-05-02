@@ -2,6 +2,8 @@ package com.tdtd.presentation.ui.detail
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.view.LayoutInflater
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailAdminBinding
@@ -9,6 +11,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailAdminFragment : BaseFragment<FragmentDetailAdminBinding>(R.layout.fragment_detail_admin) {
+
+    private val detailViewModel: DetailViewModel by viewModels()
+    private val safeArgs : DetailAdminFragmentArgs by navArgs()
 
     override fun initViews() {
         super.initViews()

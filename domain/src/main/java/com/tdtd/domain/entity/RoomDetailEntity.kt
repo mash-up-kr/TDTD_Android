@@ -14,12 +14,12 @@ data class ResultRoomInfoEntity(
 )
 
 data class UserDetailCommentEntity(
-    val id: String,
+    val id: Long,
     val nickname: String,
     val text: String? = null,
     val voiceFileUrl: String? = null,
-    val stickerColor: String,
-    val stickerAngle: Long,
+    val stickerColor: StickerColorType,
+    val stickerAngle: Int,
     val createAt: String,
     val isMine: Boolean
 )
