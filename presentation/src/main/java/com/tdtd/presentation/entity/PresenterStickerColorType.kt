@@ -1,6 +1,6 @@
 package com.tdtd.presentation.entity
 
-enum class StickerColorType(
+enum class PresenterStickerColorType(
     val colorName: String
 ) {
     RED("red"),

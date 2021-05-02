@@ -1,10 +1,7 @@
 package com.tdtd.presentation.mapper
 
-import com.tdtd.domain.entity.MakeRoomEntity
-import com.tdtd.domain.entity.RoomCodeEntity
-import com.tdtd.domain.entity.RoomEntity
-import com.tdtd.presentation.entity.MakeRoom
-import com.tdtd.presentation.entity.Room
+import com.tdtd.domain.entity.*
+import com.tdtd.presentation.entity.*
 
 fun List<RoomEntity>.toPresenterRoom(): List<Room> {
     return this.map {
@@ -12,10 +9,44 @@ fun List<RoomEntity>.toPresenterRoom(): List<Room> {
     }
 }
 
-fun RoomCodeEntity.toMakeRoom(): MakeRoom {
-    return this.toMakeRoom()
+fun CreatedRoomCodeEntity.toPresenterCreated() = PresenterCreatedRoomCode(
+    code = this.code,
+    message = this.message,
+    result = this.result
+)
+
+fun DeleteRoomEntity.toPresenterDeleteRoom() = PresenterDeleteRoom(
+    code = this.code,
+    message = this.message,
+    result = this.result
+)
+
+fun RoomDetailEntity.toPresenterRoomDetailEntity() = PresenterRoomDetailEntity(
+    code = this.code,
+    message = this.message,
+    result = this.result.toPresenterResultRoomInfoEntity()
+)
+
+fun ResultRoomInfoEntity.toPresenterResultRoomInfoEntity() = PresenterResultRoomInfoEntity(
+    title = this.title,
+    type = this.type,
+    shareUrl = this.shareUrl,
+    comments = this.comments.toComments()
+)
+
+fun List<UserDetailCommentEntity>.toComments(): List<Comments> {
+    return this.map {
+        Comments(
+            it.id,
+            it.isMine,
+            it.nickname,
+            it.text,
+            it.voiceFileUrl,
+            it.stickerColor.toPresenterStickerColorType(),
+            it.stickerAngle,
+            it.createAt,
+        )
+    }
 }
 
-fun MakeRoom.toRoomCodeEntity(): MakeRoomEntity {
-    return this.toRoomCodeEntity()
-}
+fun StickerColorType.toPresenterStickerColorType() = PresenterStickerColorType.values()[ordinal]
