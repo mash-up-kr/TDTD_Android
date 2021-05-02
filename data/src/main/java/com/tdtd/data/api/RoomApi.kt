@@ -16,7 +16,7 @@ interface RoomApi {
     ): Result<RoomsResponse>
 
     @GET("/api/v1/rooms")
-    suspend fun getUserRoomList(): Result<List<RoomsResponse>>
+    suspend fun getUserRoomList(): RoomsResponse
 
     @POST("/api/v1/rooms")
     suspend fun postCreateUserRoom(

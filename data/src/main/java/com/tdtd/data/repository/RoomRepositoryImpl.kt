@@ -2,13 +2,11 @@ package com.tdtd.data.repository
 
 import android.accounts.NetworkErrorException
 import com.tdtd.data.api.RoomApi
+import com.tdtd.data.mapper.toListRoomEntity
 import com.tdtd.data.mapper.toNetworkModel
 import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
-import com.tdtd.domain.entity.MakeRoomEntity
-import com.tdtd.domain.entity.RoomCodeEntity
-import com.tdtd.domain.entity.RoomDetailEntity
-import com.tdtd.domain.entity.RoomsEntity
+import com.tdtd.domain.entity.*
 import com.tdtd.domain.repository.RoomRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -34,9 +32,12 @@ class RoomRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getUserRoomList(): Result<List<RoomsEntity>> = withContext(ioDispatcher) {
+    override suspend fun getUserRoomList(): Result<List<RoomEntity>> = withContext(ioDispatcher) {
         return@withContext try {
-            roomApi.getUserRoomList().let {
+            roomApi.getUserRoomList().let { roomsResponse ->
+                Result.Success(roomsResponse.toListRoomEntity())
+            }
+            /*roomApi.getUserRoomList().let {
                 if (it is Result.Success) {
                     Result.Success(it.data.map { roomsResponse ->
                         roomsResponse.toEntity()
@@ -44,7 +45,7 @@ class RoomRepositoryImpl @Inject constructor(
                 } else {
                     Result.Error(NetworkErrorException())
                 }
-            }
+            }*/
         } catch (e: Exception) {
             Result.Error(e)
         }

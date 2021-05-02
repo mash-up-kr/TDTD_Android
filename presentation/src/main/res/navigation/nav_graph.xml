@@ -12,19 +12,13 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_roomDialogFragment"
-            app:destination="@id/roomDialogFragment"
-            app:popUpTo="@id/roomDialogFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/roomDialogFragment" />
         <action
             android:id="@+id/action_mainFragment_to_detailAdminFragment"
-            app:destination="@id/detailAdminFragment"
-            app:popUpTo="@id/detailAdminFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/detailAdminFragment" />
         <action
             android:id="@+id/action_mainFragment_to_detailUserFragment"
-            app:destination="@id/detailUserFragment"
-            app:popUpTo="@id/detailUserFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/detailUserFragment" />
     </fragment>
 
     <dialog
@@ -35,14 +29,10 @@
         tools:layout="@layout/room_bottom_sheet">
         <action
             android:id="@+id/action_roomDialogFragment_to_writeTextDialogFragment"
-            app:destination="@id/writeTextDialogFragment"
-            app:popUpTo="@id/writeTextDialogFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/writeTextDialogFragment" />
         <action
             android:id="@+id/action_roomDialogFragment_to_recordVoiceDialogFragment"
-            app:destination="@id/recordVoiceDialogFragment"
-            app:popUpTo="@id/recordVoiceDialogFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/recordVoiceDialogFragment" />
     </dialog>
 
     <dialog
