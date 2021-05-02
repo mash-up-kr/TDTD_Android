@@ -2,47 +2,47 @@ package com.tdtd.presentation.ui.detail
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.view.LayoutInflater
-import androidx.core.view.get
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailUserBinding
-import com.tdtd.presentation.entity.Comments
-import com.tdtd.presentation.entity.getComments
-import com.tdtd.presentation.entity.getDefaultCharacter
-import com.tdtd.presentation.entity.getSelectedCharacter
 import com.tdtd.presentation.ui.dialog.CustomDialogFragment
 import com.tdtd.presentation.util.setNavigationResult
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.layout_detail_room_contents.*
-import kotlinx.android.synthetic.main.row_detail_items.view.*
 
 @AndroidEntryPoint
 class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.fragment_detail_user) {
 
-    private val contentList: List<Comments> = getComments()
+    private val detailViewModel: DetailViewModel by viewModels()
+    private val safeArgs: DetailUserFragmentArgs by navArgs()
+    private lateinit var detailAdapter: DetailAdapter
 
     companion object {
         var currentPosition: Int = 0
         var prevPosition: Int = 0
     }
 
-    private var detailAdapter = DetailAdapter() { position ->
+    /*private var detailAdapter = DetailAdapter() { position ->
         // TODO: companion object를 포함하여 테스트 용으로 추가한 코드라 수정해야 합니다. 스크롤하면서 터치하면 앱 죽어요.....
         prevPosition = currentPosition
         currentPosition = position
         recyclerView.get(prevPosition).characterImageView.setImageResource(
             getDefaultCharacter(
-                contentList.get(prevPosition).sticker_color
+                contentList.get(prevPosition).presenterSticker_color
             )
         )
         recyclerView.get(currentPosition).characterImageView.setImageResource(
             getSelectedCharacter(
-                contentList.get(currentPosition).sticker_color
+                contentList.get(currentPosition).presenterSticker_color
             )
         )
     }
-
+*/
     override fun initViews() {
         super.initViews()
 
@@ -55,13 +55,73 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
         )
         binding.detailUserFrameLayout.addView(view)
 
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
-        detailAdapter.submitList(contentList)
-        recyclerView.adapter = detailAdapter
-
+        initBindings()
+        setAdapter()
         onClickFavoritesButton()
         onClickBackButton()
         onClickLeaveRoomButton()
+    }
+
+    override fun initObserves() {
+        super.initObserves()
+
+        detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
+            if (detailRoom.result.comments.isEmpty()) {
+                showEmptyDetailRoom()
+                hideDetailRecyclerView()
+            } else {
+                showDetailRecyclerView()
+                hideEmptyDetailRoom()
+            }
+
+            when (detailRoom.result.type) {
+                MakeRoomType.TEXT -> {
+                    startWriteTextDetailFragment()
+                }
+                MakeRoomType.VOICE -> {
+                    startRecordVoiceDialogFragment()
+                }
+            }
+        })
+
+        detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
+    }
+
+    private fun initBindings() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = detailViewModel
+    }
+
+    private fun setAdapter() {
+        detailAdapter = DetailAdapter {
+
+        }
+
+        binding.detailRecyclerView.adapter = detailAdapter
+    }
+
+    private fun showEmptyDetailRoom() {
+        binding.sharedLinkTextView.isVisible = true
+    }
+
+    private fun hideEmptyDetailRoom() {
+        binding.sharedLinkTextView.isVisible = false
+    }
+
+    private fun showDetailRecyclerView() {
+        binding.detailRecyclerView.isVisible = true
+    }
+
+    private fun hideDetailRecyclerView() {
+        binding.detailRecyclerView.isVisible = false
+    }
+
+    private fun startRecordVoiceDialogFragment() {
+        binding.writeButton.setOnClickListener { findNavController().navigate(R.id.action_detailUserFragment_to_recordVoiceDialogFragment) }
+    }
+
+    private fun startWriteTextDetailFragment() {
+        binding.writeButton.setOnClickListener { findNavController().navigate(R.id.action_detailUserFragment_to_writeTextDialogFragment) }
     }
 
     private fun onClickFavoritesButton() {
@@ -78,9 +138,11 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
 
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
-            setNavigationResult(getString(R.string.toast_leave_room_success))
+            setNavigationResult(getString(R.string.toast_leave_room_success), "detail")
             val dialog = CustomDialogFragment(R.layout.dialog_leave_room)
-            dialog.show(childFragmentManager, dialog.tag)
+            dialog.show(childFragmentManager, dialog.tag).also {
+                detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
+            }
         }
     }
 }
