@@ -1,6 +1,7 @@
 package com.tdtd.presentation.mapper
 
 import com.tdtd.domain.entity.*
+import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.entity.*
 
 fun List<RoomEntity>.toPresenterRoom(): List<Room> {
