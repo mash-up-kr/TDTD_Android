@@ -1,8 +1,8 @@
 package com.tdtd.domain.repository
 
-import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.RoomUrlEntity
+import com.tdtd.domain.entity.RoomsEntity
 
 /**
  * 관리자
@@ -22,6 +22,6 @@ interface AdminRepository {
     /**
      * 방 호스트가 다른 사용자의 답장을 삭제한다.
      */
-    suspend fun deleteOtherCommentByAdmin(): Result<RoomsEntity>
+    suspend fun deleteOtherCommentByAdmin(commentId: Long): Result<RoomsEntity>
 
 }
