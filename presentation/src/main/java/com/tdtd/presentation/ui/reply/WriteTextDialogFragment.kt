@@ -1,4 +1,4 @@
-package com.tdtd.presentation.ui.writetext
+package com.tdtd.presentation.ui.reply
 
 import android.app.Dialog
 import android.os.Bundle
@@ -8,11 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.tdtd.domain.entity.MakeRoomType
+import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
+import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
+import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.util.Constants
 import com.tdtd.presentation.util.dpToPx
 import com.tdtd.presentation.util.getBottomNavigationBarHeight
@@ -20,7 +25,9 @@ import com.tdtd.presentation.util.initParentHeight
 
 class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
+    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
     private lateinit var binding: FragmentWriteTextBinding
+    private val roomCode by lazy { requireArguments().getString("roomCode") }
     private var nickNameText = ""
     private var contentText = ""
 
@@ -55,7 +62,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setBottomSheetPadding(view)
-        initParentHeight(requireActivity(), view)
+        initParentHeight(requireActivity(), view, 24)
         setNickNameEditFocus()
         setWriteTextEditFocus()
         setTextWatcher()
@@ -145,6 +152,20 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
         binding.apply {
             completeButton.isEnabled = true
             completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+
+            completeButton.setOnClickListener {
+                detailViewModel.postReplyUserComment(
+                    roomCode!!,
+                    ReplyUserCommentWithFileEntity(
+                        nickname = nickNameText,
+                        messageType = MakeRoomType.TEXT,
+                        textMessage = contentText,
+                        voiceFile = null,
+                        stickerColor = StickerColorType.BLUE,
+                        stickerAngle = -2
+                    )
+                )
+            }
         }
     }
 

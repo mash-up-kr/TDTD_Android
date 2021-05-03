@@ -1,29 +1,82 @@
 package com.tdtd.presentation.ui.detail
 
-import android.content.Context.LAYOUT_INFLATER_SERVICE
-import android.view.LayoutInflater
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailAdminBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailAdminFragment : BaseFragment<FragmentDetailAdminBinding>(R.layout.fragment_detail_admin) {
+class DetailAdminFragment :
+    BaseFragment<FragmentDetailAdminBinding>(R.layout.fragment_detail_admin) {
 
     private val detailViewModel: DetailViewModel by viewModels()
-    private val safeArgs : DetailAdminFragmentArgs by navArgs()
+    private val safeArgs: DetailAdminFragmentArgs by navArgs()
+    private lateinit var detailAdapter: DetailAdapter
+    private var type: String = ""
 
     override fun initViews() {
         super.initViews()
 
-        val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.layout_detail_admin, binding.detailAdminFrameLayout, false)
-        binding.detailAdminFrameLayout.addView(view)
-
+        initBindings()
+        setAdapter()
         onClickFavoritesButton()
         onClickBackButton()
+        onClickSharedButton()
+        onClickMoreButton()
+    }
+
+    override fun initObserves() {
+        super.initObserves()
+
+        detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
+            binding.titleTextView.text = detailRoom.result.title
+
+            type = when (detailRoom.result.type) {
+                MakeRoomType.TEXT -> {
+                    "text"
+                }
+                MakeRoomType.VOICE -> {
+                    "voice"
+                }
+            }
+        })
+
+        detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
+    }
+
+    private fun initBindings() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = detailViewModel
+    }
+
+    private fun setAdapter() {
+        detailAdapter = DetailAdapter { comments ->
+
+        }
+        binding.detailRecyclerView.adapter = detailAdapter
+    }
+
+    private fun onClickMoreButton() {
+        binding.moreButton.setOnClickListener {
+            val dialog = DetailSharedBottomSheetFragment()
+            dialog.arguments =
+                bundleOf("roomCode" to safeArgs.roomCode, "date" to safeArgs.createdAt)
+            dialog.show(childFragmentManager, dialog.tag)
+        }
+    }
+
+    private fun onClickSharedButton() {
+        binding.sharedLinkButton.setOnClickListener {
+            val dialog = DetailSharedBottomSheetFragment()
+            dialog.arguments =
+                bundleOf("roomCode" to safeArgs.roomCode, "date" to safeArgs.createdAt)
+            dialog.show(childFragmentManager, dialog.tag)
+        }
     }
 
     private fun onClickFavoritesButton() {
