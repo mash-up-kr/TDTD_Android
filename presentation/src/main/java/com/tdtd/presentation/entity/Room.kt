@@ -1,7 +1,9 @@
 package com.tdtd.presentation.entity
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Room(
         var title: String,
         //val type: String,
@@ -11,4 +13,4 @@ data class Room(
         var is_bookmark: Boolean,
         var is_host: Boolean,
         //var comments : List<Comments>
-) : Serializable
+) : Parcelable

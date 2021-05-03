@@ -2,9 +2,12 @@ package com.tdtd.data.mapper
 
 import com.tdtd.data.request.MakeRoomRequest
 import com.tdtd.data.request.ReplyUserCommentRequest
+import com.tdtd.data.response.room.Result
+import com.tdtd.data.response.room.RoomResponse
 import com.tdtd.data.response.room.RoomsResponse
 import com.tdtd.domain.entity.MakeRoomEntity
 import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
+import com.tdtd.domain.entity.ResultEntity
 import com.tdtd.domain.entity.RoomEntity
 
 fun MakeRoomEntity.toNetworkModel() = MakeRoomRequest(
@@ -21,8 +24,18 @@ fun ReplyUserCommentWithFileEntity.toNetworkModel() = ReplyUserCommentRequest(
     this.stickerAngle
 )
 
-fun RoomsResponse.toListRoomEntity() : List<RoomEntity> {
+fun RoomsResponse.toListRoomEntity(): List<RoomEntity> {
     return this.rooms!!.map {
         RoomEntity(it.title, it.roomCode, it.shareUrl, it.createdAt, it.isBookmark, it.isHost)
     }
 }
+
+fun List<RoomResponse>.toRoomEntity(): List<RoomEntity> {
+    return this.map {
+        RoomEntity(it.title, it.roomCode, it.shareUrl, it.createdAt, it.isBookmark, it.isHost)
+    }
+}
+
+fun Result.toResultEntity() = ResultEntity(
+
+)

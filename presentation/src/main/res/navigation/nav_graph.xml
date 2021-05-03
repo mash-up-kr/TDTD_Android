@@ -11,9 +11,6 @@
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_mainFragment_to_roomDialogFragment"
-            app:destination="@id/roomDialogFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_detailAdminFragment"
             app:destination="@id/detailAdminFragment" />
         <action
@@ -25,14 +22,7 @@
         android:id="@+id/roomDialogFragment"
         android:name="com.tdtd.presentation.ui.makeroom.RoomDialogFragment"
         android:label="RoomDialogFragment"
-        app:startDestination="@id/action_roomDialogFragment_to_recordVoiceDialogFragment"
         tools:layout="@layout/room_bottom_sheet">
-        <action
-            android:id="@+id/action_roomDialogFragment_to_writeTextDialogFragment"
-            app:destination="@id/writeTextDialogFragment" />
-        <action
-            android:id="@+id/action_roomDialogFragment_to_recordVoiceDialogFragment"
-            app:destination="@id/recordVoiceDialogFragment" />
     </dialog>
 
     <dialog
@@ -51,13 +41,33 @@
         android:id="@+id/detailAdminFragment"
         android:name="com.tdtd.presentation.ui.detail.DetailAdminFragment"
         android:label="DetailAdminFragment"
-        tools:layout="@layout/fragment_detail_admin" />
+        tools:layout="@layout/fragment_detail_admin">
+        <action
+            android:id="@+id/action_detailAdminFragment_to_writeTextDialogFragment"
+            app:destination="@id/writeTextDialogFragment" />
+        <action
+            android:id="@+id/action_detailAdminFragment_to_recordVoiceDialogFragment"
+            app:destination="@id/recordVoiceDialogFragment" />
+        <argument
+            android:name="room_code"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/detailUserFragment"
         android:name="com.tdtd.presentation.ui.detail.DetailUserFragment"
         android:label="DetailUserFragment"
-        tools:layout="@layout/fragment_detail_user" />
+        tools:layout="@layout/fragment_detail_user">
+        <action
+            android:id="@+id/action_detailUserFragment_to_recordVoiceDialogFragment"
+            app:destination="@id/recordVoiceDialogFragment" />
+        <action
+            android:id="@+id/action_detailUserFragment_to_writeTextDialogFragment"
+            app:destination="@id/writeTextDialogFragment" />
+        <argument
+            android:name="room_code"
+            app:argType="string" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_mainFragment"

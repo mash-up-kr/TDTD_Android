@@ -34,7 +34,7 @@ class DetailAdapter(
         fun bind(data: Comments) {
             Log.e("df", data.toString())
             binding.setVariable(BR.listData, data)
-            binding.characterImageView.setImageResource(getDefaultCharacter(data.sticker_color))
+            binding.characterImageView.setImageResource(getDefaultCharacter(data.presenterSticker_color))
             binding.characterImageView.rotation = data.sticker_angle.toFloat()
             binding.characterImageView.setOnClickListener {
                 onClick(adapterPosition)
@@ -51,5 +51,4 @@ class DetailAdapter(
             return oldItem == newItem
         }
     }
-
 }

@@ -7,9 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import com.tdtd.presentation.R
+import com.tdtd.presentation.ui.detail.DetailViewModel
+import com.tdtd.presentation.util.setNavigationResult
 import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 
 class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
+
+    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
+    private val roomCode by lazy { requireArguments().getString("roomCode") }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,6 +29,9 @@ class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
 
         view.apply {
             submitButton.setOnClickListener {
+                setNavigationResult(getString(R.string.toast_leave_room_success), "detail").also {
+                    detailViewModel.deleteParticipatedUserRoom(roomCode!!)
+                }
                 requireActivity().onBackPressed()
                 dismiss()
             }

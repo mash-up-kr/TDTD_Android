@@ -8,28 +8,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.tdtd.domain.entity.MakeRoomEntity
+import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
-import com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment
-import com.tdtd.presentation.ui.writetext.WriteTextDialogFragment
-import com.tdtd.presentation.util.Constants
-import com.tdtd.presentation.util.dpToPx
-import com.tdtd.presentation.util.getBottomNavigationBarHeight
-import com.tdtd.presentation.util.initParentHeight
+import com.tdtd.presentation.ui.main.MainViewModel
+import com.tdtd.presentation.util.*
+
 
 class RoomDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: RoomBottomSheetBinding
+    private val mainViewModel: MainViewModel by viewModels({ requireParentFragment() })
+    private var roomTitle: String = ""
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.room_bottom_sheet, container, false)
         binding.lifecycleOwner = this
@@ -48,6 +48,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                 }
 
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
                 }
             })
         }
@@ -82,12 +83,15 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.textNumberTextView.text =
-                        getString(R.string.initial_and_max_input_number, s?.length)
+                    getString(R.string.initial_and_max_input_number, s?.length)
 
                 if (s!!.isNotEmpty()) {
+                    roomTitle = s.toString()
                     onClickVoice()
                     onClickText()
-                } else emptyRoomNameEdit()
+                } else {
+                    emptyRoomNameEdit()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -117,7 +121,14 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                 isEnabled = true
                 setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
                 setOnClickListener {
-                    showRecordVoiceDialogFragment()
+                    mainViewModel.postCreateUserRoom(
+                        makeRoomEntity = MakeRoomEntity(
+                            roomTitle,
+                            MakeRoomType.VOICE
+                        )
+                    ).also {
+                        clearRoomDialogFragment()
+                    }
                 }
             }
         }
@@ -133,24 +144,35 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                 isEnabled = true
                 setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
                 setOnClickListener {
-                    showWriteTextDialogFragment()
+                    mainViewModel.postCreateUserRoom(
+                        makeRoomEntity = MakeRoomEntity(
+                            roomTitle,
+                            MakeRoomType.TEXT
+                        )
+                    ).also {
+                        clearRoomDialogFragment()
+                    }
                 }
             }
         }
     }
 
-    private fun showRecordVoiceDialogFragment() {
-        findNavController().navigate(R.id.action_roomDialogFragment_to_recordVoiceDialogFragment)
-    }
+    private fun clearRoomDialogFragment() {
+        setNavigationResult("create new room", "create_room")
 
-    private fun showWriteTextDialogFragment() {
-        findNavController().navigate(R.id.action_roomDialogFragment_to_writeTextDialogFragment)
+        parentFragmentManager.popBackStackImmediate()
+        parentFragmentManager.beginTransaction()
+            .remove(this@RoomDialogFragment).commitNow()
     }
-
 
     private fun setBottomSheetPadding(view: View) {
         if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
-            binding.roomBottomSheet.setPadding(dpToPx(view, 16), dpToPx(view, 16), dpToPx(view, 24), dpToPx(view, 32))
+            binding.roomBottomSheet.setPadding(
+                dpToPx(view, 16),
+                dpToPx(view, 16),
+                dpToPx(view, 24),
+                dpToPx(view, 32)
+            )
         }
     }
 }

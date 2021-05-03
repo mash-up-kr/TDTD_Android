@@ -21,12 +21,12 @@ interface RoomRepository {
     /**
      * 사용자가 방을 만든다.
      */
-    suspend fun postCreateUserRoom(makeRoomInfo: MakeRoomEntity): Result<RoomCodeEntity>
+    suspend fun postCreateUserRoom(makeRoomInfo: MakeRoomEntity): Result<CreatedRoomCodeEntity>
 
     /**
      * 사용자가 방을 나간다.
      */
-    suspend fun deleteParticipatedUserRoom(roomCode: String): Result<RoomsEntity>
+    suspend fun deleteParticipatedUserRoom(roomCode: String): Result<DeleteRoomEntity>
 
     /**
      * room-code에 해당하는 방의 상세 정보를 가져온다.

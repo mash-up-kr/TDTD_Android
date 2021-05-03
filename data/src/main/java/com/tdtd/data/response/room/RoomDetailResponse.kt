@@ -1,10 +1,7 @@
 package com.tdtd.data.response.room
 
 import com.google.gson.annotations.SerializedName
-import com.tdtd.domain.entity.MakeRoomType
-import com.tdtd.domain.entity.ResultRoomInfoEntity
-import com.tdtd.domain.entity.RoomDetailEntity
-import com.tdtd.domain.entity.UserDetailCommentEntity
+import com.tdtd.domain.entity.*
 
 data class RoomDetailResponse(
     val code: String,
@@ -34,15 +31,15 @@ data class ResultRoomInfoResponse(
 }
 
 data class UserDetailCommentResponse(
-    val id: String,
+    val id: Long,
     val nickname: String,
     val text: String? = null,
     @SerializedName("voice_file_url")
     val voiceFileUrl: String? = null,
     @SerializedName("sticker_color")
-    val stickerColor: String,
+    val stickerColor: StickerColorType,
     @SerializedName("sticker_angle")
-    val stickerAngle: Long,
+    val stickerAngle: Int,
     @SerializedName("created_at")
     val createAt: String,
     val isMine: Boolean

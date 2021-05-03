@@ -42,7 +42,7 @@ class DetailAdminDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickDeleteRoom() {
         binding.deleteRoomTextView.setOnClickListener {
-            setNavigationResult(getString(R.string.dialog_delete_room_button_submit))
+            setNavigationResult(getString(R.string.dialog_delete_room_button_submit), "detail")
             val dialog = CustomDialogFragment(R.layout.dialog_delete_room)
             dialog.show(requireActivity().supportFragmentManager, dialog.tag)
             // TODO: 방 삭제 submit button click시 Activity 종료 + 토스트 출력 + API 호출

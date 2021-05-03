@@ -37,44 +37,28 @@ class RoomRepositoryImpl @Inject constructor(
             roomApi.getUserRoomList().let { roomsResponse ->
                 Result.Success(roomsResponse.toListRoomEntity())
             }
-            /*roomApi.getUserRoomList().let {
-                if (it is Result.Success) {
-                    Result.Success(it.data.map { roomsResponse ->
-                        roomsResponse.toEntity()
-                    })
-                } else {
-                    Result.Error(NetworkErrorException())
-                }
-            }*/
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
 
-    override suspend fun postCreateUserRoom(makeRoomInfo: MakeRoomEntity): Result<RoomCodeEntity> =
+    override suspend fun postCreateUserRoom(makeRoomInfo: MakeRoomEntity): Result<CreatedRoomCodeEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                roomApi.postCreateUserRoom(makeRoomInfo.toNetworkModel()).let {
-                    if (it is Result.Success) {
-                        Result.Success(RoomCodeEntity(it.data.roomCode))
-                    } else {
-                        Result.Error(NetworkErrorException())
+                roomApi.postCreateUserRoom(makeRoomInfo.toNetworkModel())
+                    .let { createdRoomCodeResponse ->
+                        Result.Success(createdRoomCodeResponse.toEntity())
                     }
-                }
             } catch (e: Exception) {
                 Result.Error(e)
             }
         }
 
-    override suspend fun deleteParticipatedUserRoom(roomCode: String): Result<RoomsEntity> =
+    override suspend fun deleteParticipatedUserRoom(roomCode: String): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                roomApi.deleteParticipatedUserRoom(roomCode).let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
+                roomApi.deleteParticipatedUserRoom(roomCode).let { roomsResponse ->
+                    Result.Success(roomsResponse.toEntity())
                 }
             } catch (e: Exception) {
                 Result.Error(e)
@@ -84,12 +68,8 @@ class RoomRepositoryImpl @Inject constructor(
     override suspend fun getRoomDetailByRoomCode(roomCode: String): Result<RoomDetailEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                roomApi.getRoomDetailByRoomCode(roomCode).let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
+                roomApi.getRoomDetailByRoomCode(roomCode).let { roomDetailResponse ->
+                    Result.Success(roomDetailResponse.toEntity())
                 }
             } catch (e: Exception) {
                 Result.Error(e)

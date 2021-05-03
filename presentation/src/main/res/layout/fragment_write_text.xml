@@ -66,6 +66,16 @@
             app:layout_constraintTop_toBottomOf="@+id/nicknameEditText"
             tools:text="남기고 싶은 말을 속삭여주세요!" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/currentContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/initial_content_number"
+            android:textAppearance="@style/text.14dp.regular.grayscale1"
+            app:layout_constraintBottom_toTopOf="@id/writeTextEditView"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/writeTextEditView"
             android:layout_width="0dp"
