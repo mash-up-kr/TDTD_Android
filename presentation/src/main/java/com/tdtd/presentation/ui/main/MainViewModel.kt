@@ -9,8 +9,10 @@ import com.tdtd.domain.usecase.GetAllBookmarksUseCase
 import com.tdtd.domain.usecase.GetAllRoomsUseCase
 import com.tdtd.presentation.base.ui.BaseViewModel
 import com.tdtd.presentation.entity.PresenterCreatedRoomCode
+import com.tdtd.presentation.entity.PresenterDeleteRoom
 import com.tdtd.presentation.entity.Room
 import com.tdtd.presentation.mapper.toPresenterCreated
+import com.tdtd.presentation.mapper.toPresenterDeleteRoom
 import com.tdtd.presentation.mapper.toPresenterRoom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -29,6 +31,11 @@ class MainViewModel @Inject constructor(
     val emptyRoom: LiveData<Boolean> get() = _emptyRoom
 
     private val _makeRoom = MutableLiveData<PresenterCreatedRoomCode>()
+
+    private val _favoriteRoom = MutableLiveData<PresenterDeleteRoom>()
+
+    private val _isChecked = MutableLiveData<Boolean>()
+    val isChecked: LiveData<Boolean> get() = _isChecked
 
     init {
         getUserRoomList()
@@ -51,6 +58,23 @@ class MainViewModel @Inject constructor(
         getAllBookmarksUseCase.invoke().let { result ->
             showLoading()
             _roomList.value = result.getValue().toPresenterRoom()
+        }
+        hideLoading()
+    }
+
+    fun postBookmarkByRoomCode(roomCode: String) = viewModelScope.launch {
+        getAllBookmarksUseCase.postBookmark(roomCode).let { result ->
+            showLoading()
+            _favoriteRoom.value = result.getValue().toPresenterDeleteRoom()
+            _isChecked.value = false
+        }
+        hideLoading()
+    }
+
+    fun deleteBookmarkByRoomCode(roomCode: String) = viewModelScope.launch {
+        getAllBookmarksUseCase.deleteBookmark(roomCode).let { result ->
+            showLoading()
+            _favoriteRoom.value = result.getValue().toPresenterDeleteRoom()
         }
         hideLoading()
     }

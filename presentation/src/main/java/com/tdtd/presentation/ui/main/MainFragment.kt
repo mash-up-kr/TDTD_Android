@@ -1,6 +1,5 @@
 package com.tdtd.presentation.ui.main
 
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -10,7 +9,6 @@ import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
 import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
 import com.tdtd.presentation.util.getNavigationResult
-import com.tdtd.presentation.util.getNavigationResultLiveData
 import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,14 +48,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun setAdapter() {
-        mainAdapter = MainAdapter { room ->
+        mainAdapter = MainAdapter({ room ->
             if (room.is_host) {
-                startDetailAdminFragment(room.room_code)
+                startDetailAdminFragment(room.room_code, room.created_at)
             } else {
                 startDetailUserFragment(room.room_code)
             }
-        }
-
+        }, { favorite ->
+            if (favorite.is_bookmark)
+                mainViewModel.deleteBookmarkByRoomCode(favorite.room_code)
+            else
+                mainViewModel.postBookmarkByRoomCode(favorite.room_code)
+        })
         binding.mainRecyclerView.adapter = mainAdapter
     }
 
@@ -71,19 +73,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun setNavigationResult() {
-        getNavigationResultLiveData<String>("create_room")?.observe(viewLifecycleOwner, Observer {
-            mainViewModel.getUserRoomList()
-        })
+        getNavigationResult<Boolean>(R.id.mainFragment, "create_room") { result ->
+
+        }
 
         getNavigationResult<String>(R.id.mainFragment, "detail") { result ->
             requireActivity().showToast(result, requireView())
         }.let {
-           mainViewModel.getUserRoomList()
+            mainViewModel.getUserRoomList()
         }
     }
 
-    private fun startDetailAdminFragment(roomCode: String) {
-        val action = MainFragmentDirections.actionMainFragmentToDetailAdminFragment(roomCode)
+    private fun startDetailAdminFragment(roomCode: String, date: String) {
+        val action = MainFragmentDirections.actionMainFragmentToDetailAdminFragment(roomCode, date)
         findNavController().navigate(action)
     }
 
