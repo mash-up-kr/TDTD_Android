@@ -6,12 +6,12 @@ import com.tdtd.domain.entity.DeleteRoomEntity
 data class DeleteResponse(
     val code: Int,
     val message: String,
-    val result: Result
+    val result: Result?
 ) {
     fun toEntity() = DeleteRoomEntity(
         code = code,
-        message= message,
-        result = result.toResultEntity()
+        message = message,
+        result = result?.toResultEntity()
     )
 }
 
