@@ -15,8 +15,9 @@ import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 
 class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
 
-    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
+    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment().requireParentFragment() })
     private val roomCode by lazy { requireArguments().getString("roomCode") }
+    private val commentId by lazy { requireArguments().getLong("id") }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +29,43 @@ class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
         val view = inflater.inflate(dialogLayoutId, container, false)
 
         view.apply {
-            submitButton.setOnClickListener {
-                setNavigationResult(getString(R.string.toast_leave_room_success), "detail").also {
-                    detailViewModel.deleteParticipatedUserRoom(roomCode!!)
+            when (dialogLayoutId) {
+                R.layout.dialog_leave_room -> {
+                    submitButton.setOnClickListener {
+                        setNavigationResult(
+                            getString(R.string.toast_leave_room_success),
+                            "detail"
+                        ).also {
+                            detailViewModel.deleteParticipatedUserRoom(roomCode!!)
+                        }
+                        requireActivity().onBackPressed()
+                        dismiss()
+                    }
                 }
-                requireActivity().onBackPressed()
-                dismiss()
+                R.layout.dialog_report_reply -> {
+                    submitButton.setOnClickListener {
+                        detailViewModel.postReportUserByCommentId(commentId)
+                        dismiss()
+                    }
+                }
+                R.layout.dialog_delete_reply -> {
+                    submitButton.setOnClickListener {
+                        detailViewModel.deleteReplyUserComment(commentId)
+                        dismiss()
+                    }
+                }
+                R.layout.dialog_delete_room -> {
+                    submitButton.setOnClickListener {
+                        detailViewModel.deleteRoomByHost(roomCode!!)
+                        requireActivity().onBackPressed()
+                        dismiss()
+                    }
+                }
+                R.layout.dialog_share_room -> {
+                    cancelButton.setOnClickListener { dismiss() }
+                }
             }
+
             cancelButton.setOnClickListener {
                 dismiss()
             }
