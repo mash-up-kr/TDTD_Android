@@ -29,7 +29,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submitButton"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
@@ -46,7 +46,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancelButton"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/button_shape_grayscale1_radius10"

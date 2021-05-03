@@ -27,13 +27,13 @@
 
     <dialog
         android:id="@+id/writeTextDialogFragment"
-        android:name="com.tdtd.presentation.ui.writetext.WriteTextDialogFragment"
+        android:name="com.tdtd.presentation.ui.reply.WriteTextDialogFragment"
         android:label="WriteTextDialogFragment"
         tools:layout="@layout/fragment_write_text" />
 
     <dialog
         android:id="@+id/recordVoiceDialogFragment"
-        android:name="com.tdtd.presentation.ui.recordvoice.RecordVoiceDialogFragment"
+        android:name="com.tdtd.presentation.ui.reply.RecordVoiceDialogFragment"
         android:label="RecordVoiceDialogFragment"
         tools:layout="@layout/fragment_record_voice" />
 
@@ -50,6 +50,9 @@
             app:destination="@id/recordVoiceDialogFragment" />
         <argument
             android:name="room_code"
+            app:argType="string" />
+        <argument
+            android:name="created_at"
             app:argType="string" />
     </fragment>
 

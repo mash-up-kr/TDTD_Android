@@ -9,6 +9,9 @@
 
     <string name="detail_admin_setting_bottom_sheet_title">이 롤링페이퍼 방은 %s에 만들어졌어요!</string>
     <string name="detail_admin_setting_bottom_sheet_share_link_content">작성자 초대 링크 공유하기</string>
+    <string name="shared_code_title">초대코드 복사완료!</string>
+    <string name="shared_code_sub_title">초대코드를 친구들에게 전달해주세요!</string>
+    <string name="shared_okay">확인</string>
     <string name="detail_admin_setting_bottom_sheet_delete_room_content">방 삭제하기</string>
     <string name="detail_admin_setting_bottom_sheet_do_nothing">아무것도 안 할래요</string>
 
@@ -64,6 +67,8 @@
     <string name="dialog_report_reply_content">정말 답장을 신고하시겠어요?🚨</string>
     <string name="dialog_report_reply_button_submit">신고할래요</string>
     <string name="dialog_report_reply_button_cancel">안 할래요!</string>
+    <string name="dialog_report_reduplicate">이미 신고되었습니다.</string>
+    <string name="dialog_delete_not_mine">본인의 답장만 삭제할 수 있습니다.</string>
 
     <!-- Toast -->
     <string name="toast_leave_room_success">방에서 탈출했어요!</string>

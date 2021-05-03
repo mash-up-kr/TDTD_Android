@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
+    <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,11 +17,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:text="@string/detail_admin_setting_bottom_sheet_title"
             android:textAppearance="@style/text.16dp.bold.grayscale3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/detail_admin_setting_bottom_sheet_title"
             tools:text="이 롤링페이퍼 방은 2021년 01월 02일에 만들어졌어요!" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -66,11 +64,11 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/background_grayscale1_radius10"
             android:gravity="center"
+            android:text="@string/detail_admin_setting_bottom_sheet_do_nothing"
             android:textAppearance="@style/text.20dp.bold.white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deleteRoomTextView"
-            android:text="@string/detail_admin_setting_bottom_sheet_do_nothing"
             tools:text="아무것도 안 할래요" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
