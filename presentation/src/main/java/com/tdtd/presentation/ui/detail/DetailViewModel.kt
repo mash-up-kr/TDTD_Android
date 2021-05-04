@@ -104,6 +104,7 @@ class DetailViewModel @Inject constructor(
         hideLoading()
     }
 
+    // "Request method 'DELETE' not supported"
     fun deleteRoomByHost(roomCode: String) = viewModelScope.launch {
         getAllAdminUseCase.invoke(roomCode).let { result ->
             showLoading()
