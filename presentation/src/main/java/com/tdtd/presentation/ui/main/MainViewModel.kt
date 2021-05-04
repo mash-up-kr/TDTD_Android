@@ -31,6 +31,7 @@ class MainViewModel @Inject constructor(
     val emptyRoom: LiveData<Boolean> get() = _emptyRoom
 
     private val _makeRoom = MutableLiveData<PresenterCreatedRoomCode>()
+    val makeRoom :LiveData<PresenterCreatedRoomCode> get() = _makeRoom
 
     private val _favoriteRoom = MutableLiveData<PresenterDeleteRoom>()
 

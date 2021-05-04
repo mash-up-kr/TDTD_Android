@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
-import com.tdtd.presentation.ui.makeroom.RoomDialogFragment
 import com.tdtd.presentation.util.getNavigationResult
 import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,10 +72,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun setNavigationResult() {
-        getNavigationResult<Boolean>(R.id.mainFragment, "create_room") { result ->
-
-        }
-
         getNavigationResult<String>(R.id.mainFragment, "detail") { result ->
             requireActivity().showToast(result, requireView())
         }.let {
@@ -112,7 +107,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun onClickAddImageView() {
         binding.rollingPaperAddImageView.setOnClickListener {
-            RoomDialogFragment().show(childFragmentManager, RoomDialogFragment().tag)
+            findNavController().navigate(R.id.roomDialogFragment)
         }
 
         binding.settingButton.setOnClickListener {

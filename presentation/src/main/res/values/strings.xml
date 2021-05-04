@@ -30,6 +30,7 @@
     <string name="initial_content_number">0/200</string>
     <string name="initial_and_max_content_number">%d/200</string>
     <string name="initial_and_max_input_number">%d/35</string>
+    <string name="make_new_room">조금 전</string>
 
     <string name="record_voice_whisper_title">남기고 싶은 말을 속삭여주세요!</string>
     <string name="record_voice_title_hint">방마다 닉네임을 다르게 쓸 수 있어요!</string>
