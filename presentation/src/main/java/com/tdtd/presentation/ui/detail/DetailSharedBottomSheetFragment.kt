@@ -1,5 +1,8 @@
 package com.tdtd.presentation.ui.detail
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
@@ -19,6 +23,7 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     private val roomCode by lazy { requireArguments().getString("roomCode") }
     private val date by lazy { requireArguments().getString("date") }
     private lateinit var binding: DetailAdminBottomSheetBinding
+    private var sharedUrl: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +47,10 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun initDate() {
-        val parse = date?.substring(0, 10)
+        var parse = ""
+        if (!date.equals(getString(R.string.make_new_room))) {
+            parse = date!!.substring(0, 10)
+        }
 
         binding.dateInfoTitleTextView.text =
             getString(R.string.detail_admin_setting_bottom_sheet_title, parse)
@@ -64,8 +72,24 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
         binding.sharedLinkTextView.setOnClickListener {
             detailViewModel.getSharedRoomUrl(roomCode!!).apply {
                 showSharedRoomDialog()
+            }.also {
+                observeSharedUrl()
             }
         }
+    }
+
+    private fun observeSharedUrl() {
+        detailViewModel.sharedUrl.observe(viewLifecycleOwner, Observer {
+            sharedUrl = it.result.shareUrl
+            copySharedUrlToClipboard(sharedUrl)
+        })
+    }
+
+    private fun copySharedUrlToClipboard(url: String) {
+        val clipboardManager =
+            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Shared Url", url)
+        clipboardManager.setPrimaryClip(clip)
     }
 
     private fun showSharedRoomDialog() {

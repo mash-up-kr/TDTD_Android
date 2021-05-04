@@ -1,4 +1,4 @@
-package com.tdtd.presentation.ui.detail
+ package com.tdtd.presentation.ui.detail
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
@@ -8,6 +8,8 @@ import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailAdminBinding
+import com.tdtd.presentation.ui.reply.RecordVoiceDialogFragment
+import com.tdtd.presentation.ui.reply.WriteTextDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,9 +40,11 @@ class DetailAdminFragment :
 
             type = when (detailRoom.result.type) {
                 MakeRoomType.TEXT -> {
+                    startWriteTextDetailFragment()
                     "text"
                 }
                 MakeRoomType.VOICE -> {
+                    startRecordVoiceDialogFragment()
                     "voice"
                 }
             }
@@ -59,6 +63,22 @@ class DetailAdminFragment :
 
         }
         binding.detailRecyclerView.adapter = detailAdapter
+    }
+
+    private fun startRecordVoiceDialogFragment() {
+        binding.writeButton.setOnClickListener {
+            val bottomSheet = RecordVoiceDialogFragment()
+            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
+    }
+
+    private fun startWriteTextDetailFragment() {
+        binding.writeButton.setOnClickListener {
+            val bottomSheet = WriteTextDialogFragment()
+            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
 
     private fun onClickMoreButton() {
