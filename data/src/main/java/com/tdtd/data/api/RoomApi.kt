@@ -11,7 +11,7 @@ interface RoomApi {
     @POST("/api/v1/users/{roomCode}")
     suspend fun postParticipateByRoomCode(
         @Path("roomCode") roomCode: String
-    ): Result<RoomsResponse>
+    ): DeleteResponse
 
     @GET("/api/v1/rooms")
     suspend fun getUserRoomList(): RoomsResponse

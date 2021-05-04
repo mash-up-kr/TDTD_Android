@@ -1,6 +1,5 @@
 package com.tdtd.data.repository
 
-import android.accounts.NetworkErrorException
 import com.tdtd.data.api.ReplyApi
 import com.tdtd.data.mapper.toNetworkModel
 import com.tdtd.domain.IoDispatcher
@@ -22,8 +21,10 @@ class ReplyRepositoryImpl @Inject constructor(
     ): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                replyApi.postReplyUserComment(roomCode,
-                replyUserCommentEntity.toNetworkModel()).let { replyUserResponse->
+                replyApi.postReplyUserComment(
+                    roomCode,
+                    replyUserCommentEntity.toNetworkModel()
+                ).let { replyUserResponse ->
                     Result.Success(replyUserResponse.toEntity())
                 }
             } catch (e: Exception) {
@@ -34,37 +35,21 @@ class ReplyRepositoryImpl @Inject constructor(
     override suspend fun deleteReplyUserComment(commentId: Long): Result<RoomDetailEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                replyApi.deleteReplyUserComment(commentId).let { roomResponse->
+                replyApi.deleteReplyUserComment(commentId).let { roomResponse ->
                     Result.Success(roomResponse.toEntity())
                 }
-                /*replyApi.deleteReplyUserComment().let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
-                }*/
             } catch (e: Exception) {
                 Result.Error(e)
             }
         }
 
 
-    override suspend fun postReportUserByCommentId(commentId: Long) :Result<DeleteRoomEntity> =
+    override suspend fun postReportUserByCommentId(commentId: Long): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 replyApi.postReportUserByCommentId(commentId).let { roomsResponse ->
                     Result.Success(roomsResponse.toEntity())
                 }
-                /*replyApi.postReportUserByCommentId(
-                    commentId
-                ).let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
-                }*/
             } catch (e: Exception) {
                 Result.Error(e)
             }
