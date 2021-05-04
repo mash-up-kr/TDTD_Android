@@ -1,8 +1,12 @@
 package com.tdtd.voicepaper.di.module
 
+import com.tdtd.domain.repository.AdminRepository
 import com.tdtd.domain.repository.BookmarkRepository
+import com.tdtd.domain.repository.ReplyRepository
 import com.tdtd.domain.repository.RoomRepository
+import com.tdtd.domain.usecase.GetAllAdminUseCase
 import com.tdtd.domain.usecase.GetAllBookmarksUseCase
+import com.tdtd.domain.usecase.GetAllReplyUseCase
 import com.tdtd.domain.usecase.GetAllRoomsUseCase
 import dagger.Module
 import dagger.Provides
@@ -25,6 +29,20 @@ object UseCaseModule {
     fun provideGetAllBookmarksUseCase(
         repository: BookmarkRepository
     ): GetAllBookmarksUseCase = GetAllBookmarksUseCase(
+        repository
+    )
+
+    @Provides
+    fun provideGetAllReplyUseCase(
+        repository: ReplyRepository
+    ): GetAllReplyUseCase = GetAllReplyUseCase(
+        repository
+    )
+
+    @Provides
+    fun provideGetAllAdminsUseCase(
+        repository: AdminRepository
+    ): GetAllAdminUseCase = GetAllAdminUseCase(
         repository
     )
 }

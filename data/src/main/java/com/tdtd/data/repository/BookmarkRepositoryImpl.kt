@@ -5,6 +5,7 @@ import com.tdtd.data.api.BookmarkApi
 import com.tdtd.data.mapper.toListRoomEntity
 import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
+import com.tdtd.domain.entity.DeleteRoomEntity
 import com.tdtd.domain.entity.RoomEntity
 import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.repository.BookmarkRepository
@@ -24,44 +25,27 @@ class BookmarkRepositoryImpl @Inject constructor(
                 bookmarkApi.getUserBookmarkList().let { roomsResponse ->
                     Result.Success(roomsResponse.toListRoomEntity())
                 }
-                /*bookmarkApi.getUserBookmarkList().let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.map { roomResponse ->
-                            roomResponse.toEntity()
-                        })
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
-                }*/
             } catch (e: Exception) {
                 Result.Error(e)
             }
         }
 
-    override suspend fun postBookmarkByRoomCode(roomCode: String): Result<RoomsEntity> =
+    override suspend fun postBookmarkByRoomCode(roomCode: String): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                bookmarkApi.postBookmarkByRoomCode(roomCode).let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
+                bookmarkApi.postBookmarkByRoomCode(roomCode).let { roomResponse->
+                    Result.Success(roomResponse.toEntity())
                 }
             } catch (e: Exception) {
                 Result.Error(e)
             }
         }
 
-    override suspend fun deleteBookmarkByRoomCode(roomCode: String): Result<RoomsEntity> =
+    override suspend fun deleteBookmarkByRoomCode(roomCode: String): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                bookmarkApi.deleteBookmarkByRoomCode(roomCode).let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
+                bookmarkApi.deleteBookmarkByRoomCode(roomCode).let { roomResponse ->
+                    Result.Success(roomResponse.toEntity())
                 }
             } catch (e: Exception) {
                 Result.Error(e)

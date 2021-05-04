@@ -3,15 +3,18 @@ package com.tdtd.presentation.ui.main
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tdtd.presentation.BR
+import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RowMainUserRoomItemBinding
 import com.tdtd.presentation.entity.Room
 
 class MainAdapter(
-    private val onClick: (room: Room) -> Unit
+    private val onClick: (room: Room) -> Unit,
+    private val isFavorite : (room:Room) -> Unit
 ) : ListAdapter<Room, MainAdapter.MainViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -35,6 +38,7 @@ class MainAdapter(
             binding.container.setOnClickListener {
                 onClick(data)
             }
+            binding.favoritesButton.isChecked = data.is_bookmark
         }
     }
 }

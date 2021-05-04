@@ -16,10 +16,36 @@ fun CreatedRoomCodeEntity.toPresenterCreated() = PresenterCreatedRoomCode(
     result = this.result
 )
 
+fun RoomUrlEntity.toPresenterRoomUrlEntity() = PresenterRoomUrlEntity(
+    code = this.code,
+    message = this.message,
+    result = this.result.toPresenterSharedUrlEntity()
+)
+
+fun SharedUrlEntity.toPresenterSharedUrlEntity() = PresenterSharedUrlEntity(
+    shareUrl = this.shareUrl
+)
+
+
 fun DeleteRoomEntity.toPresenterDeleteRoom() = PresenterDeleteRoom(
     code = this.code,
     message = this.message,
     result = this.result
+)
+
+fun RoomsEntity.toRooms() = Rooms(
+    code = this.code,
+    message = this.message,
+    rooms = this.rooms!!.toPresenterRoom()
+)
+
+fun RoomEntity.toRoom() = Room(
+    title = this.title,
+    room_code = this.roomCode,
+    created_at = this.createdAt,
+    is_host = this.isHost,
+    is_bookmark = this.isBookmark,
+    share_url = this.shareUrl
 )
 
 fun RoomDetailEntity.toPresenterRoomDetailEntity() = PresenterRoomDetailEntity(
@@ -51,3 +77,19 @@ fun List<UserDetailCommentEntity>.toComments(): List<Comments> {
 }
 
 fun StickerColorType.toPresenterStickerColorType() = PresenterStickerColorType.values()[ordinal]
+
+fun ReplyUserEntity.toPresenterReplyUserEntity() = PresenterReplyUserEntity(
+    code = this.code,
+    message = this.message,
+    result = this.result.toPresenterReplyUserCommentWithUrl()
+)
+
+fun ReplyUserCommentWithUrlEntity.toPresenterReplyUserCommentWithUrl() =
+    PresenterReplyUserCommentWithUrl(
+        nickname = this.nickname,
+        messageType = this.messageType,
+        textMessage = this.textMessage,
+        voiceUrl = this.voiceUrl,
+        stickerColor = this.stickerColor.toPresenterStickerColorType(),
+        stickerAngle = this.stickerAngle
+    )

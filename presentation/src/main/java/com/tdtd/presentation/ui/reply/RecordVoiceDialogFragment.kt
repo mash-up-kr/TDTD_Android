@@ -1,4 +1,4 @@
-package com.tdtd.presentation.ui.recordvoice
+package com.tdtd.presentation.ui.reply
 
 import android.Manifest
 import android.app.Dialog
@@ -69,7 +69,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initParentHeight(requireActivity(), view)
+        initParentHeight(requireActivity(), view, 24)
         setBottomSheetPadding(view)
         initRecord()
         onClickCancelButton()

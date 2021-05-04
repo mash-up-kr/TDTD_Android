@@ -1,18 +1,17 @@
 package com.tdtd.presentation.ui.detail
 
-import android.content.Context.LAYOUT_INFLATER_SERVICE
-import android.view.LayoutInflater
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailUserBinding
 import com.tdtd.presentation.ui.dialog.CustomDialogFragment
+import com.tdtd.presentation.ui.reply.RecordVoiceDialogFragment
+import com.tdtd.presentation.ui.reply.WriteTextDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,39 +20,10 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
     private val detailViewModel: DetailViewModel by viewModels()
     private val safeArgs: DetailUserFragmentArgs by navArgs()
     private lateinit var detailAdapter: DetailAdapter
+    private var type: String = ""
 
-    companion object {
-        var currentPosition: Int = 0
-        var prevPosition: Int = 0
-    }
-
-    /*private var detailAdapter = DetailAdapter() { position ->
-        // TODO: companion object를 포함하여 테스트 용으로 추가한 코드라 수정해야 합니다. 스크롤하면서 터치하면 앱 죽어요.....
-        prevPosition = currentPosition
-        currentPosition = position
-        recyclerView.get(prevPosition).characterImageView.setImageResource(
-            getDefaultCharacter(
-                contentList.get(prevPosition).presenterSticker_color
-            )
-        )
-        recyclerView.get(currentPosition).characterImageView.setImageResource(
-            getSelectedCharacter(
-                contentList.get(currentPosition).presenterSticker_color
-            )
-        )
-    }
-*/
     override fun initViews() {
         super.initViews()
-
-        val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        // TODO: contents 유무에 따라 view가 달라져야 합니다.
-        val view = inflater.inflate(
-            R.layout.layout_detail_room_contents,
-            binding.detailUserFrameLayout,
-            false
-        )
-        binding.detailUserFrameLayout.addView(view)
 
         initBindings()
         setAdapter()
@@ -66,6 +36,8 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
         super.initObserves()
 
         detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
+            binding.titleTextView.text = detailRoom.result.title
+
             if (detailRoom.result.comments.isEmpty()) {
                 showEmptyDetailRoom()
                 hideDetailRecyclerView()
@@ -74,12 +46,14 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
                 hideEmptyDetailRoom()
             }
 
-            when (detailRoom.result.type) {
+            type = when (detailRoom.result.type) {
                 MakeRoomType.TEXT -> {
                     startWriteTextDetailFragment()
+                    "text"
                 }
                 MakeRoomType.VOICE -> {
                     startRecordVoiceDialogFragment()
+                    "voice"
                 }
             }
         })
@@ -93,11 +67,33 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
     }
 
     private fun setAdapter() {
-        detailAdapter = DetailAdapter {
-
+        detailAdapter = DetailAdapter { comments ->
+            if (type == "text")
+                showComments(
+                    comments.nickname,
+                    comments.text,
+                    comments.id,
+                    R.layout.fragment_text_comment
+                )
+            if (type == "voice")
+                showComments(
+                    comments.nickname,
+                    comments.text,
+                    comments.id,
+                    R.layout.fragment_record_voice
+                )
         }
-
         binding.detailRecyclerView.adapter = detailAdapter
+    }
+
+    private fun showComments(name: String, contents: String?, commentId: Long?, layoutId: Int) {
+        val dialog = DetailCommentBottomSheetFragment(layoutId)
+        dialog.arguments = bundleOf(
+            "nickName" to name,
+            "contents" to contents,
+            "id" to commentId
+        )
+        dialog.show(childFragmentManager, dialog.tag)
     }
 
     private fun showEmptyDetailRoom() {
@@ -117,11 +113,19 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
     }
 
     private fun startRecordVoiceDialogFragment() {
-        binding.writeButton.setOnClickListener { findNavController().navigate(R.id.action_detailUserFragment_to_recordVoiceDialogFragment) }
+        binding.writeButton.setOnClickListener {
+            val bottomSheet = RecordVoiceDialogFragment()
+            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
 
     private fun startWriteTextDetailFragment() {
-        binding.writeButton.setOnClickListener { findNavController().navigate(R.id.action_detailUserFragment_to_writeTextDialogFragment) }
+        binding.writeButton.setOnClickListener {
+            val bottomSheet = WriteTextDialogFragment()
+            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
 
     private fun onClickFavoritesButton() {

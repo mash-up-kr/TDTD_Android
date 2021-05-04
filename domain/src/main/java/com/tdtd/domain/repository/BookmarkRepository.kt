@@ -3,6 +3,7 @@ package com.tdtd.domain.repository
 import com.tdtd.domain.entity.RoomEntity
 import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.Result
+import com.tdtd.domain.entity.DeleteRoomEntity
 
 /**
  * 즐겨찾기
@@ -17,11 +18,11 @@ interface BookmarkRepository {
     /**
      * 해당 room-code에 방을 즐겨찾기 목록에 추가한다.
      */
-    suspend fun postBookmarkByRoomCode(roomCode: String): Result<RoomsEntity>
+    suspend fun postBookmarkByRoomCode(roomCode: String): Result<DeleteRoomEntity>
 
     /**
      * 해당 room-code에 방을 즐겨찾기 목록에서 삭제한다.
      */
-    suspend fun deleteBookmarkByRoomCode(roomCode: String): Result<RoomsEntity>
+    suspend fun deleteBookmarkByRoomCode(roomCode: String): Result<DeleteRoomEntity>
 
 }

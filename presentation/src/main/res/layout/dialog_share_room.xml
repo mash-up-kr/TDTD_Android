@@ -9,7 +9,7 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog_report_reply_title"
+        android:text="@string/shared_code_title"
         android:textAppearance="@style/text.20dp.bold.grayscale1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,43 +20,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/dialog_report_reply_content"
+        android:text="@string/shared_code_sub_title"
         android:textAppearance="@style/text.16dp.bold.grayscale2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/button_shape_beige1_radius10"
-        android:gravity="center"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:text="@string/dialog_report_reply_button_submit"
-        android:textAppearance="@style/text.16dp.bold.grayscale2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cancelButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contentTextView" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="22dp"
         android:background="@drawable/button_shape_grayscale1_radius10"
         android:gravity="center"
         android:minWidth="0dp"
         android:minHeight="0dp"
-        android:text="@string/dialog_report_reply_button_cancel"
+        android:text="@string/shared_okay"
         android:textAppearance="@style/text.16dp.bold.white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/submitButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

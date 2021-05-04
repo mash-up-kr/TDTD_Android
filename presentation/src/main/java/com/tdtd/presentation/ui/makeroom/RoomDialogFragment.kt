@@ -57,7 +57,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initParentHeight(requireActivity(), view)
+        initParentHeight(requireActivity(), view, 24)
         setBottomSheetPadding(view)
         setRoomEditFocus()
         setRoomEditView()
@@ -158,7 +158,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun clearRoomDialogFragment() {
-        setNavigationResult("create new room", "create_room")
+        setNavigationResult(true, "create_room")
 
         parentFragmentManager.popBackStackImmediate()
         parentFragmentManager.beginTransaction()

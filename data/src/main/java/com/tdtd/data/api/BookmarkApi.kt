@@ -1,5 +1,6 @@
 package com.tdtd.data.api
 
+import com.tdtd.data.response.room.DeleteResponse
 import com.tdtd.data.response.room.RoomResponse
 import com.tdtd.data.response.room.RoomsResponse
 import retrofit2.http.DELETE
@@ -19,10 +20,10 @@ interface BookmarkApi {
     @POST("api/v1/bookmarks/{roomCode}")
     suspend fun postBookmarkByRoomCode(
         @Path("roomCode") roomCode: String
-    ): Result<RoomsResponse>
+    ): DeleteResponse
 
     @DELETE("api/v1/bookmarks/{roomCode}")
     suspend fun deleteBookmarkByRoomCode(
         @Path("roomCode") roomCode: String
-    ): Result<RoomsResponse>
+    ): DeleteResponse
 }

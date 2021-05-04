@@ -13,7 +13,7 @@ import com.tdtd.presentation.entity.Comments
 import com.tdtd.presentation.entity.getDefaultCharacter
 
 class DetailAdapter(
-    private val onClick: (position: Int) -> Unit
+    private val onClick: (comments : Comments) -> Unit
 ) : ListAdapter<Comments, DetailAdapter.DetailViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
@@ -37,7 +37,7 @@ class DetailAdapter(
             binding.characterImageView.setImageResource(getDefaultCharacter(data.presenterSticker_color))
             binding.characterImageView.rotation = data.sticker_angle.toFloat()
             binding.characterImageView.setOnClickListener {
-                onClick(adapterPosition)
+                onClick(data)
             }
         }
     }

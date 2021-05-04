@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/textCommentBottomSheet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:paddingLeft="24dp"
         android:paddingTop="24dp"
         android:paddingRight="24dp"
@@ -60,8 +61,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/contentsTextView"
+            android:layout_width="0dp"
+            android:layout_height="184dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/background_beige2_radius16"
             android:padding="16dp"

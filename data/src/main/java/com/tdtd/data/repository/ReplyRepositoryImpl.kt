@@ -5,9 +5,7 @@ import com.tdtd.data.api.ReplyApi
 import com.tdtd.data.mapper.toNetworkModel
 import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
-import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
-import com.tdtd.domain.entity.ReplyUserEntity
-import com.tdtd.domain.entity.RoomsEntity
+import com.tdtd.domain.entity.*
 import com.tdtd.domain.repository.ReplyRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -21,44 +19,44 @@ class ReplyRepositoryImpl @Inject constructor(
     override suspend fun postReplyUserComment(
         roomCode: String,
         replyUserCommentEntity: ReplyUserCommentWithFileEntity
-    ): Result<ReplyUserEntity> =
+    ): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                replyApi.postReplyUserComment(
-                    roomCode,
-                    replyUserCommentEntity.toNetworkModel()
-                ).let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
+                replyApi.postReplyUserComment(roomCode,
+                replyUserCommentEntity.toNetworkModel()).let { replyUserResponse->
+                    Result.Success(replyUserResponse.toEntity())
                 }
             } catch (e: Exception) {
                 Result.Error(e)
             }
         }
 
-    override suspend fun deleteReplyUserComment(): Result<RoomsEntity> =
+    override suspend fun deleteReplyUserComment(commentId: Long): Result<RoomDetailEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                replyApi.deleteReplyUserComment().let {
+                replyApi.deleteReplyUserComment(commentId).let { roomResponse->
+                    Result.Success(roomResponse.toEntity())
+                }
+                /*replyApi.deleteReplyUserComment().let {
                     if (it is Result.Success) {
                         Result.Success(it.data.toEntity())
                     } else {
                         Result.Error(NetworkErrorException())
                     }
-                }
+                }*/
             } catch (e: Exception) {
                 Result.Error(e)
             }
         }
 
 
-    override suspend fun postReportUserByCommentId(commentId: Long): Result<RoomsEntity> =
+    override suspend fun postReportUserByCommentId(commentId: Long) :Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                replyApi.postReportUserByCommentId(
+                replyApi.postReportUserByCommentId(commentId).let { roomsResponse ->
+                    Result.Success(roomsResponse.toEntity())
+                }
+                /*replyApi.postReportUserByCommentId(
                     commentId
                 ).let {
                     if (it is Result.Success) {
@@ -66,7 +64,7 @@ class ReplyRepositoryImpl @Inject constructor(
                     } else {
                         Result.Error(NetworkErrorException())
                     }
-                }
+                }*/
             } catch (e: Exception) {
                 Result.Error(e)
             }
