@@ -34,7 +34,6 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initParentHeight(requireActivity(), view, 420)
         initDate()
         onClickCancelButton()
         onClickSharedLink()
