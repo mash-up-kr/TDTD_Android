@@ -1,15 +1,18 @@
- package com.tdtd.presentation.ui.detail
+package com.tdtd.presentation.ui.detail
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailAdminBinding
+import com.tdtd.presentation.ui.main.MainViewModel
 import com.tdtd.presentation.ui.reply.RecordVoiceDialogFragment
 import com.tdtd.presentation.ui.reply.WriteTextDialogFragment
+import com.tdtd.presentation.util.PreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +23,9 @@ class DetailAdminFragment :
     private val safeArgs: DetailAdminFragmentArgs by navArgs()
     private lateinit var detailAdapter: DetailAdapter
     private var type: String = ""
+    private val mainViewModel: MainViewModel by viewModels()
+    private var isFavorite: Boolean = false
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
 
     override fun initViews() {
         super.initViews()
@@ -100,8 +106,23 @@ class DetailAdminFragment :
     }
 
     private fun onClickFavoritesButton() {
+        binding.favoritesButton.isSelected = PreferenceManager(requireContext()).getFavorite()
+
         binding.favoritesButton.setOnClickListener {
-            binding.favoritesButton.isSelected = !binding.favoritesButton.isSelected
+            when (isFavorite) {
+                true -> {
+                    binding.favoritesButton.isSelected = false
+                    isFavorite = false
+                    PreferenceManager(requireContext()).setFavorite(false)
+                    mainViewModel.deleteBookmarkByRoomCode(safeArgs.roomCode)
+                }
+                false -> {
+                    binding.favoritesButton.isSelected = true
+                    isFavorite = true
+                    PreferenceManager(requireContext()).setFavorite(true)
+                    mainViewModel.postBookmarkByRoomCode(safeArgs.roomCode)
+                }
+            }
         }
     }
 
