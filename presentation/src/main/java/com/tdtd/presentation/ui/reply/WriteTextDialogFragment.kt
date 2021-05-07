@@ -9,20 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.tdtd.domain.entity.MakeRoomType
-import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
 import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
-import com.tdtd.presentation.entity.PresenterStickerColorType
 import com.tdtd.presentation.ui.detail.DetailViewModel
-import com.tdtd.presentation.util.Constants
-import com.tdtd.presentation.util.dpToPx
-import com.tdtd.presentation.util.getBottomNavigationBarHeight
-import com.tdtd.presentation.util.initParentHeight
+import com.tdtd.presentation.util.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+
 
 class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
@@ -150,6 +149,20 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setCompleteButton() {
+        val nickNameBody = nickNameText.toRequestBody("multipart/form-data".toMediaType())
+        val typeBody = "TEXT".toRequestBody("multipart/form-data".toMediaType())
+        val textBody = contentText.toRequestBody("multipart/form-data".toMediaType())
+        val colorBody = StickerColorType.values().random().toString()
+            .toRequestBody("multipart/form-data".toMediaType())
+        val angleBody = randomAngle().toRequestBody("multipart/form-data".toMediaType())
+
+        val requestMap: HashMap<String, RequestBody> = HashMap()
+        requestMap["nickname"] = nickNameBody
+        requestMap["message_type"] = typeBody
+        requestMap["text_message"] = textBody
+        requestMap["sticker_color"] = colorBody
+        requestMap["sticker_angle"] = angleBody
+
         binding.apply {
             completeButton.isEnabled = true
             completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
@@ -157,15 +170,10 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
             completeButton.setOnClickListener {
                 detailViewModel.postReplyUserComment(
                     roomCode!!,
-                    ReplyUserCommentWithFileEntity(
-                        nickname = nickNameText,
-                        messageType = MakeRoomType.TEXT,
-                        textMessage = contentText,
-                        voiceFile = null,
-                        stickerColor = StickerColorType.values().random(),
-                        stickerAngle = (-10..10).random()
-                    )
-                )
+                    requestMap
+                ).also {
+                    dismiss()
+                }
             }
         }
     }

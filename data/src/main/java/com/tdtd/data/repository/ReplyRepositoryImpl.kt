@@ -9,6 +9,7 @@ import com.tdtd.domain.repository.ReplyRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class ReplyRepositoryImpl @Inject constructor(
@@ -17,13 +18,13 @@ class ReplyRepositoryImpl @Inject constructor(
 ) : ReplyRepository {
     override suspend fun postReplyUserComment(
         roomCode: String,
-        replyUserCommentEntity: ReplyUserCommentWithFileEntity
+        params: HashMap<String, RequestBody>
     ): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 replyApi.postReplyUserComment(
                     roomCode,
-                    replyUserCommentEntity.toNetworkModel()
+                    params
                 ).let { replyUserResponse ->
                     Result.Success(replyUserResponse.toEntity())
                 }

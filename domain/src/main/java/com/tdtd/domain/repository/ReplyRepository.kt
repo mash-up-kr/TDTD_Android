@@ -2,6 +2,7 @@ package com.tdtd.domain.repository
 
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.*
+import okhttp3.RequestBody
 
 /**
  * 답장
@@ -13,7 +14,7 @@ interface ReplyRepository {
      */
     suspend fun postReplyUserComment(
         roomCode: String,
-        replyUserCommentEntity: ReplyUserCommentWithFileEntity
+        params: HashMap<String, RequestBody>
     ): Result<DeleteRoomEntity>
 
     /**
