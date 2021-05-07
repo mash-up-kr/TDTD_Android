@@ -18,6 +18,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var mainAdapter: MainAdapter
+    private var deepLinkFlag = true
 
     override fun initViews() {
         super.initViews()
@@ -70,21 +71,24 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun handleDynamicLink() {
-        FirebaseDynamicLinks.getInstance()
-            .getDynamicLink(requireActivity().intent)
-            .addOnSuccessListener { pendingDynamicLinkData ->
-                val deepLink: Uri?
-                val roomCode: String
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.link
-                    roomCode = deepLink.toString().substring(30)
+        if (deepLinkFlag) {
+            FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(requireActivity().intent)
+                .addOnSuccessListener { pendingDynamicLinkData ->
+                    val deepLink: Uri?
+                    val roomCode: String
+                    if (pendingDynamicLinkData != null) {
+                        deepLink = pendingDynamicLinkData.link
+                        roomCode = deepLink.toString().substring(30)
 
-                    mainViewModel.postParticipateByRoomCode(roomCode).apply {
-                        startDetailAdminFragment(roomCode, "dynamic_link")
+                        mainViewModel.postParticipateByRoomCode(roomCode).apply {
+                            startDetailAdminFragment(roomCode, getString(R.string.make_new_room))
+                            deepLinkFlag = false
+                        }
                     }
                 }
-            }
-            .addOnFailureListener {}
+                .addOnFailureListener {}
+        }
     }
 
     private fun setNavigationResult() {
@@ -124,10 +128,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun onClickAddImageView() {
         binding.rollingPaperAddImageView.setOnClickListener {
             findNavController().navigate(R.id.roomDialogFragment)
-        }
-
-        binding.settingButton.setOnClickListener {
-            requireActivity().showToast("테스트입니다!", it)
         }
     }
 }
