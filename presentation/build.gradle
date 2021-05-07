@@ -22,6 +22,7 @@ dependencies {
     implementation "$libraries.constraintLayout"
     implementation "$libraries.legacySupport"
     implementation "$libraries.fragmentKtx"
+    implementation "$libraries.okhttp"
     //Coroutines
     implementation "$libraries.coroutinesCore"
     implementation "$libraries.coroutinesAndroid"

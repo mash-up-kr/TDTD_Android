@@ -23,9 +23,9 @@ fun Context.showToast(text: String, view: View) {
     }
 
     val popupWindow = PopupWindow(
-            popupView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+        popupView,
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
     )
 
     popupWindow.apply {
@@ -38,13 +38,13 @@ fun Context.showToast(text: String, view: View) {
     }
 }
 
-fun initParentHeight(activity: Activity, view: View?, sub : Int) {
+fun initParentHeight(activity: Activity, view: View?, sub: Int) {
     val displayMetrics = DisplayMetrics()
 
-    if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
         val display = activity.display
         display?.getRealMetrics(displayMetrics)
-    }else {
+    } else {
         val display = activity.windowManager.defaultDisplay
         display.getMetrics(displayMetrics)
     }
@@ -58,8 +58,10 @@ fun initParentHeight(activity: Activity, view: View?, sub : Int) {
 
 fun getBottomNavigationBarHeight(view: View): Int {
     var bottomBarHeight = 0
-    val resourceIdBottom: Int = view.resources.getIdentifier("navigation_bar_height", "dimen", "android")
-    if (resourceIdBottom > 0) bottomBarHeight = view.resources.getDimensionPixelSize(resourceIdBottom)
+    val resourceIdBottom: Int =
+        view.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    if (resourceIdBottom > 0) bottomBarHeight =
+        view.resources.getDimensionPixelSize(resourceIdBottom)
 
     return bottomBarHeight
 }
@@ -67,4 +69,31 @@ fun getBottomNavigationBarHeight(view: View): Int {
 fun dpToPx(view: View, dp: Int): Int {
     val dense = view.resources.displayMetrics.density
     return (dp * dense).roundToInt()
+}
+
+fun randomAngle(): String {
+    val array = arrayOf(
+        "-10",
+        "-9",
+        "-8",
+        "-7",
+        "-6",
+        "-5",
+        "-4",
+        "-3",
+        "-2",
+        "-1",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+    )
+    return array.random()
 }
