@@ -15,15 +15,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
 import com.tdtd.presentation.ui.dialog.CustomDialogFragment
-import com.tdtd.presentation.util.initParentHeight
 
 class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
     private val roomCode by lazy { requireArguments().getString("roomCode") }
-    private val date by lazy { requireArguments().getString("date") }
+    private val roomDate by lazy { requireArguments().getString("date") }
     private lateinit var binding: DetailAdminBottomSheetBinding
     private var sharedUrl: String = ""
+    private var list = listOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,13 +46,18 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun initDate() {
-        var parse = ""
-        if (!date.equals(getString(R.string.make_new_room))) {
-            parse = date!!.substring(0, 10)
-        }
+        if (!roomDate.equals(getString(R.string.make_new_room))) {
+            list = roomDate!!.substring(0, 10).split("-")
+            val year = list[0].plus("년")
+            val month = list[1].plus("월")
+            val day = list[2].plus("일")
+            val date = "$year $month $day"
 
-        binding.dateInfoTitleTextView.text =
-            getString(R.string.detail_admin_setting_bottom_sheet_title, parse)
+            binding.dateInfoTitleTextView.text =
+                getString(R.string.detail_admin_setting_bottom_sheet_title, date)
+        } else binding.dateInfoTitleTextView.text = getString(
+            R.string.detail_admin_setting_bottom_sheet_title, getString(R.string.make_new_room)
+        )
     }
 
     private fun onClickDeleteRoomTextView() {
