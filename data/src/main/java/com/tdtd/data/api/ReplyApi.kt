@@ -1,23 +1,17 @@
 package com.tdtd.data.api
 
-import com.tdtd.data.request.ReplyUserCommentRequest
-import com.tdtd.data.response.reply.ReplyUserResponse
 import com.tdtd.data.response.room.DeleteResponse
 import com.tdtd.data.response.room.RoomDetailResponse
-import com.tdtd.data.response.room.RoomResponse
-import com.tdtd.data.response.room.RoomsResponse
-import com.tdtd.domain.Result
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.POST
-import retrofit2.http.Path
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 interface ReplyApi {
 
+    @Multipart
     @POST("api/v1/comments/{roomCode}")
     suspend fun postReplyUserComment(
         @Path("roomCode") roomCode: String,
-        @Body replyUserCommentRequest: ReplyUserCommentRequest
+        @PartMap params: HashMap<String, RequestBody>
     ): DeleteResponse
 
     @DELETE("/api/v1/comments/{commentId}")

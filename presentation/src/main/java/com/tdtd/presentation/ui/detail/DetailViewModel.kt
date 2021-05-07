@@ -21,6 +21,7 @@ import com.tdtd.presentation.mapper.toRooms
 import com.tdtd.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,9 +73,9 @@ class DetailViewModel @Inject constructor(
 
     fun postReplyUserComment(
         roomCode: String,
-        replyUserCommentWithFileEntity: ReplyUserCommentWithFileEntity
+        params: HashMap<String, RequestBody>
     ) = viewModelScope.launch {
-        getAllReplyUseCase.invoke(roomCode, replyUserCommentWithFileEntity).let { result ->
+        getAllReplyUseCase.invoke(roomCode,params).let { result ->
             showLoading()
             _replyValue.value = result.getValue().toPresenterDeleteRoom()
         }

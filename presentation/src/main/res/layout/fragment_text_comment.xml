@@ -16,7 +16,7 @@
         android:paddingTop="24dp"
         android:paddingRight="24dp"
         android:paddingBottom="34dp"
-        app:behavior_hideable="false"
+        app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:behavior_skipCollapsed="true"
         app:layout_behavior="@string/bottom_sheet_behavior">

@@ -7,6 +7,7 @@ apply from: '../build-version.gradle'
 dependencies {
     //Kotlin
     implementation "$libraries.kotlin"
+    implementation "$libraries.okhttp"
     //Logger
     implementation "$libraries.timber"
     //Coroutines
