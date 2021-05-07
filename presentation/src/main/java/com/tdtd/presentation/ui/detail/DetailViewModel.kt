@@ -46,6 +46,7 @@ class DetailViewModel @Inject constructor(
     private val _deleteCommentsByHost = MutableLiveData<Rooms>()
 
     private val _sharedUrl = MutableLiveData<PresenterRoomUrlEntity>()
+    val sharedUrl: LiveData<PresenterRoomUrlEntity> get() = _sharedUrl
 
     private val _notMineEvent = SingleLiveEvent<Unit>()
     val notMineEvent: LiveData<Unit> get() = _notMineEvent
@@ -104,6 +105,7 @@ class DetailViewModel @Inject constructor(
         hideLoading()
     }
 
+    // "Request method 'DELETE' not supported"
     fun deleteRoomByHost(roomCode: String) = viewModelScope.launch {
         getAllAdminUseCase.invoke(roomCode).let { result ->
             showLoading()

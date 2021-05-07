@@ -17,6 +17,7 @@ import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
 import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
+import com.tdtd.presentation.entity.PresenterStickerColorType
 import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.util.Constants
 import com.tdtd.presentation.util.dpToPx
@@ -161,8 +162,8 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                         messageType = MakeRoomType.TEXT,
                         textMessage = contentText,
                         voiceFile = null,
-                        stickerColor = StickerColorType.BLUE,
-                        stickerAngle = -2
+                        stickerColor = StickerColorType.values().random(),
+                        stickerAngle = (-10..10).random()
                     )
                 )
             }

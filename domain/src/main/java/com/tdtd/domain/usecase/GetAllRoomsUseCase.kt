@@ -19,4 +19,7 @@ class GetAllRoomsUseCase @Inject constructor(
 
     suspend fun deleteRoom(roomCode: String) : Result<DeleteRoomEntity> =
         roomRepository.deleteParticipatedUserRoom(roomCode)
+
+    suspend fun postParticipateByRoomCode(roomCode: String): Result<DeleteRoomEntity> =
+        roomRepository.postParticipateByRoomCode(roomCode)
 }

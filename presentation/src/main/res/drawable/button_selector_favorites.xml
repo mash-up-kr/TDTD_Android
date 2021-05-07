@@ -4,5 +4,6 @@
         android:drawable="@drawable/ic_favorites_on_32"
         android:state_selected="true" />
     <item
-        android:drawable="@drawable/ic_favorites_off_32" />
+        android:drawable="@drawable/ic_favorites_off_32"
+        android:state_selected="false"/>
 </selector>

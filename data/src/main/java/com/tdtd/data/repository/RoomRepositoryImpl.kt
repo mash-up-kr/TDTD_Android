@@ -1,6 +1,5 @@
 package com.tdtd.data.repository
 
-import android.accounts.NetworkErrorException
 import com.tdtd.data.api.RoomApi
 import com.tdtd.data.mapper.toListRoomEntity
 import com.tdtd.data.mapper.toNetworkModel
@@ -17,15 +16,11 @@ class RoomRepositoryImpl @Inject constructor(
     private val roomApi: RoomApi,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RoomRepository {
-    override suspend fun postParticipateByRoomCode(roomCode: String): Result<RoomsEntity> =
+    override suspend fun postParticipateByRoomCode(roomCode: String): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                roomApi.postParticipateByRoomCode(roomCode).let {
-                    if (it is Result.Success) {
-                        Result.Success(it.data.toEntity())
-                    } else {
-                        Result.Error(NetworkErrorException())
-                    }
+                roomApi.postParticipateByRoomCode(roomCode).let { roomDetailResponse ->
+                    Result.Success(roomDetailResponse.toEntity())
                 }
             } catch (e: Exception) {
                 Result.Error(e)

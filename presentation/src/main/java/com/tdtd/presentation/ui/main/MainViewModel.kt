@@ -31,11 +31,15 @@ class MainViewModel @Inject constructor(
     val emptyRoom: LiveData<Boolean> get() = _emptyRoom
 
     private val _makeRoom = MutableLiveData<PresenterCreatedRoomCode>()
+    val makeRoom: LiveData<PresenterCreatedRoomCode> get() = _makeRoom
 
     private val _favoriteRoom = MutableLiveData<PresenterDeleteRoom>()
 
     private val _isChecked = MutableLiveData<Boolean>()
     val isChecked: LiveData<Boolean> get() = _isChecked
+
+    private val _inviteRoom = MutableLiveData<PresenterDeleteRoom>()
+    val inviteRoom: LiveData<PresenterDeleteRoom> get() = _inviteRoom
 
     init {
         getUserRoomList()
@@ -83,6 +87,14 @@ class MainViewModel @Inject constructor(
         getAllRoomsUseCase.invoke(makeRoomEntity).let { result ->
             showLoading()
             _makeRoom.value = result.getValue().toPresenterCreated()
+        }
+        hideLoading()
+    }
+
+    fun postParticipateByRoomCode(roomCode: String) = viewModelScope.launch {
+        getAllRoomsUseCase.postParticipateByRoomCode(roomCode).let { result ->
+            showLoading()
+            _inviteRoom.value = result.getValue().toPresenterDeleteRoom()
         }
         hideLoading()
     }

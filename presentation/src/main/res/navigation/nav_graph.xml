@@ -23,6 +23,9 @@
         android:name="com.tdtd.presentation.ui.makeroom.RoomDialogFragment"
         android:label="RoomDialogFragment"
         tools:layout="@layout/room_bottom_sheet">
+        <action
+            android:id="@+id/action_roomDialogFragment_to_detailAdminFragment"
+            app:destination="@id/detailAdminFragment" />
     </dialog>
 
     <dialog

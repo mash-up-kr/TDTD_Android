@@ -11,7 +11,7 @@ interface RoomRepository {
     /**
      * 링크를 통해 초대된 사용자가 room-code에 해당하는 방에 참여한다.
      */
-    suspend fun postParticipateByRoomCode(roomCode: String): Result<RoomsEntity>
+    suspend fun postParticipateByRoomCode(roomCode: String): Result<DeleteRoomEntity>
 
     /**
      * 사용자의 방 목록을 가져온다.

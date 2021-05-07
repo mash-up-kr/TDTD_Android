@@ -65,6 +65,9 @@ ext {
             mockitoInline               : '3.3.3',
             debugdb                     : '1.0.6',
             archCompoment               : '2.1.0',
+
+            // dynamic link
+            dynamiclink                : '19.1.1',
     ]
     modularization = [
             presentation                : ':presentation',
@@ -115,6 +118,8 @@ ext {
             glide                       : "com.github.bumptech.glide:glide:$versions.glide",
             glideCompiler               : "com.github.bumptech.glide:compiler:$versions.glide",
 
+            //DynamicLink
+            dynamicLink                : "com.google.firebase:firebase-dynamic-links:$versions.dynamiclink",
     ]
     testing = [
             junit                       : "junit:junit:$versions.junit",

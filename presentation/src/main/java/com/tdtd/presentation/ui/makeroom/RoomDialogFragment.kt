@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -17,14 +19,18 @@ import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
 import com.tdtd.presentation.ui.main.MainViewModel
-import com.tdtd.presentation.util.*
+import com.tdtd.presentation.util.Constants
+import com.tdtd.presentation.util.dpToPx
+import com.tdtd.presentation.util.getBottomNavigationBarHeight
+import com.tdtd.presentation.util.initParentHeight
 
 
 class RoomDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: RoomBottomSheetBinding
-    private val mainViewModel: MainViewModel by viewModels({ requireParentFragment() })
+    private val mainViewModel: MainViewModel by viewModels({ requireParentFragment().childFragmentManager.primaryNavigationFragment!! })
     private var roomTitle: String = ""
+    private var roomCode: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -127,7 +133,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                             MakeRoomType.VOICE
                         )
                     ).also {
-                        clearRoomDialogFragment()
+                        observeMakeRoomCode()
                     }
                 }
             }
@@ -150,19 +156,27 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                             MakeRoomType.TEXT
                         )
                     ).also {
-                        clearRoomDialogFragment()
+                        observeMakeRoomCode()
                     }
                 }
             }
         }
     }
 
-    private fun clearRoomDialogFragment() {
-        setNavigationResult(true, "create_room")
+    private fun observeMakeRoomCode() {
+        mainViewModel.makeRoom.observe(viewLifecycleOwner, Observer {
+            roomCode = it.result.roomCode
+            startDetailAdminFragment(roomCode)
+        })
+    }
 
-        parentFragmentManager.popBackStackImmediate()
-        parentFragmentManager.beginTransaction()
-            .remove(this@RoomDialogFragment).commitNow()
+    private fun startDetailAdminFragment(roomCode: String) {
+        val action =
+            RoomDialogFragmentDirections.actionRoomDialogFragmentToDetailAdminFragment(
+                roomCode,
+                getString(R.string.make_new_room)
+            )
+        findNavController().navigate(action)
     }
 
     private fun setBottomSheetPadding(view: View) {

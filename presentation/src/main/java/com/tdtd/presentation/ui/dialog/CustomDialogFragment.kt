@@ -56,7 +56,7 @@ class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
                 }
                 R.layout.dialog_delete_room -> {
                     submitButton.setOnClickListener {
-                        detailViewModel.deleteRoomByHost(roomCode!!)
+                        detailViewModel.deleteParticipatedUserRoom(roomCode!!)
                         requireActivity().onBackPressed()
                         dismiss()
                     }
