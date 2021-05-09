@@ -1,22 +1,25 @@
 package com.tdtd.presentation.ui.detail
 
-import androidx.core.os.bundleOf
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailUserBinding
-import com.tdtd.presentation.ui.dialog.CustomDialogFragment
+import com.tdtd.presentation.entity.Comments
 import com.tdtd.presentation.ui.main.MainViewModel
-import com.tdtd.presentation.ui.reply.RecordVoiceDialogFragment
-import com.tdtd.presentation.ui.reply.WriteTextDialogFragment
 import com.tdtd.presentation.util.PreferenceManager
+import com.tdtd.presentation.util.getNavigationResultLiveData
+import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_text_comment.*
+import kotlinx.android.synthetic.main.fragment_voice_comment.*
 
 @AndroidEntryPoint
 class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.fragment_detail_user) {
@@ -43,6 +46,17 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
     override fun initObserves() {
         super.initObserves()
 
+        detailViewModel.alreadyReportEvent.observe(viewLifecycleOwner, Observer {
+            requireActivity().showToast(
+                getString(R.string.dialog_report_reduplicate),
+                requireView()
+            )
+        })
+
+        detailViewModel.notMineEvent.observe(viewLifecycleOwner, Observer {
+            requireActivity().showToast(getString(R.string.dialog_delete_not_mine), requireView())
+        })
+
         detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
             binding.titleTextView.text = detailRoom.result.title
 
@@ -52,6 +66,7 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
             } else {
                 showDetailRecyclerView()
                 hideEmptyDetailRoom()
+                reLoadComments(detailRoom.result.comments)
             }
 
             type = when (detailRoom.result.type) {
@@ -76,38 +91,114 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
 
     private fun setAdapter() {
         detailAdapter = DetailAdapter { comments ->
-            if (type == "text")
-                showComments(
+            if (comments.text != null) {
+                showTextCommentBottomSheet(
                     comments.nickname,
                     comments.text,
                     comments.id,
-                    R.layout.fragment_text_comment
+                    comments.is_mine
                 )
-            if (type == "voice")
-                showComments(
-                    comments.nickname,
-                    comments.text,
-                    comments.id,
-                    R.layout.fragment_record_voice
-                )
+            } else {
+                showVoiceCommentBottomSheet(comments.nickname, comments.id, comments.is_mine)
+            }
         }
         binding.detailRecyclerView.adapter = detailAdapter
     }
 
-    private fun showComments(name: String, contents: String?, commentId: Long?, layoutId: Int) {
-        val dialog = DetailCommentBottomSheetFragment(layoutId)
-        dialog.arguments = bundleOf(
-            "nickName" to name,
-            "contents" to contents,
-            "id" to commentId
-        )
-        dialog.show(childFragmentManager, dialog.tag)
+    private fun reLoadComments(list: List<Comments>) {
+        getNavigationResultLiveData<String>("comment")?.observe(viewLifecycleOwner) {
+            detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
+            detailAdapter.submitList(list)
+        }
     }
 
-    private fun showTextCommentBottomSheet() {
+    private fun showTextCommentBottomSheet(
+        name: String,
+        content: String?,
+        id: Long?,
+        mine: Boolean
+    ) {
         bottomSheetBehavior = BottomSheetBehavior.from(textCommentBottomSheet).apply {
             this.state = BottomSheetBehavior.STATE_EXPANDED
+
+            val nickName = requireActivity().findViewById<TextView>(R.id.nicknameTextView)
+            val contents = requireActivity().findViewById<TextView>(R.id.contentsTextView)
+            val closeImageView = requireActivity().findViewById<ImageView>(R.id.closeImageView)
+            val report = requireActivity().findViewById<ImageView>(R.id.reportImageView)
+            val remove = requireActivity().findViewById<ImageView>(R.id.removeImageView)
+            nickName.text = name
+            contents.text = content
+
+            closeImageView.setOnClickListener {
+                bottomSheetBehavior.state =
+                    BottomSheetBehavior.STATE_HIDDEN
+            }
+            report.setOnClickListener {
+                if (mine) requireActivity().showToast(
+                    getString(R.string.dialog_report_mine),
+                    requireView()
+                )
+                else showReportCommentDialog(id!!)
+            }
+            remove.setOnClickListener {
+                if (!mine) showDeleteCommentDialog(id!!)
+                else requireActivity().showToast(
+                    getString(R.string.dialog_delete_mine),
+                    requireView()
+                )
+            }
         }
+    }
+
+    private fun showVoiceCommentBottomSheet(name: String, id: Long?, mine: Boolean) {
+        bottomSheetBehavior = BottomSheetBehavior.from(voiceCommentBottomSheet).apply {
+            this.state = BottomSheetBehavior.STATE_EXPANDED
+
+            val nickName = requireActivity().findViewById<TextView>(R.id.nicknameTextView)
+            val closeImageView = requireActivity().findViewById<ImageView>(R.id.closeImageView)
+            val report = requireActivity().findViewById<ImageView>(R.id.reportImageView)
+            val remove = requireActivity().findViewById<ImageView>(R.id.removeImageView)
+            nickName.text = name
+
+            closeImageView.setOnClickListener {
+                bottomSheetBehavior.state =
+                    BottomSheetBehavior.STATE_HIDDEN
+            }
+            report.setOnClickListener {
+                if (mine) requireActivity().showToast(
+                    getString(R.string.dialog_report_mine),
+                    requireView()
+                )
+                else showReportCommentDialog(id!!)
+            }
+            remove.setOnClickListener {
+                if (!mine) showDeleteCommentDialog(id!!)
+                else requireActivity().showToast(
+                    getString(R.string.dialog_delete_mine),
+                    requireView()
+                )
+            }
+        }
+    }
+
+    private fun showDeleteCommentDialog(id: Long) {
+        val action =
+            DetailUserFragmentDirections.actionDetailUserFragmentToCustomDialogFragment(
+                "",
+                id,
+                R.layout.dialog_delete_reply
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun showReportCommentDialog(id: Long) {
+        val action =
+            DetailUserFragmentDirections.actionDetailUserFragmentToCustomDialogFragment(
+                "",
+                id,
+                R.layout.dialog_report_reply
+            )
+        findNavController().navigate(action)
     }
 
     private fun showEmptyDetailRoom() {
@@ -128,17 +219,21 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
 
     private fun startRecordVoiceDialogFragment() {
         binding.writeButton.setOnClickListener {
-            val bottomSheet = RecordVoiceDialogFragment()
-            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            val action =
+                DetailAdminFragmentDirections.actionDetailAdminFragmentToRecordVoiceDialogFragment(
+                    safeArgs.roomCode
+                )
+            findNavController().navigate(action)
         }
     }
 
     private fun startWriteTextDetailFragment() {
         binding.writeButton.setOnClickListener {
-            val bottomSheet = WriteTextDialogFragment()
-            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            val action =
+                DetailAdminFragmentDirections.actionDetailAdminFragmentToWriteTextDialogFragment(
+                    safeArgs.roomCode
+                )
+            findNavController().navigate(action)
         }
     }
 
@@ -170,9 +265,13 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
 
     private fun onClickLeaveRoomButton() {
         binding.leaveRoomButton.setOnClickListener {
-            val dialog = CustomDialogFragment(R.layout.dialog_leave_room)
-            dialog.arguments = bundleOf("roomCode" to safeArgs.roomCode)
-            dialog.show(childFragmentManager, dialog.tag)
+            val action =
+                DetailUserFragmentDirections.actionDetailUserFragmentToCustomDialogFragment(
+                    safeArgs.roomCode,
+                    0,
+                    R.layout.dialog_leave_room
+                )
+            findNavController().navigate(action)
         }
     }
 }
