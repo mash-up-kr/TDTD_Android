@@ -32,13 +32,21 @@
         android:id="@+id/writeTextDialogFragment"
         android:name="com.tdtd.presentation.ui.reply.WriteTextDialogFragment"
         android:label="WriteTextDialogFragment"
-        tools:layout="@layout/fragment_write_text" />
+        tools:layout="@layout/fragment_write_text">
+        <argument
+            android:name="room_code"
+            app:argType="string" />
+    </dialog>
 
     <dialog
         android:id="@+id/recordVoiceDialogFragment"
         android:name="com.tdtd.presentation.ui.reply.RecordVoiceDialogFragment"
         android:label="RecordVoiceDialogFragment"
-        tools:layout="@layout/fragment_record_voice" />
+        tools:layout="@layout/fragment_record_voice">
+        <argument
+            android:name="room_code"
+            app:argType="string" />
+    </dialog>
 
     <fragment
         android:id="@+id/detailAdminFragment"
@@ -57,6 +65,12 @@
         <argument
             android:name="created_at"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailAdminFragment_to_detailSharedBottomSheetFragment"
+            app:destination="@id/detailSharedBottomSheetFragment" />
+        <action
+            android:id="@+id/action_detailAdminFragment_to_customDialogFragment"
+            app:destination="@id/customDialogFragment" />
     </fragment>
 
     <fragment
@@ -73,7 +87,41 @@
         <argument
             android:name="room_code"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailUserFragment_to_customDialogFragment"
+            app:destination="@id/customDialogFragment" />
     </fragment>
+
+    <dialog
+        android:id="@+id/detailSharedBottomSheetFragment"
+        android:name="com.tdtd.presentation.ui.detail.DetailSharedBottomSheetFragment"
+        android:label="DetailSharedBottomSheetFragment"
+        tools:layout="@layout/detail_admin_bottom_sheet">
+        <argument
+            android:name="room_code"
+            app:argType="string" />
+        <argument
+            android:name="created_at"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailSharedBottomSheetFragment_to_customDialogFragment"
+            app:destination="@id/customDialogFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/customDialogFragment"
+        android:name="com.tdtd.presentation.ui.dialog.CustomDialogFragment"
+        android:label="CustomDialogFragment">
+        <argument
+            android:name="room_code"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="long" />
+        <argument
+            android:name="layout_id"
+            app:argType="integer" />
+    </dialog>
 
     <action
         android:id="@+id/action_global_mainFragment"

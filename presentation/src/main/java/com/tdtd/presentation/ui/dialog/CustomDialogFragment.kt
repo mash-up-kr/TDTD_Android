@@ -7,17 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tdtd.presentation.R
 import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.util.setNavigationResult
 import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 
-class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
+class CustomDialogFragment : DialogFragment() {
 
-    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment().requireParentFragment() })
+    private val detailViewModel: DetailViewModel by activityViewModels()
     private val roomCode by lazy { requireArguments().getString("roomCode") }
     private val commentId by lazy { requireArguments().getLong("id") }
+    private val safeArgs : CustomDialogFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,10 +30,10 @@ class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
     ): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val view = inflater.inflate(dialogLayoutId, container, false)
+        val view = inflater.inflate(safeArgs.layoutId, container, false)
 
         view.apply {
-            when (dialogLayoutId) {
+            when (safeArgs.layoutId) {
                 R.layout.dialog_leave_room -> {
                     submitButton.setOnClickListener {
                         setNavigationResult(
@@ -56,7 +60,7 @@ class CustomDialogFragment(private val dialogLayoutId: Int) : DialogFragment() {
                 }
                 R.layout.dialog_delete_room -> {
                     submitButton.setOnClickListener {
-                        detailViewModel.deleteParticipatedUserRoom(roomCode!!)
+                        detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
                         requireActivity().onBackPressed()
                         dismiss()
                     }

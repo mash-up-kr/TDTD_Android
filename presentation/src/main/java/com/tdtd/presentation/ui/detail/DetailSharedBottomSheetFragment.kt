@@ -7,20 +7,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
-import com.tdtd.presentation.ui.dialog.CustomDialogFragment
 
 class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
-    private val roomCode by lazy { requireArguments().getString("roomCode") }
-    private val roomDate by lazy { requireArguments().getString("date") }
+    private val detailViewModel: DetailViewModel by activityViewModels()
+    private val safeArgs: DetailSharedBottomSheetFragmentArgs by navArgs()
     private lateinit var binding: DetailAdminBottomSheetBinding
     private var sharedUrl: String = ""
     private var list = listOf<String>()
@@ -46,8 +45,8 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun initDate() {
-        if (!roomDate.equals(getString(R.string.make_new_room))) {
-            list = roomDate!!.substring(0, 10).split("-")
+        if (safeArgs.createdAt != getString(R.string.make_new_room)) {
+            list = safeArgs.createdAt.substring(0, 10).split("-")
             val year = list[0].plus("년")
             val month = list[1].plus("월")
             val day = list[2].plus("일")
@@ -74,7 +73,7 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun onClickSharedLink() {
         binding.sharedLinkTextView.setOnClickListener {
-            detailViewModel.getSharedRoomUrl(roomCode!!).apply {
+            detailViewModel.getSharedRoomUrl(safeArgs.roomCode).apply {
                 showSharedRoomDialog()
             }.also {
                 observeSharedUrl()
@@ -97,13 +96,22 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun showSharedRoomDialog() {
-        val dialog = CustomDialogFragment(R.layout.dialog_share_room)
-        dialog.show(childFragmentManager, dialog.tag)
+        val action =
+            DetailSharedBottomSheetFragmentDirections.actionDetailSharedBottomSheetFragmentToCustomDialogFragment(
+                safeArgs.roomCode,
+                0,
+                R.layout.dialog_share_room
+            )
+        findNavController().navigate(action)
     }
 
     private fun showDeleteRoomDialog() {
-        val dialog = CustomDialogFragment(R.layout.dialog_delete_room)
-        dialog.arguments = bundleOf("roomCode" to roomCode)
-        dialog.show(childFragmentManager, dialog.tag)
+        val action =
+            DetailSharedBottomSheetFragmentDirections.actionDetailSharedBottomSheetFragmentToCustomDialogFragment(
+                safeArgs.roomCode,
+                0,
+                R.layout.dialog_delete_room
+            )
+        findNavController().navigate(action)
     }
 }
