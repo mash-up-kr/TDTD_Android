@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -18,16 +18,15 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.util.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
+import com.tdtd.presentation.util.MultiPartForm.getBody
+import okhttp3.MultipartBody
 
 
 class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
-    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
+    private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var binding: FragmentWriteTextBinding
-    private val roomCode by lazy { requireArguments().getString("roomCode") }
+    private val safeArgs : WriteTextDialogFragmentArgs by navArgs()
     private var nickNameText = ""
     private var contentText = ""
 
@@ -149,19 +148,12 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setCompleteButton() {
-        val nickNameBody = nickNameText.toRequestBody("multipart/form-data".toMediaType())
-        val typeBody = "TEXT".toRequestBody("multipart/form-data".toMediaType())
-        val textBody = contentText.toRequestBody("multipart/form-data".toMediaType())
-        val colorBody = StickerColorType.values().random().toString()
-            .toRequestBody("multipart/form-data".toMediaType())
-        val angleBody = randomAngle().toRequestBody("multipart/form-data".toMediaType())
-
-        val requestMap: HashMap<String, RequestBody> = HashMap()
-        requestMap["nickname"] = nickNameBody
-        requestMap["message_type"] = typeBody
-        requestMap["text_message"] = textBody
-        requestMap["sticker_color"] = colorBody
-        requestMap["sticker_angle"] = angleBody
+        val part : ArrayList<MultipartBody.Part> = ArrayList()
+        part.add(getBody("nickname", nickNameText))
+        part.add(getBody("message_type", "TEXT"))
+        part.add(getBody("text_message", contentText))
+        part.add(getBody("sticker_color", StickerColorType.values().random().toString()))
+        part.add(getBody("sticker_angle", randomAngle()))
 
         binding.apply {
             completeButton.isEnabled = true
@@ -169,9 +161,10 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
             completeButton.setOnClickListener {
                 detailViewModel.postReplyUserComment(
-                    roomCode!!,
-                    requestMap
+                    safeArgs.roomCode,
+                    part
                 ).also {
+                    setNavigationResult("success", "comment")
                     dismiss()
                 }
             }
