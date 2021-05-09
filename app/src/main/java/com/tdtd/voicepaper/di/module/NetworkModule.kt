@@ -45,7 +45,7 @@ object NetworkModule {
         val builder = OkHttpClient.Builder()
         // header
         builder.addInterceptor { chain ->
-            val deviceId = "device-11"
+            val deviceId = "test-device"
             var request = chain.request()
             request = request.newBuilder()
                 .addHeader("Device-Id", deviceId)
