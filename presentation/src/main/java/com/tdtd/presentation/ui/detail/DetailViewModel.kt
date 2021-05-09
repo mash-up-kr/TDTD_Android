@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tdtd.domain.Result
-import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
 import com.tdtd.domain.getValue
 import com.tdtd.domain.usecase.GetAllAdminUseCase
 import com.tdtd.domain.usecase.GetAllReplyUseCase
@@ -21,7 +20,7 @@ import com.tdtd.presentation.mapper.toRooms
 import com.tdtd.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.RequestBody
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -73,7 +72,7 @@ class DetailViewModel @Inject constructor(
 
     fun postReplyUserComment(
         roomCode: String,
-        params: HashMap<String, RequestBody>
+        params: List<MultipartBody.Part>
     ) = viewModelScope.launch {
         getAllReplyUseCase.invoke(roomCode,params).let { result ->
             showLoading()
