@@ -141,9 +141,9 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
                 else showReportCommentDialog(id!!)
             }
             remove.setOnClickListener {
-                if (!mine) showDeleteCommentDialog(id!!)
+                if (mine) showDeleteCommentDialog(id!!)
                 else requireActivity().showToast(
-                    getString(R.string.dialog_delete_mine),
+                    getString(R.string.dialog_delete_not_mine),
                     requireView()
                 )
             }
@@ -172,9 +172,9 @@ class DetailUserFragment : BaseFragment<FragmentDetailUserBinding>(R.layout.frag
                 else showReportCommentDialog(id!!)
             }
             remove.setOnClickListener {
-                if (!mine) showDeleteCommentDialog(id!!)
+                if (mine) showDeleteCommentDialog(id!!)
                 else requireActivity().showToast(
-                    getString(R.string.dialog_delete_mine),
+                    getString(R.string.dialog_delete_not_mine),
                     requireView()
                 )
             }

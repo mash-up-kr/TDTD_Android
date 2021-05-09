@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tdtd.presentation.R
 import com.tdtd.presentation.ui.detail.DetailViewModel
@@ -19,9 +17,7 @@ import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 class CustomDialogFragment : DialogFragment() {
 
     private val detailViewModel: DetailViewModel by activityViewModels()
-    private val roomCode by lazy { requireArguments().getString("roomCode") }
-    private val commentId by lazy { requireArguments().getLong("id") }
-    private val safeArgs : CustomDialogFragmentArgs by navArgs()
+    private val safeArgs: CustomDialogFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +36,7 @@ class CustomDialogFragment : DialogFragment() {
                             getString(R.string.toast_leave_room_success),
                             "detail"
                         ).also {
-                            detailViewModel.deleteParticipatedUserRoom(roomCode!!)
+                            detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
                         }
                         requireActivity().onBackPressed()
                         dismiss()
@@ -48,13 +44,19 @@ class CustomDialogFragment : DialogFragment() {
                 }
                 R.layout.dialog_report_reply -> {
                     submitButton.setOnClickListener {
-                        detailViewModel.postReportUserByCommentId(commentId)
+                        detailViewModel.postReportUserByCommentId(safeArgs.id)
                         dismiss()
                     }
                 }
                 R.layout.dialog_delete_reply -> {
                     submitButton.setOnClickListener {
-                        detailViewModel.deleteReplyUserComment(commentId)
+                        detailViewModel.deleteReplyUserComment(safeArgs.id)
+                        dismiss()
+                    }
+                }
+                R.layout.dialog_delete_reply_admin -> {
+                    submitButton.setOnClickListener {
+                        detailViewModel.deleteOtherCommentByAdmin(safeArgs.id)
                         dismiss()
                     }
                 }

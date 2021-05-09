@@ -26,7 +26,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
 
     private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var binding: FragmentWriteTextBinding
-    private val safeArgs : WriteTextDialogFragmentArgs by navArgs()
+    private val safeArgs: WriteTextDialogFragmentArgs by navArgs()
     private var nickNameText = ""
     private var contentText = ""
 
@@ -148,7 +148,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setCompleteButton() {
-        val part : ArrayList<MultipartBody.Part> = ArrayList()
+        val part: ArrayList<MultipartBody.Part> = ArrayList()
         part.add(getBody("nickname", nickNameText))
         part.add(getBody("message_type", "TEXT"))
         part.add(getBody("text_message", contentText))

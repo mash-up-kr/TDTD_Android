@@ -17,7 +17,7 @@ import com.tdtd.presentation.databinding.FragmentDetailAdminBinding
 import com.tdtd.presentation.entity.Comments
 import com.tdtd.presentation.ui.main.MainViewModel
 import com.tdtd.presentation.util.PreferenceManager
-import com.tdtd.presentation.util.getNavigationResultLiveData
+import com.tdtd.presentation.util.getNavigationResult
 import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_text_comment.*
@@ -84,6 +84,7 @@ class DetailAdminFragment :
         })
 
         detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
+
     }
 
     private fun initBindings() {
@@ -109,7 +110,7 @@ class DetailAdminFragment :
     }
 
     private fun reLoadComments(list: List<Comments>) {
-        getNavigationResultLiveData<String>("comment")?.observe(viewLifecycleOwner) {
+        getNavigationResult<String>(R.id.detailAdminFragment, "comment") { result ->
             detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
             detailAdapter.submitList(list)
         }
@@ -141,13 +142,7 @@ class DetailAdminFragment :
                 )
                 else showReportCommentDialog(id!!)
             }
-            remove.setOnClickListener {
-                if (!mine) showDeleteCommentDialog(id!!)
-                else requireActivity().showToast(
-                    getString(R.string.dialog_delete_mine),
-                    requireView()
-                )
-            }
+            remove.setOnClickListener { showDeleteCommentDialog(id!!) }
         }
     }
 
@@ -170,25 +165,27 @@ class DetailAdminFragment :
                 )
                 else showReportCommentDialog(id!!)
             }
-            remove.setOnClickListener {
-                if (!mine) showDeleteCommentDialog(id!!)
-                else requireActivity().showToast(
-                    getString(R.string.dialog_delete_mine),
-                    requireView()
-                )
-            }
+            remove.setOnClickListener { showDeleteCommentDialog(id!!) }
         }
     }
 
     private fun showDeleteCommentDialog(id: Long) {
         val action =
-            DetailAdminFragmentDirections.actionDetailAdminFragmentToCustomDialogFragment("", id, R.layout.dialog_delete_reply)
+            DetailAdminFragmentDirections.actionDetailAdminFragmentToCustomDialogFragment(
+                "",
+                id,
+                R.layout.dialog_delete_reply_admin
+            )
         findNavController().navigate(action)
     }
 
     private fun showReportCommentDialog(id: Long) {
         val action =
-            DetailAdminFragmentDirections.actionDetailAdminFragmentToCustomDialogFragment("", id, R.layout.dialog_report_reply)
+            DetailAdminFragmentDirections.actionDetailAdminFragmentToCustomDialogFragment(
+                "",
+                id,
+                R.layout.dialog_report_reply
+            )
         findNavController().navigate(action)
     }
 
