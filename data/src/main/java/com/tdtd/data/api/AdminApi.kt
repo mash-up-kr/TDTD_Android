@@ -1,6 +1,7 @@
 package com.tdtd.data.api
 
 import com.tdtd.data.response.admin.RoomUrlResponse
+import com.tdtd.data.response.room.DeleteResponse
 import com.tdtd.data.response.room.RoomsResponse
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -18,8 +19,8 @@ interface AdminApi {
         @Path("roomCode") roomCode: String
     ): RoomUrlResponse
 
-    @DELETE("api/v1/host/comments/{commendId}")
+    @DELETE("api/v1/host/comments/{commentId}")
     suspend fun deleteOtherCommentByAdmin(
         @Path("commentId") commentId: Long
-    ): RoomsResponse
+    ): DeleteResponse
 }

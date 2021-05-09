@@ -43,7 +43,7 @@ class DetailViewModel @Inject constructor(
 
     private val _deleteHostRoom = MutableLiveData<Rooms>()
 
-    private val _deleteCommentsByHost = MutableLiveData<Rooms>()
+    private val _deleteCommentsByHost = MutableLiveData<PresenterDeleteRoom>()
 
     private val _sharedUrl = MutableLiveData<PresenterRoomUrlEntity>()
     val sharedUrl: LiveData<PresenterRoomUrlEntity> get() = _sharedUrl
@@ -74,7 +74,7 @@ class DetailViewModel @Inject constructor(
         roomCode: String,
         params: List<MultipartBody.Part>
     ) = viewModelScope.launch {
-        getAllReplyUseCase.invoke(roomCode,params).let { result ->
+        getAllReplyUseCase.invoke(roomCode, params).let { result ->
             showLoading()
             _replyValue.value = result.getValue().toPresenterDeleteRoom()
         }
@@ -117,7 +117,7 @@ class DetailViewModel @Inject constructor(
     fun deleteOtherCommentByAdmin(commentId: Long) = viewModelScope.launch {
         getAllAdminUseCase.invoke(commentId).let { result ->
             showLoading()
-            _deleteCommentsByHost.value = result.getValue().toRooms()
+            _deleteCommentsByHost.value = result.getValue().toPresenterDeleteRoom()
         }
         hideLoading()
     }
