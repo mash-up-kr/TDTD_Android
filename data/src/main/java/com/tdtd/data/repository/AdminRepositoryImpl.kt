@@ -27,7 +27,7 @@ class AdminRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getSharedRoomUrl(roomCode: String) : Result<RoomUrlEntity> =
+    override suspend fun getSharedRoomUrl(roomCode: String): Result<RoomUrlEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 adminApi.getSharedRoomUrl(roomCode).let { roomUrlResponse ->

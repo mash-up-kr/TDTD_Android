@@ -18,7 +18,7 @@ class ReplyRepositoryImpl @Inject constructor(
     override suspend fun postReplyUserComment(
         roomCode: String,
         params: List<MultipartBody.Part>
-    ): Result<DeleteRoomEntity> =
+    ): Result<ReplyUserEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 replyApi.postReplyUserComment(

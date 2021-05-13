@@ -7,8 +7,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -29,6 +31,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     private val safeArgs: WriteTextDialogFragmentArgs by navArgs()
     private var nickNameText = ""
     private var contentText = ""
+    private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,36 +44,48 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return BottomSheetDialog(requireContext(), theme).apply {
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = 0
-            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                        behavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    }
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                }
-            })
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let { sheet ->
+                val behavior = BottomSheetBehavior.from(sheet)
+                setupFullHeight(sheet)
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.skipCollapsed = true
+            }
         }
+        return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeKeyboard()
         setBottomSheetPadding(view)
-        initParentHeight(requireActivity(), view, 24)
         setNickNameEditFocus()
         setWriteTextEditFocus()
         setTextWatcher()
         onClickCancelButton()
     }
 
+    private fun observeKeyboard() {
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { _, _ ->
+                hideBanner()
+            },
+            onHideKeyboard = {
+                showBanner()
+            }
+        )
+        binding.writeTextBottomSheet.setOnClickListener { it.hideKeyboard() }
+    }
+
     private fun setNickNameEditFocus() {
         binding.nicknameEditText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
+                hideBanner()
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                 binding.nicknameEditText.hint = null
             } else {
@@ -90,6 +105,18 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                 binding.writeTextEditView.hint = getString(R.string.record_voice_whisper_title)
             }
         }
+    }
+
+    private fun showBanner() {
+        binding.bannerView.isVisible = true
+        binding.bannerImageView.isVisible = true
+        binding.bannerTextView.isVisible = true
+    }
+
+    private fun hideBanner() {
+        binding.bannerView.isVisible = false
+        binding.bannerImageView.isVisible = false
+        binding.bannerTextView.isVisible = false
     }
 
     private fun setTextWatcher() {
@@ -164,11 +191,33 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                     safeArgs.roomCode,
                     part
                 ).also {
-                    setNavigationResult("success", "comment")
+                    if (safeArgs.host) createCommentByAdmin()
+                    else createComment()
                     dismiss()
                 }
             }
         }
+    }
+
+    private fun createCommentByAdmin() {
+        val action =
+            WriteTextDialogFragmentDirections.actionWriteTextDialogFragmentToDetailFragment(
+                safeArgs.roomCode,
+                "",
+                true,
+                safeArgs.bookmark
+            )
+        findNavController().navigate(action)
+        findNavController().popBackStack()
+    }
+
+    private fun createComment() {
+        val action =
+            WriteTextDialogFragmentDirections.actionWriteTextDialogFragmentToDetailFragment(
+                safeArgs.roomCode, "", false, safeArgs.bookmark
+            )
+        findNavController().navigate(action)
+        findNavController().popBackStack()
     }
 
     private fun setBottomSheetPadding(view: View) {
@@ -180,5 +229,10 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                 dpToPx(view, 32)
             )
         }
+    }
+
+    override fun onDestroy() {
+        keyboardVisibilityUtils.detachKeyboardListeners()
+        super.onDestroy()
     }
 }

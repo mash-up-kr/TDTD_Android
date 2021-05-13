@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="model"
             type="com.tdtd.presentation.entity.MakeRoom" />
+
         <variable
             name="viewModel"
             type="com.tdtd.presentation.ui.main.MainViewModel" />
@@ -16,6 +18,8 @@
         android:id="@+id/roomBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingLeft="16dp"
         android:paddingTop="24dp"
         android:paddingRight="16dp"

@@ -16,13 +16,13 @@
         android:paddingTop="24dp"
         android:paddingRight="24dp"
         android:paddingBottom="34dp"
-        app:behavior_hideable="false"
+        app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:behavior_skipCollapsed="true"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nicknameTextView"
+            android:id="@+id/nicknameVoiceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_beige3_radius100"
@@ -35,31 +35,31 @@
             tools:text="닉네임최대열두자입니다요" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/reportImageView"
+            android:id="@+id/reportVoiceImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_report_24"
-            app:layout_constraintBottom_toBottomOf="@+id/nicknameTextView"
-            app:layout_constraintEnd_toStartOf="@+id/removeImageView"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameVoiceTextView"
+            app:layout_constraintEnd_toStartOf="@+id/removeVoiceImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/removeImageView"
+            android:id="@+id/removeVoiceImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@drawable/ic_remove_24"
-            app:layout_constraintBottom_toBottomOf="@+id/nicknameTextView"
-            app:layout_constraintEnd_toStartOf="@+id/closeImageView"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameVoiceTextView"
+            app:layout_constraintEnd_toStartOf="@+id/closeVoiceImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/closeImageView"
+            android:id="@+id/closeVoiceImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_24"
-            app:layout_constraintBottom_toBottomOf="@+id/nicknameTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameVoiceTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,11 +71,13 @@
             android:background="@drawable/background_beige2_radius16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nicknameTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/nicknameVoiceTextView" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toStartOf="@+id/recordDefaultImageView"
             app:layout_constraintStart_toStartOf="@+id/view"
@@ -84,7 +86,7 @@
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="207dp"
+                android:layout_width="0dp"
                 android:layout_height="8dp"
                 android:layout_marginTop="16dp"
                 android:progressDrawable="@drawable/progressbar_comment_voice"
@@ -97,11 +99,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:text="00:00"
                 android:textAppearance="@style/text.14dp.bold.grayscale3"
                 android:textColor="@color/grayscale1"
                 app:layout_constraintStart_toStartOf="@+id/progressBar"
-                app:layout_constraintTop_toBottomOf="@+id/progressBar"
-                tools:text="00:00" />
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/endTimeTextView"
@@ -113,7 +115,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/progressBar"
                 tools:text="00:36" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -128,6 +129,5 @@
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

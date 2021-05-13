@@ -2,6 +2,7 @@ package com.tdtd.domain.repository
 
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.DeleteRoomEntity
+import com.tdtd.domain.entity.ReplyUserEntity
 import com.tdtd.domain.entity.RoomDetailEntity
 import okhttp3.MultipartBody
 
@@ -16,7 +17,7 @@ interface ReplyRepository {
     suspend fun postReplyUserComment(
         roomCode: String,
         params: List<MultipartBody.Part>
-    ): Result<DeleteRoomEntity>
+    ): Result<ReplyUserEntity>
 
     /**
      * 사용자가 작성한 답장을 삭제한다.

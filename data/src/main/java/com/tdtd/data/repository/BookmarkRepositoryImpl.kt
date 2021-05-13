@@ -31,7 +31,7 @@ class BookmarkRepositoryImpl @Inject constructor(
     override suspend fun postBookmarkByRoomCode(roomCode: String): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
-                bookmarkApi.postBookmarkByRoomCode(roomCode).let { roomResponse->
+                bookmarkApi.postBookmarkByRoomCode(roomCode).let { roomResponse ->
                     Result.Success(roomResponse.toEntity())
                 }
             } catch (e: Exception) {

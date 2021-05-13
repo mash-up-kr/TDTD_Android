@@ -2,7 +2,6 @@ package com.tdtd.data.response.reply
 
 import com.google.gson.annotations.SerializedName
 import com.tdtd.domain.entity.MakeRoomType
-import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
 import com.tdtd.domain.entity.ReplyUserCommentWithUrlEntity
 import com.tdtd.domain.entity.StickerColorType
 

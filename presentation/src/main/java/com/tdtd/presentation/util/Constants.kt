@@ -1,7 +1,7 @@
 package com.tdtd.presentation.util
 
 object Constants {
-    const val BASE_URL = "http://dev.sokdak.site/"
+    const val BASE_URL = "http://52.79.54.20/"
     const val REQUEST_RECORD_AUDIO_PERMISSION = 200
     const val STATE_NORMAL = 0
     const val STATE_RECORD = 1

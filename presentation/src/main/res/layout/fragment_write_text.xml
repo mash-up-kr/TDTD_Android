@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/writeTextBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingLeft="16dp"
         android:paddingTop="24dp"
         android:paddingRight="16dp"
@@ -78,15 +79,13 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/writeTextEditView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="176dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="280dp"
             android:background="@drawable/background_beige2_radius16"
             android:gravity="start"
             android:hint="@string/record_voice_whisper_title"
             android:padding="16dp"
             android:textAppearance="@style/text.20dp.regular.grayscale1"
-            app:layout_constraintBottom_toTopOf="@id/cancelButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentTextView" />
@@ -117,6 +116,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bannerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

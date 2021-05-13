@@ -36,10 +36,8 @@ class MainViewModel @Inject constructor(
     private val _favoriteRoom = MutableLiveData<PresenterDeleteRoom>()
 
     private val _isChecked = MutableLiveData<Boolean>()
-    val isChecked: LiveData<Boolean> get() = _isChecked
 
     private val _inviteRoom = MutableLiveData<PresenterDeleteRoom>()
-    val inviteRoom: LiveData<PresenterDeleteRoom> get() = _inviteRoom
 
     init {
         getUserRoomList()
@@ -70,7 +68,6 @@ class MainViewModel @Inject constructor(
         getAllBookmarksUseCase.postBookmark(roomCode).let { result ->
             showLoading()
             _favoriteRoom.value = result.getValue().toPresenterDeleteRoom()
-            _isChecked.value = false
         }
         hideLoading()
     }
