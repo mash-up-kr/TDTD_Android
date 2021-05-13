@@ -2,10 +2,10 @@ package com.tdtd.presentation.ui.detail
 
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -14,9 +14,8 @@ import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailAdminBinding
+import com.tdtd.presentation.entity.Comments
 import com.tdtd.presentation.ui.main.MainViewModel
-import com.tdtd.presentation.ui.reply.RecordVoiceDialogFragment
-import com.tdtd.presentation.ui.reply.WriteTextDialogFragment
 import com.tdtd.presentation.util.PreferenceManager
 import com.tdtd.presentation.util.getNavigationResult
 import com.tdtd.presentation.util.showToast
@@ -43,21 +42,33 @@ class DetailAdminFragment :
         setAdapter()
         onClickFavoritesButton()
         onClickBackButton()
+        onClickSharedButton()
         onClickMoreButton()
     }
 
     override fun initObserves() {
         super.initObserves()
 
+        detailViewModel.alreadyReportEvent.observe(viewLifecycleOwner, Observer {
+            requireActivity().showToast(
+                getString(R.string.dialog_report_reduplicate),
+                requireView()
+            )
+        })
+
+        detailViewModel.notMineEvent.observe(viewLifecycleOwner, Observer {
+            requireActivity().showToast(getString(R.string.dialog_delete_not_mine), requireView())
+        })
+
         detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
             binding.titleTextView.text = detailRoom.result.title
 
             if (detailRoom.result.comments.isEmpty()) {
-                onClickSharedButton()
                 hideDetailRecyclerView()
             } else {
                 hideNoReplyTextView()
                 showDetailRecyclerView()
+                reLoadComments(detailRoom.result.comments)
             }
 
             type = when (detailRoom.result.type) {
@@ -73,6 +84,7 @@ class DetailAdminFragment :
         })
 
         detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
+
     }
 
     private fun initBindings() {
@@ -97,6 +109,13 @@ class DetailAdminFragment :
         binding.detailRecyclerView.adapter = detailAdapter
     }
 
+    private fun reLoadComments(list: List<Comments>) {
+        getNavigationResult<String>(R.id.detailAdminFragment, "comment") { result ->
+            detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
+            detailAdapter.submitList(list)
+        }
+    }
+
     private fun showTextCommentBottomSheet(
         name: String,
         content: String?,
@@ -115,22 +134,15 @@ class DetailAdminFragment :
             contents.text = content
 
             closeImageView.setOnClickListener { bottomSheetBehavior.state = STATE_HIDDEN }
+
             report.setOnClickListener {
                 if (mine) requireActivity().showToast(
                     getString(R.string.dialog_report_mine),
                     requireView()
                 )
-                else detailViewModel.postReportUserByCommentId(id!!)
-                    .apply { bottomSheetBehavior.state = STATE_HIDDEN }
+                else showReportCommentDialog(id!!)
             }
-            remove.setOnClickListener {
-                if (!mine) detailViewModel.deleteOtherCommentByAdmin(id!!)
-                    .apply { bottomSheetBehavior.state = STATE_HIDDEN }
-                else requireActivity().showToast(
-                    getString(R.string.dialog_delete_mine),
-                    requireView()
-                )
-            }
+            remove.setOnClickListener { showDeleteCommentDialog(id!!) }
         }
     }
 
@@ -145,57 +157,77 @@ class DetailAdminFragment :
             nickName.text = name
 
             closeImageView.setOnClickListener { bottomSheetBehavior.state = STATE_HIDDEN }
+
             report.setOnClickListener {
                 if (mine) requireActivity().showToast(
                     getString(R.string.dialog_report_mine),
                     requireView()
                 )
-                else detailViewModel.postReportUserByCommentId(id!!)
-                    .apply { bottomSheetBehavior.state = STATE_HIDDEN }
+                else showReportCommentDialog(id!!)
             }
-            remove.setOnClickListener {
-                if (!mine) detailViewModel.deleteOtherCommentByAdmin(id!!)
-                    .apply { bottomSheetBehavior.state = STATE_HIDDEN }
-                else requireActivity().showToast(
-                    getString(R.string.dialog_delete_mine),
-                    requireView()
-                )
-            }
+            remove.setOnClickListener { showDeleteCommentDialog(id!!) }
         }
+    }
+
+    private fun showDeleteCommentDialog(id: Long) {
+        val action =
+            DetailAdminFragmentDirections.actionDetailAdminFragmentToCustomDialogFragment(
+                "",
+                id,
+                R.layout.dialog_delete_reply_admin
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun showReportCommentDialog(id: Long) {
+        val action =
+            DetailAdminFragmentDirections.actionDetailAdminFragmentToCustomDialogFragment(
+                "",
+                id,
+                R.layout.dialog_report_reply
+            )
+        findNavController().navigate(action)
     }
 
     private fun startRecordVoiceDialogFragment() {
         binding.writeButton.setOnClickListener {
-            val bottomSheet = RecordVoiceDialogFragment()
-            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            val action =
+                DetailAdminFragmentDirections.actionDetailAdminFragmentToRecordVoiceDialogFragment(
+                    safeArgs.roomCode
+                )
+            findNavController().navigate(action)
         }
     }
 
     private fun startWriteTextDetailFragment() {
         binding.writeButton.setOnClickListener {
-            val bottomSheet = WriteTextDialogFragment()
-            bottomSheet.arguments = bundleOf("roomCode" to safeArgs.roomCode)
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            val action =
+                DetailAdminFragmentDirections.actionDetailAdminFragmentToWriteTextDialogFragment(
+                    safeArgs.roomCode
+                )
+            findNavController().navigate(action)
         }
     }
 
     private fun onClickMoreButton() {
         binding.moreButton.setOnClickListener {
-            val dialog = DetailSharedBottomSheetFragment()
-            dialog.arguments =
-                bundleOf("roomCode" to safeArgs.roomCode, "date" to safeArgs.createdAt)
-            dialog.show(childFragmentManager, dialog.tag)
+            val action =
+                DetailAdminFragmentDirections.actionDetailAdminFragmentToDetailSharedBottomSheetFragment(
+                    safeArgs.roomCode,
+                    safeArgs.createdAt
+                )
+            findNavController().navigate(action)
         }
     }
 
     private fun onClickSharedButton() {
         binding.sharedLinkButton.setOnClickListener {
-            val dialog = DetailSharedBottomSheetFragment()
-            dialog.arguments =
-                bundleOf("roomCode" to safeArgs.roomCode, "date" to safeArgs.createdAt)
-            dialog.show(childFragmentManager, dialog.tag)
-
+            val action =
+                DetailAdminFragmentDirections.actionDetailAdminFragmentToDetailSharedBottomSheetFragment(
+                    safeArgs.roomCode,
+                    safeArgs.createdAt
+                )
+            findNavController().navigate(action)
             showNoReplyTextView()
         }
     }

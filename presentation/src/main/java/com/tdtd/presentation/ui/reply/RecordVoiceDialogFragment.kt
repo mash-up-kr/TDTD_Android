@@ -15,11 +15,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentRecordVoiceBinding
+import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.util.*
 import com.tdtd.presentation.util.Constants.REQUEST_RECORD_AUDIO_PERMISSION
 import com.tdtd.presentation.util.Constants.STATE_NORMAL
@@ -27,24 +31,33 @@ import com.tdtd.presentation.util.Constants.STATE_PAUSE
 import com.tdtd.presentation.util.Constants.STATE_PLAYING
 import com.tdtd.presentation.util.Constants.STATE_RECORD
 import com.tdtd.presentation.util.Constants.STATE_RECORD_STOP
+import com.tdtd.presentation.util.MultiPartForm.getAudioBody
+import com.tdtd.presentation.util.MultiPartForm.getBody
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentRecordVoiceBinding
-    private lateinit var file: String
+    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
+    private val safeArgs: RecordVoiceDialogFragmentArgs by navArgs()
+    private var file: String = ""
     private var currentState = STATE_NORMAL
     private var isPlaying = false
     private var isRecord = false
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
+    private var nickNameText = ""
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_record_voice, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_record_voice, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -77,7 +90,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         observeNickNameEditChange()
     }
 
-    // MediaPlayer sound delayed onCreate()
     override fun onResume() {
         super.onResume()
         onClickRecord()
@@ -85,7 +97,12 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
     private fun setBottomSheetPadding(view: View) {
         if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
-            binding.recordVoiceBottomSheet.setPadding(dpToPx(view, 16), dpToPx(view, 16), dpToPx(view, 24), dpToPx(view, 32))
+            binding.recordVoiceBottomSheet.setPadding(
+                dpToPx(view, 16), dpToPx(view, 16), dpToPx(
+                    view,
+                    24
+                ), dpToPx(view, 32)
+            )
         }
     }
 
@@ -94,9 +111,9 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         MediaRecorderHelper.fileName = file
 
         ActivityCompat.requestPermissions(
-                requireActivity(),
-                permissions,
-                REQUEST_RECORD_AUDIO_PERMISSION
+            requireActivity(),
+            permissions,
+            REQUEST_RECORD_AUDIO_PERMISSION
         )
     }
 
@@ -120,13 +137,11 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.apply {
+                    nickNameText = s.toString()
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
                         getString(R.string.record_voice_nickname_number, s?.length)
                 }
-
-                if (s!!.isNotEmpty() && currentState == 2) onClickCompleteButton()
-                else emptyNickName()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -186,6 +201,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 MediaRecorderHelper.stopAndRelease()
                 showRecordStop()
                 showReRecordPlay()
+
                 Log.v(TAG, "STATE_RECORD_STOP isRecord:$isRecord isPlaying:$isPlaying")
             }
             STATE_PLAYING -> {
@@ -196,10 +212,10 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 showReRecordStop()
                 Log.v(TAG, "STATE_PLAYING isRecord:$isRecord isPlaying:$isPlaying")
                 MediaPlayerHelper.startPlaying(MediaRecorderHelper.fileName) {
-                    binding.recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
                     isPlaying = false
                     isRecord = false
                     currentState = STATE_PAUSE
+                    showRecordStop()
                     Log.v(TAG, "Playing Completed isRecord:$isRecord isPlaying:$isPlaying")
                 }
             }
@@ -215,6 +231,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun showRecord() {
+        emptyNickName()
+
         binding.apply {
             maximumTextView.visibility = View.INVISIBLE
             recordStatusTextView.setText(R.string.record_voice_record_to_press_button)
@@ -238,6 +256,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun showRecordStop() {
+        if (nickNameText.isNotEmpty() && currentState == 2) onClickCompleteButton()
+
         binding.apply {
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
             recordStatusTextView.setText(R.string.record_voice_listen)
@@ -246,6 +266,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun showRecordPlaying() {
+        if (nickNameText.isNotEmpty() && currentState == 3) onClickCompleteButton()
+
         binding.apply {
             recordStatusTextView.setText(R.string.record_voice_playing)
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_stop)
@@ -253,6 +275,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun showRecordPause() {
+        if (nickNameText.isNotEmpty() && currentState == 4) onClickCompleteButton()
+
         binding.apply {
             recordStatusTextView.setText(R.string.record_voice_listen)
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
@@ -267,6 +291,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             )?.constantState
         ) {
             binding.reRecordImageView.setOnClickListener {
+                emptyNickName()
                 binding.reRecordImageView.isVisible = false
                 binding.reRecordTextView.isVisible = false
                 binding.maximumTextView.isVisible = true
@@ -293,6 +318,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 )?.constantState
             ) {
                 reRecordImageView.setOnClickListener {
+                    emptyNickName()
                     reRecordImageView.isVisible = false
                     reRecordTextView.isVisible = false
                     maximumTextView.isVisible = true
@@ -320,19 +346,44 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickCompleteButton() {
+        val voiceFile = File(file)
+        val voiceBody = voiceFile.absolutePath.toRequestBody("audio/*".toMediaType())
+        val fileToUpload = MultipartBody.Part.createFormData(
+            "voice_file",
+            voiceFile.absolutePath,
+            voiceBody
+        )
+
+        val part: ArrayList<MultipartBody.Part> = ArrayList()
+
+        part.add(getBody("nickname", nickNameText))
+        part.add(getBody("message_type", "VOICE"))
+        part.add(getAudioBody("voice_file", voiceFile))
+        part.add(getBody("sticker_color", StickerColorType.values().random().toString()))
+        part.add(getBody("sticker_angle", randomAngle()))
+
         binding.apply {
             completeButton.isEnabled = true
             completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
+
+            completeButton.setOnClickListener {
+                detailViewModel.postReplyUserComment(
+                    safeArgs.roomCode,
+                    part
+                ).also {
+                    dismiss()
+                }
+            }
         }
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionToRecordAccepted = if (requestCode == Constants.REQUEST_RECORD_AUDIO_PERMISSION) {
+        permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
             grantResults[0] == PackageManager.PERMISSION_GRANTED
         } else false
         if (!permissionToRecordAccepted) dismiss()

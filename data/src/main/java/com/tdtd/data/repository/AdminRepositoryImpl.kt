@@ -1,9 +1,9 @@
 package com.tdtd.data.repository
 
-import android.accounts.NetworkErrorException
 import com.tdtd.data.api.AdminApi
 import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
+import com.tdtd.domain.entity.DeleteRoomEntity
 import com.tdtd.domain.entity.RoomUrlEntity
 import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.repository.AdminRepository
@@ -38,7 +38,7 @@ class AdminRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun deleteOtherCommentByAdmin(commentId: Long): Result<RoomsEntity> =
+    override suspend fun deleteOtherCommentByAdmin(commentId: Long): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 adminApi.deleteOtherCommentByAdmin(commentId).let { roomsResponse ->

@@ -107,8 +107,8 @@
                 android:layout_marginBottom="384dp"
                 android:gravity="center"
                 android:text="@string/shared_no_reply"
-                android:visibility="gone"
                 android:textAppearance="@style/text.20dp.regular.grayscale4"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -164,5 +164,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include layout="@layout/fragment_text_comment" />
+
+        <include layout="@layout/fragment_voice_comment" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

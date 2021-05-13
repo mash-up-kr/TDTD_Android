@@ -141,5 +141,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include layout="@layout/fragment_text_comment" />
+
+        <include layout="@layout/fragment_voice_comment" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

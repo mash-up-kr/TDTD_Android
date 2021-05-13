@@ -2,7 +2,7 @@ package com.tdtd.data.api
 
 import com.tdtd.data.response.room.DeleteResponse
 import com.tdtd.data.response.room.RoomDetailResponse
-import okhttp3.RequestBody
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface ReplyApi {
@@ -11,7 +11,7 @@ interface ReplyApi {
     @POST("api/v1/comments/{roomCode}")
     suspend fun postReplyUserComment(
         @Path("roomCode") roomCode: String,
-        @PartMap params: HashMap<String, RequestBody>
+        @Part params: List<MultipartBody.Part>
     ): DeleteResponse
 
     @DELETE("/api/v1/comments/{commentId}")

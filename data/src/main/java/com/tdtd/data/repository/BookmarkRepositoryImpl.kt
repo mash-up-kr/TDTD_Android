@@ -1,13 +1,11 @@
 package com.tdtd.data.repository
 
-import android.accounts.NetworkErrorException
 import com.tdtd.data.api.BookmarkApi
 import com.tdtd.data.mapper.toListRoomEntity
 import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.DeleteRoomEntity
 import com.tdtd.domain.entity.RoomEntity
-import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.repository.BookmarkRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
