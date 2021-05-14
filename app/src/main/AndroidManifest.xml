@@ -10,9 +10,9 @@
 
     <application
         android:name=".TDTDApplication"
-        android:icon="@mipmap/mask_group"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/mask_group"
+        android:roundIcon="@mipmap/app_icon_round"
         android:theme="@style/Theme.Voicepaper"
         android:usesCleartextTraffic="true" />
 
