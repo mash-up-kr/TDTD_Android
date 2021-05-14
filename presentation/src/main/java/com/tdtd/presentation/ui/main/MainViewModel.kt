@@ -14,6 +14,7 @@ import com.tdtd.presentation.entity.Room
 import com.tdtd.presentation.mapper.toPresenterCreated
 import com.tdtd.presentation.mapper.toPresenterDeleteRoom
 import com.tdtd.presentation.mapper.toPresenterRoom
+import com.tdtd.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,12 +31,10 @@ class MainViewModel @Inject constructor(
     private val _emptyRoom = MutableLiveData<Boolean>()
     val emptyRoom: LiveData<Boolean> get() = _emptyRoom
 
-    private val _makeRoom = MutableLiveData<PresenterCreatedRoomCode>()
+    private val _makeRoom = SingleLiveEvent<PresenterCreatedRoomCode>()
     val makeRoom: LiveData<PresenterCreatedRoomCode> get() = _makeRoom
 
     private val _favoriteRoom = MutableLiveData<PresenterDeleteRoom>()
-
-    private val _isChecked = MutableLiveData<Boolean>()
 
     private val _inviteRoom = MutableLiveData<PresenterDeleteRoom>()
 
