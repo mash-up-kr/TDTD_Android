@@ -30,10 +30,10 @@ import kotlinx.coroutines.*
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
 
     private val detailViewModel: DetailViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
     private val safeArgs: DetailFragmentArgs by navArgs()
     private lateinit var detailAdapter: DetailAdapter
     private var type: String = ""
-    private val mainViewModel: MainViewModel by viewModels()
     private var isFavorite: Boolean = false
     private var endTime = 0
     private var currentState = STATE_PLAYING
@@ -63,6 +63,20 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             hostDetailFragment()
         else
             userDetailFragment()
+
+        getNavigationResult<String>(R.id.detailFragment, "detail") {
+            findNavController().navigateUp()
+            detailViewModel.deleteRoom(it)
+        }
+
+        detailViewModel.deleteRoomValue.observe(viewLifecycleOwner) { text ->
+            if (text.isNotEmpty()) {
+                requireActivity().showToast(
+                    getString(R.string.toast_leave_room_success),
+                    requireView()
+                )
+            }
+        }
 
         detailViewModel.alreadyReportEvent.observe(viewLifecycleOwner, Observer {
             requireActivity().showToast(
@@ -185,8 +199,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             val endTimeTextView = requireActivity().findViewById<TextView>(R.id.endTimeTextView)
             val progressBar = requireActivity().findViewById<ProgressBar>(R.id.progressBar)
 
-            progressBar.progress = 0
-
             nickName.text = name
 
             closeImageView.setOnClickListener {
@@ -220,14 +232,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 currentProgress = mediaPlayer!!.currentPosition
             }
 
-            if (mediaPlayer!!.duration.toLong() > 60000) endTimeTextView.text = "01:00"
+            if (mediaPlayer!!.duration.toLong() > 60000) endTimeTextView.text = getString(R.string.record_voice_maximum_minute)
             else playerFormat(mediaPlayer?.duration!!.toLong(), endTimeTextView)
 
             endTime = mediaPlayer!!.duration / 100
             progressBar.max = endTime
 
             recordImageView.setOnClickListener {
-                CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.Default).launch {
                     changeByState(voiceFileUrl, recordImageView, progressBar)
                 }
             }
@@ -368,13 +380,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 true -> {
                     binding.favoritesButton.isSelected = false
                     isFavorite = false
-                    PreferenceManager(requireContext()).setFavorite(false)
                     mainViewModel.deleteBookmarkByRoomCode(safeArgs.roomCode)
                 }
                 false -> {
                     binding.favoritesButton.isSelected = true
                     isFavorite = true
-                    PreferenceManager(requireContext()).setFavorite(true)
                     mainViewModel.postBookmarkByRoomCode(safeArgs.roomCode)
                 }
             }
@@ -415,10 +425,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         binding.sharedLinkButton.isVisible = false
         binding.sharedLinkTextView.isVisible = false
         binding.sharedFriendTextView.isVisible = true
-    }
-
-    private fun showEmptyDetailRoom() {
-        binding.sharedLinkTextView.isVisible = true
     }
 
     private fun hideEmptyDetailRoom() {
