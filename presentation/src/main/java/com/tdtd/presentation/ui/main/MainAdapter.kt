@@ -2,6 +2,7 @@ package com.tdtd.presentation.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +36,6 @@ class MainAdapter(
             binding.container.setOnClickListener {
                 onClick(data)
             }
-
             binding.favoritesButton.isSelected = data.is_bookmark
             binding.favoritesButton.setOnClickListener {
                 when (binding.favoritesButton.isSelected) {
@@ -49,6 +49,7 @@ class MainAdapter(
                     }
                 }
             }
+            binding.hostImageView.isVisible = data.is_host
         }
     }
 }
