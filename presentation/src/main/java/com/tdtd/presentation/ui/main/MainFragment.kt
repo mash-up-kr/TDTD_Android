@@ -11,20 +11,17 @@ import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
 import com.tdtd.presentation.util.DeviceInfo
 import com.tdtd.presentation.util.PreferenceManager
-import com.tdtd.presentation.util.getNavigationResult
-import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
+    @Inject
+    lateinit var preferenceManager: PreferenceManager
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var mainAdapter: MainAdapter
     private var deepLinkFlag = true
-
-    @Inject
-    lateinit var preferenceManager: PreferenceManager
 
     override fun initViews() {
         super.initViews()
@@ -33,10 +30,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         initBindings()
         setAdapter()
         setBookmarkList()
-        setNavigationResult()
         onClickAddImageView()
         handleDynamicLink()
-
     }
 
     override fun initObserves() {
@@ -51,6 +46,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 showRecyclerView()
             }
         })
+        mainViewModel.getUserRoomList()
     }
 
     private fun initToken() {
@@ -72,7 +68,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             else startDetailUserFragment(room.room_code, room.is_bookmark)
         }, { addFavorite ->
             mainViewModel.postBookmarkByRoomCode(addFavorite.room_code)
-
         }, { deleteFavorite ->
             mainViewModel.deleteBookmarkByRoomCode(deleteFavorite.room_code)
         })
@@ -105,14 +100,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     }
                 }
                 .addOnFailureListener {}
-        }
-    }
-
-    private fun setNavigationResult() {
-        getNavigationResult<String>(R.id.mainFragment, "detail") { result ->
-            requireActivity().showToast(result, requireView())
-        }.let {
-            mainViewModel.getUserRoomList()
         }
     }
 

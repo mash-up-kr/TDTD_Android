@@ -19,8 +19,11 @@ import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
-import com.tdtd.presentation.util.*
+import com.tdtd.presentation.util.KeyboardVisibilityUtils
 import com.tdtd.presentation.util.MultiPartForm.getBody
+import com.tdtd.presentation.util.hideKeyboard
+import com.tdtd.presentation.util.randomAngle
+import com.tdtd.presentation.util.setupFullHeight
 import okhttp3.MultipartBody
 
 
@@ -63,7 +66,6 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeKeyboard()
-        setBottomSheetPadding(view)
         setNickNameEditFocus()
         setWriteTextEditFocus()
         setTextWatcher()
@@ -91,6 +93,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
             } else {
                 binding.nicknameEditText.hint = getString(R.string.record_voice_title_hint)
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+                view.hideKeyboard()
             }
         }
     }
@@ -103,6 +106,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
             } else {
                 view.setBackgroundResource(R.drawable.background_beige2_radius16)
                 binding.writeTextEditView.hint = getString(R.string.record_voice_whisper_title)
+                view.hideKeyboard()
             }
         }
     }
@@ -218,17 +222,6 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
             )
         findNavController().navigate(action)
         findNavController().popBackStack()
-    }
-
-    private fun setBottomSheetPadding(view: View) {
-        if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
-            binding.writeTextBottomSheet.setPadding(
-                dpToPx(view, 16),
-                dpToPx(view, 16),
-                dpToPx(view, 24),
-                dpToPx(view, 32)
-            )
-        }
     }
 
     override fun onDestroy() {

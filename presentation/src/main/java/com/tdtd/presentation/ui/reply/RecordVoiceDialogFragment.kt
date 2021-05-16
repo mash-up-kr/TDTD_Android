@@ -85,7 +85,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeKeyboard()
-        setBottomSheetPadding(view)
         initRecord()
         onClickCancelButton()
         setNickNameEditFocus()
@@ -106,6 +105,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 showBanner()
             }
         )
+        binding.recordVoiceBottomSheet.setOnClickListener { it.hideKeyboard() }
     }
 
     private fun showBanner() {
@@ -118,17 +118,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         binding.bannerView.isVisible = false
         binding.bannerImageView.isVisible = false
         binding.bannerTextView.isVisible = false
-    }
-
-    private fun setBottomSheetPadding(view: View) {
-        if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
-            binding.recordVoiceBottomSheet.setPadding(
-                dpToPx(view, 16), dpToPx(view, 16), dpToPx(
-                    view,
-                    24
-                ), dpToPx(view, 32)
-            )
-        }
     }
 
     private fun initRecord() {
@@ -150,6 +139,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             } else {
                 binding.nicknameEditText.hint = getString(R.string.room_name_hint_title)
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+                view.hideKeyboard()
             }
         }
     }
@@ -166,6 +156,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
                         getString(R.string.record_voice_nickname_number, s?.length)
+                    if (nickNameText.isEmpty()) emptyNickName()
+                    else if (nickNameText.isNotEmpty() && currentState == 2) onClickCompleteButton()
                 }
             }
 
@@ -267,6 +259,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             recordStatusTextView.setText(R.string.record_voice_record_to_press_button)
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_active)
             chronometer.isVisible = true
+            chronometer.typeface = ResourcesCompat.getFont(requireContext(), R.font.font)
             chronometer.base = SystemClock.elapsedRealtime()
             chronometer.start()
             chronometer.setOnChronometerTickListener {

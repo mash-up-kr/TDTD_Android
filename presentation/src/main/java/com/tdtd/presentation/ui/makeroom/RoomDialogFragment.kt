@@ -1,12 +1,16 @@
 package com.tdtd.presentation.ui.makeroom
 
+import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -20,9 +24,9 @@ import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
 import com.tdtd.presentation.ui.main.MainViewModel
-import com.tdtd.presentation.util.Constants
-import com.tdtd.presentation.util.dpToPx
-import com.tdtd.presentation.util.getBottomNavigationBarHeight
+import com.tdtd.presentation.util.KeyboardVisibilityUtils
+import com.tdtd.presentation.util.hideKeyboard
+import com.tdtd.presentation.util.setNavigationResult
 import com.tdtd.presentation.util.setupFullHeight
 
 
@@ -62,7 +66,6 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setBottomSheetPadding(view)
         setRoomEditFocus()
         setRoomEditView()
     }
@@ -75,8 +78,10 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
             } else {
                 binding.roomNameEditView.hint = getString(R.string.room_name_hint_title)
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+                view.hideKeyboard()
             }
         }
+        binding.roomBottomSheet.setOnClickListener { it.hideKeyboard() }
     }
 
     private fun setRoomEditView() {
@@ -119,6 +124,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         binding.voiceImageView.isEnabled = true
 
         binding.voiceImageView.setOnClickListener {
+            it.hideKeyboard()
             it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
             binding.textImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
             binding.makeRoomButton.apply {
@@ -142,6 +148,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         binding.textImageView.isEnabled = true
 
         binding.textImageView.setOnClickListener {
+            it.hideKeyboard()
             it.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
             binding.voiceImageView.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
             binding.makeRoomButton.apply {
@@ -176,16 +183,10 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
             false
         )
         findNavController().navigate(action)
+        dismiss()
     }
 
-    private fun setBottomSheetPadding(view: View) {
-        if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
-            binding.roomBottomSheet.setPadding(
-                dpToPx(view, 16),
-                dpToPx(view, 16),
-                dpToPx(view, 24),
-                dpToPx(view, 32)
-            )
-        }
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

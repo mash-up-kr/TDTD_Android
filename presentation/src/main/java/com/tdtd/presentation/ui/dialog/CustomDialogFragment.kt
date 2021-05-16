@@ -67,7 +67,7 @@ class CustomDialogFragment : DialogFragment() {
                 R.layout.dialog_delete_room -> {
                     submitButton.setOnClickListener {
                         setNavigationResult(
-                            getString(R.string.toast_leave_room_success),
+                            getString(R.string.toast_delete_room_success),
                             "detail"
                         ).also {
                             detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
