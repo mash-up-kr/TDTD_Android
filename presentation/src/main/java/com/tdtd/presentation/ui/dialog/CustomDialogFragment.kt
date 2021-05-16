@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tdtd.presentation.R
 import com.tdtd.presentation.ui.detail.DetailViewModel
@@ -37,9 +38,8 @@ class CustomDialogFragment : DialogFragment() {
                             "detail"
                         ).also {
                             detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
+                            dismiss()
                         }
-                        requireActivity().onBackPressed()
-                        dismiss()
                     }
                 }
                 R.layout.dialog_report_reply -> {
@@ -50,33 +50,61 @@ class CustomDialogFragment : DialogFragment() {
                 }
                 R.layout.dialog_delete_reply -> {
                     submitButton.setOnClickListener {
-                        detailViewModel.deleteReplyUserComment(safeArgs.id)
-                        dismiss()
+                        detailViewModel.deleteReplyUserComment(safeArgs.id).apply {
+                            deleteComment()
+                            dialog?.dismiss()
+                        }
                     }
                 }
                 R.layout.dialog_delete_reply_admin -> {
                     submitButton.setOnClickListener {
-                        detailViewModel.deleteOtherCommentByAdmin(safeArgs.id)
-                        dismiss()
+                        detailViewModel.deleteOtherCommentByAdmin(safeArgs.id).apply {
+                            deleteCommentByAdmin()
+                            dialog?.dismiss()
+                        }
                     }
                 }
                 R.layout.dialog_delete_room -> {
                     submitButton.setOnClickListener {
-                        detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
-                        requireActivity().onBackPressed()
-                        dismiss()
+                        setNavigationResult(
+                            getString(R.string.toast_delete_room_success),
+                            "detail"
+                        ).also {
+                            detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
+                            dismiss()
+                        }
                     }
                 }
                 R.layout.dialog_share_room -> {
                     cancelButton.setOnClickListener { dismiss() }
                 }
             }
-
-            cancelButton.setOnClickListener {
-                dismiss()
-            }
+            cancelButton.setOnClickListener { dismiss() }
         }
 
         return view
+    }
+
+    private fun deleteCommentByAdmin() {
+        val action = CustomDialogFragmentDirections.actionCustomDialogFragmentToDetailFragment(
+            safeArgs.roomCode,
+            "",
+            true,
+            safeArgs.bookmark
+        )
+        findNavController().navigate(action)
+        findNavController().popBackStack()
+    }
+
+    private fun deleteComment() {
+        val action =
+            CustomDialogFragmentDirections.actionCustomDialogFragmentToDetailFragment(
+                safeArgs.roomCode,
+                "",
+                false,
+                safeArgs.bookmark
+            )
+        findNavController().navigate(action)
+        findNavController().popBackStack()
     }
 }

@@ -1,9 +1,8 @@
 package com.tdtd.domain.repository
 
-import com.tdtd.domain.entity.RoomEntity
-import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.DeleteRoomEntity
+import com.tdtd.domain.entity.RoomEntity
 
 /**
  * 즐겨찾기

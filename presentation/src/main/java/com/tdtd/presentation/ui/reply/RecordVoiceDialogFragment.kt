@@ -3,6 +3,7 @@ package com.tdtd.presentation.ui.reply
 import android.Manifest
 import android.app.Dialog
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Editable
@@ -13,9 +14,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -33,15 +36,14 @@ import com.tdtd.presentation.util.Constants.STATE_RECORD
 import com.tdtd.presentation.util.Constants.STATE_RECORD_STOP
 import com.tdtd.presentation.util.MultiPartForm.getAudioBody
 import com.tdtd.presentation.util.MultiPartForm.getBody
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+
 
 class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentRecordVoiceBinding
-    private val detailViewModel: DetailViewModel by viewModels({ requireParentFragment() })
+    private val detailViewModel: DetailViewModel by activityViewModels()
     private val safeArgs: RecordVoiceDialogFragmentArgs by navArgs()
     private var file: String = ""
     private var currentState = STATE_NORMAL
@@ -50,6 +52,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
     private var nickNameText = ""
+    private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,27 +66,25 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return BottomSheetDialog(requireContext(), theme).apply {
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = 0
-            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                        behavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    }
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                }
-            })
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let { sheet ->
+                val behavior = BottomSheetBehavior.from(sheet)
+                setupFullHeight(sheet)
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.skipCollapsed = true
+            }
         }
+        return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initParentHeight(requireActivity(), view, 24)
-        setBottomSheetPadding(view)
+        observeKeyboard()
         initRecord()
         onClickCancelButton()
         setNickNameEditFocus()
@@ -95,19 +96,32 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         onClickRecord()
     }
 
-    private fun setBottomSheetPadding(view: View) {
-        if (getBottomNavigationBarHeight(view) < Constants.BOTTOM_NAVIGATION_HEIGHT) {
-            binding.recordVoiceBottomSheet.setPadding(
-                dpToPx(view, 16), dpToPx(view, 16), dpToPx(
-                    view,
-                    24
-                ), dpToPx(view, 32)
-            )
-        }
+    private fun observeKeyboard() {
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
+            onShowKeyboard = { _, _ ->
+                hideBanner()
+            },
+            onHideKeyboard = {
+                showBanner()
+            }
+        )
+        binding.recordVoiceBottomSheet.setOnClickListener { it.hideKeyboard() }
+    }
+
+    private fun showBanner() {
+        binding.bannerView.isVisible = true
+        binding.bannerImageView.isVisible = true
+        binding.bannerTextView.isVisible = true
+    }
+
+    private fun hideBanner() {
+        binding.bannerView.isVisible = false
+        binding.bannerImageView.isVisible = false
+        binding.bannerTextView.isVisible = false
     }
 
     private fun initRecord() {
-        file = "${requireActivity().externalCacheDir?.absolutePath}/recording.3gp"
+        file = "${requireActivity().externalCacheDir?.absolutePath}/recording.mp3"
         MediaRecorderHelper.fileName = file
 
         ActivityCompat.requestPermissions(
@@ -125,6 +139,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             } else {
                 binding.nicknameEditText.hint = getString(R.string.room_name_hint_title)
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
+                view.hideKeyboard()
             }
         }
     }
@@ -141,6 +156,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                     currentTextLengthTextView.text =
                         getString(R.string.record_voice_nickname_number, s?.length)
+                    if (nickNameText.isEmpty()) emptyNickName()
+                    else if (nickNameText.isNotEmpty() && currentState == 2) onClickCompleteButton()
                 }
             }
 
@@ -151,7 +168,12 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickRecord() {
+        binding.view.setOnClickListener {
+            it.hideKeyboard()
+        }
+
         binding.recordDefaultImageView.setOnClickListener {
+            it.hideKeyboard()
             changeRecordState()
         }
     }
@@ -201,7 +223,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 MediaRecorderHelper.stopAndRelease()
                 showRecordStop()
                 showReRecordPlay()
-
                 Log.v(TAG, "STATE_RECORD_STOP isRecord:$isRecord isPlaying:$isPlaying")
             }
             STATE_PLAYING -> {
@@ -238,10 +259,11 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             recordStatusTextView.setText(R.string.record_voice_record_to_press_button)
             recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_active)
             chronometer.isVisible = true
+            chronometer.typeface = ResourcesCompat.getFont(requireContext(), R.font.font)
             chronometer.base = SystemClock.elapsedRealtime()
             chronometer.start()
             chronometer.setOnChronometerTickListener {
-                if (it.text == getString(R.string.record_voice_maximum_minute)) {
+                if (it.text == getString(R.string.record_voice_maximum_minute) && nickNameText.isNotEmpty()) {
                     it.stop()
                     recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_play)
                     recordStatusTextView.setText(R.string.record_voice_listen)
@@ -250,6 +272,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                     currentState = STATE_RECORD_STOP
                     MediaRecorderHelper.stopAndRelease()
                     showReRecordPlay()
+                    onClickCompleteButton()
                 }
             }
         }
@@ -346,16 +369,10 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickCompleteButton() {
-        val voiceFile = File(file)
-        val voiceBody = voiceFile.absolutePath.toRequestBody("audio/*".toMediaType())
-        val fileToUpload = MultipartBody.Part.createFormData(
-            "voice_file",
-            voiceFile.absolutePath,
-            voiceBody
-        )
+        val audioPath: Uri = file.toUri()
+        val voiceFile = File(audioPath.path!!)
 
         val part: ArrayList<MultipartBody.Part> = ArrayList()
-
         part.add(getBody("nickname", nickNameText))
         part.add(getBody("message_type", "VOICE"))
         part.add(getAudioBody("voice_file", voiceFile))
@@ -371,11 +388,35 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                     safeArgs.roomCode,
                     part
                 ).also {
+                    if (safeArgs.host) createCommentByAdmin()
+                    else createComment()
                     dismiss()
                 }
             }
         }
     }
+
+    private fun createCommentByAdmin() {
+        val action =
+            RecordVoiceDialogFragmentDirections.actionRecordVoiceDialogFragmentToDetailFragment(
+                safeArgs.roomCode,
+                "",
+                true,
+                safeArgs.bookmark
+            )
+        findNavController().navigate(action)
+        findNavController().popBackStack()
+    }
+
+    private fun createComment() {
+        val action =
+            RecordVoiceDialogFragmentDirections.actionRecordVoiceDialogFragmentToDetailFragment(
+                safeArgs.roomCode, "", false, safeArgs.bookmark
+            )
+        findNavController().navigate(action)
+        findNavController().popBackStack()
+    }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -395,6 +436,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             MediaRecorderHelper.stopAndRelease()
         }
         if (isPlaying) MediaPlayerHelper.stopAndRelease()
+        keyboardVisibilityUtils.detachKeyboardListeners()
         super.onDestroy()
     }
 

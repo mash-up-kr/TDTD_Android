@@ -6,13 +6,13 @@ import android.content.res.Resources
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
+import android.widget.TextView
 import com.tdtd.presentation.R
 import kotlinx.android.synthetic.main.layout_toast.view.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
@@ -56,6 +56,13 @@ fun initParentHeight(activity: Activity, view: View?, sub: Int) {
     view?.layoutParams = layoutParams
 }
 
+fun setupFullHeight(bottomSheet: View) {
+    val layoutParams = bottomSheet.layoutParams
+    layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+
+    bottomSheet.layoutParams = layoutParams
+}
+
 fun getBottomNavigationBarHeight(view: View): Int {
     var bottomBarHeight = 0
     val resourceIdBottom: Int =
@@ -96,4 +103,20 @@ fun randomAngle(): String {
         "10"
     )
     return array.random()
+}
+
+fun playerFormat(duration: Long, endTime: TextView) {
+    val format = TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(
+        TimeUnit.MILLISECONDS.toMinutes(duration)
+    )
+    if (format < 10) {
+        endTime.text = String.format("00:0%d", format)
+    } else {
+        endTime.text = String.format("00:%d", format)
+    }
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

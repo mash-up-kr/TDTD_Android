@@ -1,5 +1,6 @@
 package com.tdtd.data.api
 
+import com.tdtd.data.response.reply.ReplyUserResponse
 import com.tdtd.data.response.room.DeleteResponse
 import com.tdtd.data.response.room.RoomDetailResponse
 import okhttp3.MultipartBody
@@ -12,7 +13,7 @@ interface ReplyApi {
     suspend fun postReplyUserComment(
         @Path("roomCode") roomCode: String,
         @Part params: List<MultipartBody.Part>
-    ): DeleteResponse
+    ): ReplyUserResponse
 
     @DELETE("/api/v1/comments/{commentId}")
     suspend fun deleteReplyUserComment(
@@ -22,5 +23,5 @@ interface ReplyApi {
     @POST("/api/v1/reports/{commentId}")
     suspend fun postReportUserByCommentId(
         @Path("commentId") commentId: Long
-    ) : DeleteResponse
+    ): DeleteResponse
 }

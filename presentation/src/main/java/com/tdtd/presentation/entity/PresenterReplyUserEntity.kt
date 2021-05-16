@@ -3,9 +3,9 @@ package com.tdtd.presentation.entity
 import com.tdtd.domain.entity.MakeRoomType
 
 data class PresenterReplyUserEntity(
-    var code : Int,
-    var message : String,
-    var result : PresenterReplyUserCommentWithUrl
+    var code: Int,
+    var message: String,
+    var result: PresenterReplyUserCommentWithUrl
 )
 
 data class PresenterReplyUserCommentWithUrl(

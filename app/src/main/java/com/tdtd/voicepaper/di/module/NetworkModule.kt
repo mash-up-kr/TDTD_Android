@@ -1,16 +1,20 @@
 package com.tdtd.voicepaper.di.module
 
+import android.content.Context
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.tdtd.data.api.AdminApi
 import com.tdtd.data.api.BookmarkApi
 import com.tdtd.data.api.ReplyApi
 import com.tdtd.data.api.RoomApi
+import com.tdtd.presentation.util.AuthorizationInterceptor
 import com.tdtd.presentation.util.Constants.BASE_URL
+import com.tdtd.presentation.util.PreferenceManager
 import com.tdtd.voicepaper.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +31,6 @@ object NetworkModule {
     fun provideUserRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            //.addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder()
@@ -41,27 +44,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClientForAccessToken(): OkHttpClient {
+    fun provideOkHttpClientForAccessToken(
+        @ApplicationContext context: Context
+    ): OkHttpClient {
         val builder = OkHttpClient.Builder()
-        // header
-        builder.addInterceptor { chain ->
-            val deviceId = "test-device"
-            var request = chain.request()
-            request = request.newBuilder()
-                .addHeader("Device-Id", deviceId)
-                .build()
 
-            chain.proceed(request)
-        }
-
-        // log
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             builder.addInterceptor(loggingInterceptor)
+            builder.addInterceptor(AuthorizationInterceptor(PreferenceManager(context)))
         }
 
-        // timeout
         builder.readTimeout(1, TimeUnit.MINUTES)
         builder.connectTimeout(30, TimeUnit.SECONDS)
 

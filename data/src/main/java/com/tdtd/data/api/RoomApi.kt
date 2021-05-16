@@ -1,8 +1,10 @@
 package com.tdtd.data.api
 
 import com.tdtd.data.request.MakeRoomRequest
-import com.tdtd.data.response.room.*
-import com.tdtd.domain.Result
+import com.tdtd.data.response.room.CreatedRoomCodeResponse
+import com.tdtd.data.response.room.DeleteResponse
+import com.tdtd.data.response.room.RoomDetailResponse
+import com.tdtd.data.response.room.RoomsResponse
 import retrofit2.http.*
 
 

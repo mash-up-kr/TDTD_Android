@@ -3,19 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="model"
-            type="com.tdtd.presentation.entity.MakeRoom" />
-        <variable
-            name="viewModel"
-            type="com.tdtd.presentation.ui.main.MainViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/roomBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingLeft="16dp"
         android:paddingTop="24dp"
         android:paddingRight="16dp"
@@ -163,13 +156,14 @@
             android:id="@+id/makeRoomButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:background="@drawable/background_grayscale1_radius12"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:text="@string/make_room_title"
             android:textAppearance="@style/text.20dp.regular.white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voiceImageView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,15 +1,9 @@
 package com.tdtd.presentation.base.ui
 
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel : ViewModel() {
-
-    //inline fun <T> launchOnViewModelScope(crossinline block: suspend () -> LiveData<T>): LiveData<T> {
-    //    return liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
-    //        emitSource(block())
-    //    }
-    //}
 
     val isLoading = MutableLiveData<Boolean>()
 

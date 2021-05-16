@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/writeTextBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingLeft="16dp"
         android:paddingTop="24dp"
         android:paddingRight="16dp"
@@ -78,15 +79,13 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/writeTextEditView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="176dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="280dp"
             android:background="@drawable/background_beige2_radius16"
             android:gravity="start"
             android:hint="@string/record_voice_whisper_title"
             android:padding="16dp"
             android:textAppearance="@style/text.20dp.regular.grayscale1"
-            app:layout_constraintBottom_toTopOf="@id/cancelButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentTextView" />
@@ -95,28 +94,29 @@
             android:id="@+id/cancelButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:background="@drawable/background_stroke_gray3_radius12"
             android:gravity="center"
             android:text="@string/record_voice_cancel"
             android:textAppearance="@style/text.20dp.regular.grayscale1"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/completeButton"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/writeTextEditView"
             tools:text="취소" />
 
         <View
             android:id="@+id/bannerView"
             android:layout_width="0dp"
             android:layout_height="96dp"
-            android:layout_marginBottom="16dp"
             android:background="@drawable/background_beige3_radius16"
-            app:layout_constraintBottom_toTopOf="@+id/cancelButton"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bannerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -140,14 +140,15 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
             android:layout_weight="1"
             android:background="@drawable/background_grayscale1_radius12"
             android:gravity="center"
             android:text="@string/record_voice_confirm"
             android:textAppearance="@style/text.20dp.regular.white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cancelButton"
+            app:layout_constraintTop_toBottomOf="@id/writeTextEditView"
             tools:text="완료" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

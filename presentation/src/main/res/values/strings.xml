@@ -24,7 +24,7 @@
     <string name="voice_title">음성</string>
     <string name="voice_description_content">직접 음성 녹음을\n할 수 있어요!</string>
     <string name="text_title">텍스트</string>
-    <string name="text_description_content">텍스트로 쓰면 민지가\n읽어드려요!</string>
+    <string name="text_description_content">텍스트로 메시지를 써서\n마음을 속닥여요!</string>
     <string name="make_room_title">방 만들기</string>
     <string name="initial_input_number">0/35</string>
     <string name="initial_nickname_number">0/12</string>
@@ -76,4 +76,5 @@
 
     <!-- Toast -->
     <string name="toast_leave_room_success">방에서 탈출했어요!</string>
+    <string name="toast_delete_room_success">방이 삭제되었어요!</string>
 </resources>

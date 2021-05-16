@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment<T : ViewDataBinding>(private val layoutId : Int) : Fragment() {
+abstract class BaseFragment<T : ViewDataBinding>(private val layoutId: Int) : Fragment() {
 
     protected lateinit var binding: T
 
@@ -17,7 +17,11 @@ abstract class BaseFragment<T : ViewDataBinding>(private val layoutId : Int) : F
         setHasOptionsMenu(false)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.lifecycleOwner = this
         return binding.root

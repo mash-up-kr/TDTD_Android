@@ -9,14 +9,8 @@ import com.tdtd.domain.usecase.GetAllAdminUseCase
 import com.tdtd.domain.usecase.GetAllReplyUseCase
 import com.tdtd.domain.usecase.GetAllRoomsUseCase
 import com.tdtd.presentation.base.ui.BaseViewModel
-import com.tdtd.presentation.entity.PresenterDeleteRoom
-import com.tdtd.presentation.entity.PresenterRoomDetailEntity
-import com.tdtd.presentation.entity.PresenterRoomUrlEntity
-import com.tdtd.presentation.entity.Rooms
-import com.tdtd.presentation.mapper.toPresenterDeleteRoom
-import com.tdtd.presentation.mapper.toPresenterRoomDetailEntity
-import com.tdtd.presentation.mapper.toPresenterRoomUrlEntity
-import com.tdtd.presentation.mapper.toRooms
+import com.tdtd.presentation.entity.*
+import com.tdtd.presentation.mapper.*
 import com.tdtd.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -35,7 +29,7 @@ class DetailViewModel @Inject constructor(
 
     private val _deleteRoom = MutableLiveData<PresenterDeleteRoom>()
 
-    private val _replyValue = MutableLiveData<PresenterDeleteRoom>()
+    private val _replyValue = MutableLiveData<PresenterReplyUserEntity>()
 
     private val _deleteComment = MutableLiveData<PresenterRoomDetailEntity>()
 
@@ -53,6 +47,15 @@ class DetailViewModel @Inject constructor(
 
     private val _alreadyReportEvent = SingleLiveEvent<Unit>()
     val alreadyReportEvent: LiveData<Unit> get() = _alreadyReportEvent
+
+    private val _deleteRoomValue = SingleLiveEvent<String>()
+    val deleteRoomValue: LiveData<String> get() = _deleteRoomValue
+
+    fun deleteRoom(text: String) {
+        if (text.isNotEmpty()) {
+            _deleteRoomValue.value = text
+        }
+    }
 
     fun getRoomDetailByRoomCode(roomCode: String) = viewModelScope.launch {
         getAllRoomsUseCase.invoke(roomCode).let { result ->
@@ -76,7 +79,7 @@ class DetailViewModel @Inject constructor(
     ) = viewModelScope.launch {
         getAllReplyUseCase.invoke(roomCode, params).let { result ->
             showLoading()
-            _replyValue.value = result.getValue().toPresenterDeleteRoom()
+            _replyValue.value = result.getValue().toPresenterReplyUserEntity()
         }
         hideLoading()
     }

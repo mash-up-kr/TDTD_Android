@@ -14,10 +14,10 @@ class GetAllRoomsUseCase @Inject constructor(
     suspend operator fun invoke(makeRoomEntity: MakeRoomEntity): Result<CreatedRoomCodeEntity> =
         roomRepository.postCreateUserRoom(makeRoomEntity)
 
-    suspend operator fun invoke(roomCode :String) : Result<RoomDetailEntity> =
+    suspend operator fun invoke(roomCode: String): Result<RoomDetailEntity> =
         roomRepository.getRoomDetailByRoomCode(roomCode)
 
-    suspend fun deleteRoom(roomCode: String) : Result<DeleteRoomEntity> =
+    suspend fun deleteRoom(roomCode: String): Result<DeleteRoomEntity> =
         roomRepository.deleteParticipatedUserRoom(roomCode)
 
     suspend fun postParticipateByRoomCode(roomCode: String): Result<DeleteRoomEntity> =

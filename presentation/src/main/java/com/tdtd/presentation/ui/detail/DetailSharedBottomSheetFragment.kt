@@ -15,6 +15,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
+import com.tdtd.presentation.util.getNavigationResult
+import com.tdtd.presentation.util.showToast
 
 class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -42,6 +44,24 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
         onClickCancelButton()
         onClickSharedLink()
         onClickDeleteRoomTextView()
+        deleteRoom()
+    }
+
+    private fun deleteRoom() {
+        getNavigationResult<String>(R.id.detailSharedBottomSheetFragment, "detail") {
+            findNavController().navigateUp()
+            findNavController().popBackStack()
+            detailViewModel.deleteRoom(it)
+        }
+
+        detailViewModel.deleteRoomValue.observe(viewLifecycleOwner) { text ->
+            if (text.isNotEmpty()) {
+                requireActivity().showToast(
+                    getString(R.string.toast_delete_room_success),
+                    requireView()
+                )
+            }
+        }
     }
 
     private fun initDate() {
@@ -100,7 +120,9 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
             DetailSharedBottomSheetFragmentDirections.actionDetailSharedBottomSheetFragmentToCustomDialogFragment(
                 safeArgs.roomCode,
                 0,
-                R.layout.dialog_share_room
+                R.layout.dialog_share_room,
+                safeArgs.bookmark,
+                false
             )
         findNavController().navigate(action)
     }
@@ -110,7 +132,9 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
             DetailSharedBottomSheetFragmentDirections.actionDetailSharedBottomSheetFragmentToCustomDialogFragment(
                 safeArgs.roomCode,
                 0,
-                R.layout.dialog_delete_room
+                R.layout.dialog_delete_room,
+                safeArgs.bookmark,
+                false
             )
         findNavController().navigate(action)
     }

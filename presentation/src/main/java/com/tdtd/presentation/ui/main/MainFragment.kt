@@ -9,13 +9,16 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
-import com.tdtd.presentation.util.getNavigationResult
-import com.tdtd.presentation.util.showToast
+import com.tdtd.presentation.util.DeviceInfo
+import com.tdtd.presentation.util.PreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
+    @Inject
+    lateinit var preferenceManager: PreferenceManager
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var mainAdapter: MainAdapter
     private var deepLinkFlag = true
@@ -23,10 +26,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun initViews() {
         super.initViews()
 
+        initToken()
         initBindings()
         setAdapter()
         setBookmarkList()
-        setNavigationResult()
         onClickAddImageView()
         handleDynamicLink()
     }
@@ -43,6 +46,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 showRecyclerView()
             }
         })
+        mainViewModel.getUserRoomList()
+    }
+
+    private fun initToken() {
+        preferenceManager.saveToken(DeviceInfo(requireContext()).getDeviceId())
     }
 
     private fun initBindings() {
@@ -52,12 +60,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun setAdapter() {
         mainAdapter = MainAdapter({ room ->
-            if (room.is_host) startDetailAdminFragment(room.room_code, room.created_at)
-            else startDetailUserFragment(room.room_code)
-
-        }, { favorite ->
-            if (favorite.is_bookmark) mainViewModel.deleteBookmarkByRoomCode(favorite.room_code)
-            else mainViewModel.postBookmarkByRoomCode(favorite.room_code)
+            if (room.is_host) startDetailAdminFragment(
+                room.room_code,
+                room.created_at,
+                room.is_bookmark
+            )
+            else startDetailUserFragment(room.room_code, room.is_bookmark)
+        }, { addFavorite ->
+            mainViewModel.postBookmarkByRoomCode(addFavorite.room_code)
+        }, { deleteFavorite ->
+            mainViewModel.deleteBookmarkByRoomCode(deleteFavorite.room_code)
         })
 
         binding.mainRecyclerView.adapter = mainAdapter
@@ -82,7 +94,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                         roomCode = deepLink.toString().substring(30)
 
                         mainViewModel.postParticipateByRoomCode(roomCode).apply {
-                            startDetailAdminFragment(roomCode, getString(R.string.make_new_room))
+                            startDetailFragment(roomCode, getString(R.string.make_new_room))
                             deepLinkFlag = false
                         }
                     }
@@ -91,21 +103,26 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
     }
 
-    private fun setNavigationResult() {
-        getNavigationResult<String>(R.id.mainFragment, "detail") { result ->
-            requireActivity().showToast(result, requireView())
-        }.let {
-            mainViewModel.getUserRoomList()
-        }
-    }
-
-    private fun startDetailAdminFragment(roomCode: String, date: String) {
-        val action = MainFragmentDirections.actionMainFragmentToDetailAdminFragment(roomCode, date)
+    private fun startDetailFragment(roomCode: String, date: String) {
+        val action =
+            MainFragmentDirections.actionMainFragmentToDetailFragment(roomCode, date, false, false)
         findNavController().navigate(action)
     }
 
-    private fun startDetailUserFragment(roomCode: String) {
-        val action = MainFragmentDirections.actionMainFragmentToDetailUserFragment(roomCode)
+    private fun startDetailAdminFragment(roomCode: String, date: String, bookmark: Boolean) {
+        val action =
+            MainFragmentDirections.actionMainFragmentToDetailFragment(
+                roomCode,
+                date,
+                true,
+                bookmark
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun startDetailUserFragment(roomCode: String, bookmark: Boolean) {
+        val action =
+            MainFragmentDirections.actionMainFragmentToDetailFragment(roomCode, "", false, bookmark)
         findNavController().navigate(action)
     }
 
@@ -127,7 +144,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun onClickAddImageView() {
         binding.rollingPaperAddImageView.setOnClickListener {
-            findNavController().navigate(R.id.roomDialogFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_roomDialogFragment)
         }
     }
 }
