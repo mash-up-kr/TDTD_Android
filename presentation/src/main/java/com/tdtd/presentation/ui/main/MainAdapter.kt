@@ -42,10 +42,12 @@ class MainAdapter(
                     false -> {
                         addBookmark(data)
                         binding.favoritesButton.isSelected = true
+                        data.is_bookmark = true
                     }
                     true -> {
                         deleteBookmark(data)
                         binding.favoritesButton.isSelected = false
+                        data.is_bookmark = false
                     }
                 }
             }
