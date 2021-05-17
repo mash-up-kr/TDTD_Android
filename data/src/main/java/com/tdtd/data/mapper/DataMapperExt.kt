@@ -30,12 +30,6 @@ fun RoomsResponse.toListRoomEntity(): List<RoomEntity> {
     }
 }
 
-fun List<RoomResponse>.toRoomEntity(): List<RoomEntity> {
-    return this.map {
-        RoomEntity(it.title, it.roomCode, it.shareUrl, it.createdAt, it.isBookmark, it.isHost)
-    }
-}
-
 fun Result.toResultEntity() = ResultEntity(
 
 )

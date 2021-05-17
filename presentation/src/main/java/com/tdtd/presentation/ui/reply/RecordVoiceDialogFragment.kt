@@ -157,7 +157,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                     currentTextLengthTextView.text =
                         getString(R.string.record_voice_nickname_number, s?.length)
                     if (nickNameText.isEmpty()) emptyNickName()
-                    else if (nickNameText.isNotEmpty() && currentState == 2) onClickCompleteButton()
+                    else if (nickNameText.isNotEmpty() && (currentState == 2 || currentState == 4)) onClickCompleteButton()
                 }
             }
 

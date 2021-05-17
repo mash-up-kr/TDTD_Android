@@ -12,18 +12,9 @@ class PreferenceManager(context: Context) {
 
     fun saveToken(token: String) = prefs.edit { putString(AUTH_TOKEN, token) }
 
-    fun setFavorite(isChecked: Boolean) {
-        val editor = prefs.edit()
-        editor.putBoolean(FAVORITE, isChecked)
-        editor.apply()
-    }
-
-    fun getFavorite(): Boolean = prefs.getBoolean(FAVORITE, false)
-
     companion object {
         const val AUTH_TOKEN = "auth_token"
         const val PREFS_NAME = "prefs"
-        const val FAVORITE = "favorite"
     }
 }
 
