@@ -38,15 +38,6 @@ fun RoomsEntity.toRooms() = Rooms(
     rooms = this.rooms!!.toPresenterRoom()
 )
 
-fun RoomEntity.toRoom() = Room(
-    title = this.title,
-    room_code = this.roomCode,
-    created_at = this.createdAt,
-    is_host = this.isHost,
-    is_bookmark = this.isBookmark,
-    share_url = this.shareUrl
-)
-
 fun RoomDetailEntity.toPresenterRoomDetailEntity() = PresenterRoomDetailEntity(
     code = this.code,
     message = this.message,
