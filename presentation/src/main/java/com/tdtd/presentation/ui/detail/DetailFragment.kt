@@ -17,9 +17,12 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailBinding
 import com.tdtd.presentation.ui.main.MainViewModel
-import com.tdtd.presentation.util.*
 import com.tdtd.presentation.util.Constants.STATE_PAUSE
 import com.tdtd.presentation.util.Constants.STATE_PLAYING
+import com.tdtd.presentation.util.MediaPlayerHelper
+import com.tdtd.presentation.util.getNavigationResult
+import com.tdtd.presentation.util.playerFormat
+import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_text_comment.*
 import kotlinx.android.synthetic.main.fragment_voice_comment.*
@@ -27,7 +30,8 @@ import kotlinx.coroutines.*
 
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
+class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail),
+    CoroutineScope by MainScope() {
 
     private val detailViewModel: DetailViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
@@ -40,8 +44,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private var isPlaying = false
     private var mediaPlayer: MediaPlayer? = null
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
-    private val dispatcher = PauseDispatcher(Handler(Looper.getMainLooper()))
-    private var job: Job? = null
+    private var job = SupervisorJob()
+    private var scope: CoroutineScope = CoroutineScope(Dispatchers.Default + job)
+    private var handler = Handler(Looper.getMainLooper())
     private var currentProgress = 0
 
     override fun initViews() {
@@ -200,6 +205,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             val progressBar = requireActivity().findViewById<ProgressBar>(R.id.progressBar)
 
             nickName.text = name
+            recordImageView.setImageResource(R.drawable.ic_speak_play_32)
 
             closeImageView.setOnClickListener {
                 bottomSheetBehavior.state =
@@ -218,13 +224,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 else showDeleteCommentDialog(id!!)
             }
 
-            mediaPlayer = MediaPlayer()
-
-            job?.cancel()
-            MediaPlayerHelper.stopAndRelease()
-            progressBar.progress = 0
-            recordImageView.setImageResource(R.drawable.ic_speak_play_32)
-            currentState = STATE_PLAYING
+            initPlaying()
 
             mediaPlayer.let { mediaPlayer ->
                 mediaPlayer?.setDataSource(voiceFileUrl)
@@ -232,35 +232,40 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 currentProgress = mediaPlayer!!.currentPosition
             }
 
-            if (mediaPlayer!!.duration.toLong() > 60000) endTimeTextView.text = getString(R.string.record_voice_maximum_minute)
+            if (mediaPlayer!!.duration.toLong() > 60000) endTimeTextView.text =
+                getString(R.string.record_voice_maximum_minute)
             else playerFormat(mediaPlayer?.duration!!.toLong(), endTimeTextView)
 
             endTime = mediaPlayer!!.duration / 100
             progressBar.max = endTime
 
             recordImageView.setOnClickListener {
-                CoroutineScope(Dispatchers.Default).launch {
-                    changeByState(voiceFileUrl, recordImageView, progressBar)
-                }
+                changeByState(voiceFileUrl, recordImageView, progressBar)
             }
         }
     }
 
-    private suspend fun changeByState(
+    private fun initPlaying() {
+        mediaPlayer = MediaPlayer()
+        MediaPlayerHelper.stopAndRelease()
+        job.cancelChildren()
+        progressBar.progress = 0
+        currentState = STATE_PLAYING
+    }
+
+    private fun changeByState(
         url: String?,
         imageView: ImageView,
         progressBar: ProgressBar
     ) {
-        val handler = Handler(Looper.getMainLooper())
-
         when (currentState) {
             STATE_PLAYING -> {
                 isPlaying = true
                 currentState = STATE_PAUSE
                 imageView.setImageResource(R.drawable.ic_speak_stop_32)
 
-                job = GlobalScope.launch(dispatcher) {
-                    if (this.isActive) {
+                scope.launch {
+                    if (isActive) {
                         while (currentProgress < endTime) {
                             currentProgress++
                             try {
@@ -271,22 +276,22 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                         }
                     }
                 }
-                dispatcher.resume()
 
                 MediaPlayerHelper.startPlaying(url!!) {
                     isPlaying = false
                     currentState = STATE_PLAYING
                     imageView.setImageResource(R.drawable.ic_speak_play_32)
-                    job?.cancel()
+                    job.cancelChildren()
+                    currentProgress = mediaPlayer!!.currentPosition
                 }
             }
+
             STATE_PAUSE -> {
                 MediaPlayerHelper.pausePlaying()
                 isPlaying = false
                 currentState = STATE_PLAYING
                 imageView.setImageResource(R.drawable.ic_speak_play_32)
-                dispatcher.pause()
-                job?.cancelAndJoin()
+                job.cancelChildren()
             }
         }
     }
@@ -394,6 +399,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private fun onClickBackButton() {
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
+            job.cancel()
+            MediaPlayerHelper.stopAndRelease()
         }
     }
 
@@ -458,6 +465,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             mediaPlayer?.release()
             mediaPlayer = null
         }
+        job.cancel()
+        cancel()
         super.onDestroy()
     }
 }
