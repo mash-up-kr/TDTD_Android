@@ -45,7 +45,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClientForAccessToken(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
 
@@ -53,8 +53,9 @@ object NetworkModule {
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             builder.addInterceptor(loggingInterceptor)
-            builder.addInterceptor(AuthorizationInterceptor(PreferenceManager(context)))
         }
+
+        builder.addInterceptor(AuthorizationInterceptor(PreferenceManager(context)))
 
         builder.readTimeout(1, TimeUnit.MINUTES)
         builder.connectTimeout(30, TimeUnit.SECONDS)
