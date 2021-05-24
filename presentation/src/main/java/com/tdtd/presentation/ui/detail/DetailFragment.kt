@@ -1,6 +1,7 @@
 package com.tdtd.presentation.ui.detail
 
 import android.media.MediaPlayer
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
@@ -12,6 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
@@ -48,11 +52,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private var scope: CoroutineScope = CoroutineScope(Dispatchers.Default + job)
     private var handler = Handler(Looper.getMainLooper())
     private var currentProgress = 0
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun initViews() {
         super.initViews()
 
         initBindings()
+        initAnalytics()
+        roomDetailAnalytics()
         setAdapter()
         onClickFavoritesButton()
         onClickBackButton()
@@ -126,6 +133,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = detailViewModel
         isFavorite = safeArgs.bookmark
+    }
+
+    private fun initAnalytics() {
+        firebaseAnalytics = Firebase.analytics
+    }
+
+    private fun roomDetailAnalytics() {
+        firebaseAnalytics.logEvent("RoomDetailView", null)
     }
 
     private fun setAdapter() {
@@ -386,11 +401,17 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                     binding.favoritesButton.isSelected = false
                     isFavorite = false
                     mainViewModel.deleteBookmarkByRoomCode(safeArgs.roomCode)
+                    val bundle = Bundle()
+                    bundle.putString("value", "off")
+                    firebaseAnalytics.logEvent("Favorite", bundle)
                 }
                 false -> {
                     binding.favoritesButton.isSelected = true
                     isFavorite = true
                     mainViewModel.postBookmarkByRoomCode(safeArgs.roomCode)
+                    val bundle = Bundle()
+                    bundle.putString("value", "on")
+                    firebaseAnalytics.logEvent("Favorite", bundle)
                 }
             }
         }

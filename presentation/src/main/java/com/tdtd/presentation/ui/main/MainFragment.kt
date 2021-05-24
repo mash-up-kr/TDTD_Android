@@ -5,7 +5,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
@@ -22,12 +25,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var mainAdapter: MainAdapter
     private var deepLinkFlag = true
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun initViews() {
         super.initViews()
 
         initToken()
         initBindings()
+        homeAnalytics()
         setAdapter()
         setBookmarkList()
         onClickAddImageView()
@@ -56,6 +61,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun initBindings() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = mainViewModel
+    }
+
+    private fun homeAnalytics() {
+        firebaseAnalytics = Firebase.analytics
+        firebaseAnalytics.logEvent("HomeView", null)
     }
 
     private fun setAdapter() {

@@ -13,6 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
 import com.tdtd.presentation.util.getNavigationResult
@@ -25,6 +28,7 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var binding: DetailAdminBottomSheetBinding
     private var sharedUrl: String = ""
     private var list = listOf<String>()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,10 +45,15 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initDate()
+        initAnalytics()
         onClickCancelButton()
         onClickSharedLink()
         onClickDeleteRoomTextView()
         deleteRoom()
+    }
+
+    private fun initAnalytics() {
+        firebaseAnalytics = Firebase.analytics
     }
 
     private fun deleteRoom() {
@@ -97,6 +106,9 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
                 showSharedRoomDialog()
             }.also {
                 observeSharedUrl()
+                val bundle = Bundle()
+                bundle.putString("value", "copy")
+                firebaseAnalytics.logEvent("CopyLink", bundle)
             }
         }
     }
