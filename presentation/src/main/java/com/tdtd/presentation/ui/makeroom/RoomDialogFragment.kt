@@ -15,6 +15,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.tdtd.domain.entity.MakeRoomEntity
 import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
@@ -30,6 +33,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     private val mainViewModel: MainViewModel by viewModels({ requireParentFragment().childFragmentManager.primaryNavigationFragment!! })
     private var roomTitle: String = ""
     private var roomCode: String = ""
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,8 +64,18 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initAnalytics()
+        writeAnalytics()
         setRoomEditFocus()
         setRoomEditView()
+    }
+
+    private fun initAnalytics() {
+        firebaseAnalytics = Firebase.analytics
+    }
+
+    private fun writeAnalytics() {
+        firebaseAnalytics.logEvent("WriteMessageView", null)
     }
 
     private fun setRoomEditFocus() {
@@ -132,6 +146,9 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                         )
                     ).also {
                         observeMakeRoomCode()
+                        val bundle = Bundle()
+                        bundle.putString("value", "VOICE")
+                        firebaseAnalytics.logEvent("CreateRoom", bundle)
                     }
                 }
             }
@@ -156,6 +173,9 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                         )
                     ).also {
                         observeMakeRoomCode()
+                        val bundle = Bundle()
+                        bundle.putString("value", "TEXT")
+                        firebaseAnalytics.logEvent("CreateRoom", bundle)
                     }
                 }
             }

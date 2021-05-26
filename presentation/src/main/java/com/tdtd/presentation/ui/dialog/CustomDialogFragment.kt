@@ -10,6 +10,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.util.setNavigationResult
@@ -19,6 +22,7 @@ class CustomDialogFragment : DialogFragment() {
 
     private val detailViewModel: DetailViewModel by activityViewModels()
     private val safeArgs: CustomDialogFragmentArgs by navArgs()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +30,7 @@ class CustomDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        firebaseAnalytics = Firebase.analytics
 
         val view = inflater.inflate(safeArgs.layoutId, container, false)
 
@@ -38,6 +43,9 @@ class CustomDialogFragment : DialogFragment() {
                             "detail"
                         ).also {
                             detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
+                            val bundle = Bundle()
+                            bundle.putString("value", "user")
+                            firebaseAnalytics.logEvent("ExitRoom", bundle)
                             dismiss()
                         }
                     }
@@ -52,6 +60,9 @@ class CustomDialogFragment : DialogFragment() {
                     submitButton.setOnClickListener {
                         detailViewModel.deleteReplyUserComment(safeArgs.id).apply {
                             deleteComment()
+                            val bundle = Bundle()
+                            bundle.putString("value", "user")
+                            firebaseAnalytics.logEvent("RemoveMessage", bundle)
                             dialog?.dismiss()
                         }
                     }
@@ -60,6 +71,9 @@ class CustomDialogFragment : DialogFragment() {
                     submitButton.setOnClickListener {
                         detailViewModel.deleteOtherCommentByAdmin(safeArgs.id).apply {
                             deleteCommentByAdmin()
+                            val bundle = Bundle()
+                            bundle.putString("value", "host")
+                            firebaseAnalytics.logEvent("RemoveMessage", bundle)
                             dialog?.dismiss()
                         }
                     }
@@ -71,6 +85,9 @@ class CustomDialogFragment : DialogFragment() {
                             "detail"
                         ).also {
                             detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
+                            val bundle = Bundle()
+                            bundle.putString("value", "host")
+                            firebaseAnalytics.logEvent("ExitRoom", bundle)
                             dismiss()
                         }
                     }

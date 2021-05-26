@@ -55,4 +55,8 @@ dependencies {
     kapt "$libraries.hiltLifecycleCompiler"
     //DynamicLink
     implementation "$libraries.dynamicLink"
+    //Analytics
+    implementation platform("$libraries.analytics")
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
 }
