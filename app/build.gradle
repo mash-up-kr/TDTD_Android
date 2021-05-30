@@ -8,8 +8,20 @@ apply from: '../build-version.gradle'
 
 apply plugin: 'com.google.gms.google-services'
 
-android {
+// Keystore Security
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+android {
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     defaultConfig {
         applicationId "$application.id"
         archivesBaseName = "${application.archiveName}-v${configs.versionName}(${configs.versionCode})"
@@ -22,6 +34,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             //BuildConfig Value SNS Login (from gradle.properties)
         }
         debug {
@@ -44,5 +57,4 @@ dependencies {
     implementation "$libraries.converter"
     implementation "$libraries.okhttpLogging"
     implementation "$libraries.retrofitGson"
-
 }
