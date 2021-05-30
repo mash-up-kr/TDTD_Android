@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +51,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
     private var nickNameText = ""
-    private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,27 +95,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun observeKeyboard() {
-        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-            onShowKeyboard = { _, _ ->
-                hideBanner()
-            },
-            onHideKeyboard = {
-                showBanner()
-            }
-        )
         binding.recordVoiceBottomSheet.setOnClickListener { it.hideKeyboard() }
-    }
-
-    private fun showBanner() {
-        binding.bannerView.isVisible = true
-        binding.bannerImageView.isVisible = true
-        binding.bannerTextView.isVisible = true
-    }
-
-    private fun hideBanner() {
-        binding.bannerView.isVisible = false
-        binding.bannerImageView.isVisible = false
-        binding.bannerTextView.isVisible = false
     }
 
     private fun initRecord() {
@@ -206,7 +184,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 isPlaying = false
                 currentState = STATE_NORMAL
                 binding.recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_default)
-                Log.v(TAG, "STATE_NORMAL isRecord:$isRecord isPlaying:$isPlaying")
             }
             STATE_RECORD -> {
                 isRecord = true
@@ -214,7 +191,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 currentState = STATE_RECORD
                 MediaRecorderHelper.startRecording()
                 showRecord()
-                Log.v(TAG, "STATE_RECORD isRecord:$isRecord isPlaying:$isPlaying")
             }
             STATE_RECORD_STOP -> {
                 isRecord = false
@@ -223,7 +199,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 MediaRecorderHelper.stopAndRelease()
                 showRecordStop()
                 showReRecordPlay()
-                Log.v(TAG, "STATE_RECORD_STOP isRecord:$isRecord isPlaying:$isPlaying")
             }
             STATE_PLAYING -> {
                 isPlaying = true
@@ -231,13 +206,11 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 currentState = STATE_PLAYING
                 showRecordPlaying()
                 showReRecordStop()
-                Log.v(TAG, "STATE_PLAYING isRecord:$isRecord isPlaying:$isPlaying")
                 MediaPlayerHelper.startPlaying(MediaRecorderHelper.fileName) {
                     isPlaying = false
                     isRecord = false
                     currentState = STATE_PAUSE
                     showRecordStop()
-                    Log.v(TAG, "Playing Completed isRecord:$isRecord isPlaying:$isPlaying")
                 }
             }
             STATE_PAUSE -> {
@@ -246,7 +219,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 isPlaying = false
                 currentState = STATE_PAUSE
                 showRecordPause()
-                Log.v(TAG, "STATE_PAUSE isRecord:$isRecord isPlaying:$isPlaying")
             }
         }
     }
@@ -324,7 +296,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                 isRecord = false
                 currentState = STATE_NORMAL
                 MediaPlayerHelper.stopAndRelease()
-                Log.v(TAG, "RERECORD in Stop isRecord:$isRecord isPlaying:$isPlaying")
             }
         }
     }
@@ -349,7 +320,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
                     binding.recordDefaultImageView.setImageResource(R.drawable.ic_icon_record_default)
                     currentState = STATE_NORMAL
                     MediaPlayerHelper.stopAndRelease()
-                    Log.v(TAG, "RERECORD in Play isRecord:$isRecord isPlaying:$isPlaying")
                 }
             }
         }
@@ -436,11 +406,6 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             MediaRecorderHelper.stopAndRelease()
         }
         if (isPlaying) MediaPlayerHelper.stopAndRelease()
-        keyboardVisibilityUtils.detachKeyboardListeners()
         super.onDestroy()
-    }
-
-    companion object {
-        const val TAG = "RecordVoiceFragment"
     }
 }

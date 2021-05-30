@@ -38,10 +38,6 @@ class MainViewModel @Inject constructor(
 
     private val _inviteRoom = MutableLiveData<PresenterDeleteRoom>()
 
-    init {
-        getUserRoomList()
-    }
-
     fun getUserRoomList() = viewModelScope.launch {
         getAllRoomsUseCase.invoke().let { result ->
             showLoading()
