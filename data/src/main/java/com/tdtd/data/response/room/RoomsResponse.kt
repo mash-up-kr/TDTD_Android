@@ -10,7 +10,9 @@ import com.tdtd.domain.entity.RoomsEntity
  * @param rooms
  */
 data class RoomsResponse(
+    @SerializedName("code")
     var code: Int,
+    @SerializedName("message")
     var message: String,
     @SerializedName("result")
     var rooms: List<RoomResponse>?

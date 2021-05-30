@@ -1,5 +1,8 @@
 package com.tdtd.presentation.entity
 
+import androidx.annotation.Keep
+
+@Keep
 enum class PresenterStickerColorType(
     val colorName: String
 ) {

@@ -5,6 +5,7 @@ import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.domain.entity.StickerColorType
 
 data class ReplyUserCommentRequest(
+    @SerializedName("nickname")
     val nickname: String,
     @SerializedName("message_type")
     val messageType: MakeRoomType,

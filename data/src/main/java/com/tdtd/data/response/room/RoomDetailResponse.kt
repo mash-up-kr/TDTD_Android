@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName
 import com.tdtd.domain.entity.*
 
 data class RoomDetailResponse(
+    @SerializedName("code")
     val code: String,
+    @SerializedName("message")
     val message: String,
+    @SerializedName("result")
     val result: ResultRoomInfoResponse
 ) {
     fun toEntity() = RoomDetailEntity(
@@ -16,10 +19,13 @@ data class RoomDetailResponse(
 }
 
 data class ResultRoomInfoResponse(
+    @SerializedName("title")
     val title: String,
+    @SerializedName("type")
     val type: MakeRoomType,
     @SerializedName("share_url")
     val shareUrl: String,
+    @SerializedName("comments")
     val comments: List<UserDetailCommentResponse>
 ) {
     fun toEntity() = ResultRoomInfoEntity(
@@ -31,8 +37,11 @@ data class ResultRoomInfoResponse(
 }
 
 data class UserDetailCommentResponse(
+    @SerializedName("id")
     val id: Long,
+    @SerializedName("nickname")
     val nickname: String,
+    @SerializedName("text")
     val text: String? = null,
     @SerializedName("voice_file_url")
     val voiceFileUrl: String? = null,
@@ -42,6 +51,7 @@ data class UserDetailCommentResponse(
     val stickerAngle: Int,
     @SerializedName("created_at")
     val createAt: String,
+    @SerializedName("is_mine")
     val isMine: Boolean
 ) {
     fun toEntity() = UserDetailCommentEntity(
