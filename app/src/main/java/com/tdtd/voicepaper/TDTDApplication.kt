@@ -2,6 +2,7 @@ package com.tdtd.voicepaper
 
 import android.app.Application
 import androidx.databinding.library.BuildConfig
+import com.tdtd.presentation.util.DeviceInfo
 import com.tdtd.presentation.util.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -15,6 +16,7 @@ class TDTDApplication : Application() {
 
     override fun onCreate() {
         preferences = PreferenceManager(applicationContext)
+        preferences.saveToken(DeviceInfo(applicationContext).getDeviceId())
         super.onCreate()
 
         //Initialize Timber

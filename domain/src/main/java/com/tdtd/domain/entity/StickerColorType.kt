@@ -1,5 +1,8 @@
 package com.tdtd.domain.entity
 
+import androidx.annotation.Keep
+
+@Keep
 enum class StickerColorType {
     RED,
     YELLOW,

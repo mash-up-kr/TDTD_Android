@@ -47,20 +47,18 @@ object NetworkModule {
     fun provideOkHttpClientForAccessToken(
         @ApplicationContext context: Context,
     ): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-
-        if (BuildConfig.DEBUG) {
-            val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            builder.addInterceptor(loggingInterceptor)
-        }
-
-        builder.addInterceptor(AuthorizationInterceptor(PreferenceManager(context)))
-
-        builder.readTimeout(1, TimeUnit.MINUTES)
-        builder.connectTimeout(30, TimeUnit.SECONDS)
-
-        return builder.build()
+        return OkHttpClient.Builder()
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    val loggingInterceptor = HttpLoggingInterceptor()
+                    loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                    addInterceptor(loggingInterceptor)
+                }
+            }
+            .addInterceptor(AuthorizationInterceptor(PreferenceManager(context)))
+            .readTimeout(1, TimeUnit.MINUTES)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .build()
     }
 
     @Provides

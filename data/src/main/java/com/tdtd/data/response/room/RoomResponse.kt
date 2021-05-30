@@ -13,6 +13,7 @@ import com.tdtd.domain.entity.RoomEntity
  * @param isHost
  */
 data class RoomResponse(
+    @SerializedName(value = "title")
     var title: String,
     @SerializedName(value = "room_code")
     var roomCode: String,

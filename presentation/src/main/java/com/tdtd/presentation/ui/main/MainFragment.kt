@@ -12,16 +12,11 @@ import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
-import com.tdtd.presentation.util.DeviceInfo
-import com.tdtd.presentation.util.PreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
-    @Inject
-    lateinit var preferenceManager: PreferenceManager
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var mainAdapter: MainAdapter
     private var deepLinkFlag = true
@@ -30,7 +25,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun initViews() {
         super.initViews()
 
-        initToken()
         initBindings()
         homeAnalytics()
         setAdapter()
@@ -52,10 +46,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             }
         })
         mainViewModel.getUserRoomList()
-    }
-
-    private fun initToken() {
-        preferenceManager.saveToken(DeviceInfo(requireContext()).getDeviceId())
     }
 
     private fun initBindings() {

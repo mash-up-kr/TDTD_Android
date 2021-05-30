@@ -5,8 +5,11 @@ import com.tdtd.domain.entity.RoomUrlEntity
 import com.tdtd.domain.entity.SharedUrlEntity
 
 data class RoomUrlResponse(
+    @SerializedName("code")
     var code: Int,
+    @SerializedName("message")
     var message: String,
+    @SerializedName("result")
     var result: SharedUrlResponse
 ) {
     fun toEntity() = RoomUrlEntity(

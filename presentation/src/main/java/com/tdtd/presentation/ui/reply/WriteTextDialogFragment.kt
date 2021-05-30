@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -19,7 +18,6 @@ import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
-import com.tdtd.presentation.util.KeyboardVisibilityUtils
 import com.tdtd.presentation.util.MultiPartForm.getBody
 import com.tdtd.presentation.util.hideKeyboard
 import com.tdtd.presentation.util.randomAngle
@@ -34,7 +32,6 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     private val safeArgs: WriteTextDialogFragmentArgs by navArgs()
     private var nickNameText = ""
     private var contentText = ""
-    private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,21 +70,12 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun observeKeyboard() {
-        keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
-            onShowKeyboard = { _, _ ->
-                hideBanner()
-            },
-            onHideKeyboard = {
-                showBanner()
-            }
-        )
         binding.writeTextBottomSheet.setOnClickListener { it.hideKeyboard() }
     }
 
     private fun setNickNameEditFocus() {
         binding.nicknameEditText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
-                hideBanner()
                 view.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
                 binding.nicknameEditText.hint = null
             } else {
@@ -109,18 +97,6 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                 view.hideKeyboard()
             }
         }
-    }
-
-    private fun showBanner() {
-        binding.bannerView.isVisible = true
-        binding.bannerImageView.isVisible = true
-        binding.bannerTextView.isVisible = true
-    }
-
-    private fun hideBanner() {
-        binding.bannerView.isVisible = false
-        binding.bannerImageView.isVisible = false
-        binding.bannerTextView.isVisible = false
     }
 
     private fun setTextWatcher() {
@@ -222,10 +198,5 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
             )
         findNavController().navigate(action)
         findNavController().popBackStack()
-    }
-
-    override fun onDestroy() {
-        keyboardVisibilityUtils.detachKeyboardListeners()
-        super.onDestroy()
     }
 }

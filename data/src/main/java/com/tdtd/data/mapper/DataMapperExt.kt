@@ -2,8 +2,6 @@ package com.tdtd.data.mapper
 
 import com.tdtd.data.request.MakeRoomRequest
 import com.tdtd.data.request.ReplyUserCommentRequest
-import com.tdtd.data.response.room.Result
-import com.tdtd.data.response.room.RoomResponse
 import com.tdtd.data.response.room.RoomsResponse
 import com.tdtd.domain.entity.MakeRoomEntity
 import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
@@ -30,6 +28,6 @@ fun RoomsResponse.toListRoomEntity(): List<RoomEntity> {
     }
 }
 
-fun Result.toResultEntity() = ResultEntity(
+fun toResultEntity() = ResultEntity(
 
 )

@@ -6,6 +6,7 @@ import com.tdtd.domain.entity.ReplyUserCommentWithUrlEntity
 import com.tdtd.domain.entity.StickerColorType
 
 data class UserCommentResponse(
+    @SerializedName("nickname")
     val nickname: String,
     @SerializedName("message_type")
     val messageType: MakeRoomType,
