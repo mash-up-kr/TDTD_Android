@@ -138,7 +138,8 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
             binding.makeRoomButton.apply {
                 isEnabled = true
                 setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
-                setOnClickListener {
+                setOnClickListener { btn ->
+                    btn.isEnabled = false
                     mainViewModel.postCreateUserRoom(
                         makeRoomEntity = MakeRoomEntity(
                             roomTitle,
@@ -165,7 +166,8 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
             binding.makeRoomButton.apply {
                 isEnabled = true
                 setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
-                setOnClickListener {
+                setOnClickListener { btn ->
+                    btn.isEnabled = false
                     mainViewModel.postCreateUserRoom(
                         makeRoomEntity = MakeRoomEntity(
                             roomTitle,
@@ -198,9 +200,5 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
         )
         findNavController().navigate(action)
         dismiss()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
