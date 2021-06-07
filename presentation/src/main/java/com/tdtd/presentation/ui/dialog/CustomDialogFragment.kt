@@ -38,6 +38,7 @@ class CustomDialogFragment : DialogFragment() {
             when (safeArgs.layoutId) {
                 R.layout.dialog_leave_room -> {
                     submitButton.setOnClickListener {
+                        it.isEnabled = false
                         setNavigationResult(
                             getString(R.string.toast_leave_room_success),
                             "detail"
@@ -80,6 +81,7 @@ class CustomDialogFragment : DialogFragment() {
                 }
                 R.layout.dialog_delete_room -> {
                     submitButton.setOnClickListener {
+                        it.isEnabled = false
                         setNavigationResult(
                             getString(R.string.toast_delete_room_success),
                             "detail"

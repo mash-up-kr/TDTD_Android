@@ -56,8 +56,9 @@ object NetworkModule {
                 }
             }
             .addInterceptor(AuthorizationInterceptor(PreferenceManager(context)))
-            .readTimeout(1, TimeUnit.MINUTES)
-            .connectTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(30, TimeUnit.MINUTES)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .build()
     }
 

@@ -12,10 +12,12 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_mainFragment_to_roomDialogFragment"
-            app:destination="@id/roomDialogFragment" />
+            app:destination="@id/roomDialogFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="bookmark"
             app:argType="boolean" />
@@ -28,7 +30,8 @@
         tools:layout="@layout/room_bottom_sheet">
         <action
             android:id="@+id/action_roomDialogFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpToInclusive="true" />
     </dialog>
 
     <dialog
@@ -47,7 +50,8 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_writeTextDialogFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpToInclusive="true" />
     </dialog>
 
     <dialog
@@ -85,10 +89,12 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_detailSharedBottomSheetFragment_to_customDialogFragment"
-            app:destination="@id/customDialogFragment" />
+            app:destination="@id/customDialogFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_detailSharedBottomSheetFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpToInclusive="true" />
     </dialog>
 
     <dialog
@@ -112,7 +118,8 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_customDialogFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpToInclusive="true" />
     </dialog>
 
     <fragment
@@ -122,16 +129,20 @@
         tools:layout="@layout/fragment_detail">
         <action
             android:id="@+id/action_detailFragment_to_writeTextDialogFragment"
-            app:destination="@id/writeTextDialogFragment" />
+            app:destination="@id/writeTextDialogFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_detailFragment_to_recordVoiceDialogFragment"
-            app:destination="@id/recordVoiceDialogFragment" />
+            app:destination="@id/recordVoiceDialogFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_detailFragment_to_detailSharedBottomSheetFragment"
-            app:destination="@id/detailSharedBottomSheetFragment" />
+            app:destination="@id/detailSharedBottomSheetFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_detailFragment_to_customDialogFragment"
-            app:destination="@id/customDialogFragment" />
+            app:destination="@id/customDialogFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="room_code"
             app:argType="string" />
@@ -146,12 +157,18 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_detailFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/mainFragment"
         app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_global_detailFragment"
+        app:destination="@id/detailFragment"
         app:popUpToInclusive="true" />
 </navigation>
