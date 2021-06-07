@@ -105,7 +105,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun startDetailFragment(roomCode: String, date: String) {
         val action =
-            MainFragmentDirections.actionMainFragmentToDetailFragment(roomCode, date, false, false)
+            MainFragmentDirections.actionGlobalDetailFragment(
+                roomCode, date,
+                host = false,
+                bookmark = false
+            )
         findNavController().navigate(action)
     }
 

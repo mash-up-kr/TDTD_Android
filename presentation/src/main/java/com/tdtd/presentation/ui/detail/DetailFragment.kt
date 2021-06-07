@@ -90,17 +90,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
         }
 
-        detailViewModel.alreadyReportEvent.observe(viewLifecycleOwner, Observer {
-            requireActivity().showToast(
-                getString(R.string.dialog_report_reduplicate),
-                requireView()
-            )
-        })
-
-        detailViewModel.notMineEvent.observe(viewLifecycleOwner, Observer {
-            requireActivity().showToast(getString(R.string.dialog_delete_not_mine), requireView())
-        })
-
         detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
             binding.titleTextView.text = detailRoom.result.title
 
@@ -196,6 +185,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
             remove.setOnClickListener {
                 if (safeArgs.host) showDeleteByHostCommentDialog(id!!)
+                else if (!mine) requireActivity().showToast(
+                    getString(R.string.dialog_delete_not_mine),
+                    requireView()
+                )
                 else showDeleteCommentDialog(id!!)
             }
         }
@@ -236,6 +229,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             }
             remove.setOnClickListener {
                 if (safeArgs.host) showDeleteByHostCommentDialog(id!!)
+                else if (!mine) requireActivity().showToast(
+                    getString(R.string.dialog_delete_not_mine),
+                    requireView()
+                )
                 else showDeleteCommentDialog(id!!)
             }
 

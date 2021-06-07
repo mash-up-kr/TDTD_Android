@@ -42,11 +42,8 @@ class DetailViewModel @Inject constructor(
     private val _sharedUrl = MutableLiveData<PresenterRoomUrlEntity>()
     val sharedUrl: LiveData<PresenterRoomUrlEntity> get() = _sharedUrl
 
-    private val _notMineEvent = SingleLiveEvent<Unit>()
-    val notMineEvent: LiveData<Unit> get() = _notMineEvent
-
-    private val _alreadyReportEvent = SingleLiveEvent<Unit>()
-    val alreadyReportEvent: LiveData<Unit> get() = _alreadyReportEvent
+    private val _alreadyReportEvent = SingleLiveEvent<Boolean>()
+    val alreadyReportEvent: LiveData<Boolean> get() = _alreadyReportEvent
 
     private val _deleteRoomValue = SingleLiveEvent<String>()
     val deleteRoomValue: LiveData<String> get() = _deleteRoomValue
@@ -89,8 +86,6 @@ class DetailViewModel @Inject constructor(
             showLoading()
             if (result is Result.Success) {
                 _deleteComment.value = result.data.toPresenterRoomDetailEntity()
-            } else {
-                _notMineEvent.call()
             }
         }
         hideLoading()
@@ -101,8 +96,6 @@ class DetailViewModel @Inject constructor(
             showLoading()
             if (result is Result.Success) {
                 _reportComment.value = result.getValue().toPresenterDeleteRoom()
-            } else {
-                _alreadyReportEvent.call()
             }
         }
         hideLoading()
