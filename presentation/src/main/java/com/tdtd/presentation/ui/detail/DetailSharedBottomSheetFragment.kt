@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
 import com.tdtd.presentation.util.getNavigationResult
+import com.tdtd.presentation.util.onThrottleClick
 import com.tdtd.presentation.util.showToast
 
 class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
@@ -89,7 +90,7 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickDeleteRoomTextView() {
-        binding.deleteRoomTextView.setOnClickListener {
+        binding.deleteRoomTextView.onThrottleClick {
             showDeleteRoomDialog()
         }
     }
@@ -101,7 +102,7 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickSharedLink() {
-        binding.sharedLinkTextView.setOnClickListener {
+        binding.sharedLinkTextView.onThrottleClick {
             detailViewModel.getSharedRoomUrl(safeArgs.roomCode).apply {
                 showSharedRoomDialog()
             }.also {

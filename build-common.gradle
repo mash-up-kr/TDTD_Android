@@ -58,5 +58,6 @@ dependencies {
     //Analytics
     implementation platform("$libraries.analytics")
     implementation 'com.google.firebase:firebase-analytics-ktx'
-
+    //Crashlytics
+    implementation "$libraries.crashlytics"
 }
