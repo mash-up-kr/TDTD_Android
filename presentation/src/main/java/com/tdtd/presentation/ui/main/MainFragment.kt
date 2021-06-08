@@ -12,7 +12,9 @@ import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
+import com.tdtd.presentation.util.navigateSafe
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -99,7 +101,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                         }
                     }
                 }
-                .addOnFailureListener {}
+                .addOnFailureListener { Timber.e(it.localizedMessage) }
         }
     }
 
@@ -110,7 +112,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 host = false,
                 bookmark = false
             )
-        findNavController().navigate(action)
+        findNavController().navigateSafe(action.actionId, action.arguments)
     }
 
     private fun startDetailAdminFragment(roomCode: String, date: String, bookmark: Boolean) {
