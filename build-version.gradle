@@ -16,8 +16,8 @@ ext {
             compileSdk                  : 30,
             buildSdk                    : '30.0.2',
             targetSdk                   : 30,
-            versionCode                 : 7,
-            versionName                 : '1.0.3',
+            versionCode                 : 8,
+            versionName                 : '1.0.4',
     ]
     versions = [
             //Android
@@ -64,10 +64,13 @@ ext {
             archCompoment               : '2.1.0',
 
             // dynamic link
-            dynamiclink                : '19.1.1',
+            dynamiclink                 : '19.1.1',
 
             // Analytics
-            analytics                    : '27.1.0'
+            analytics                   : '27.1.0',
+
+            // Crashlytics
+            crashlytics                 : '18.0.1'
 
     ]
     modularization = [
@@ -116,10 +119,13 @@ ext {
             okhttpLogging               : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
 
             //DynamicLink
-            dynamicLink                : "com.google.firebase:firebase-dynamic-links:$versions.dynamiclink",
+            dynamicLink                 : "com.google.firebase:firebase-dynamic-links:$versions.dynamiclink",
 
             //Analytics
-            analytics                    : "com.google.firebase:firebase-bom:$versions.analytics"
+            analytics                   : "com.google.firebase:firebase-bom:$versions.analytics",
+
+            //Crashlytics
+            crashlytics                 : "com.google.firebase:firebase-crashlytics:$versions.crashlytics"
     ]
     testing = [
             junit                       : "junit:junit:$versions.junit",
