@@ -15,6 +15,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.ui.detail.DetailViewModel
+import com.tdtd.presentation.util.clickWithDebounce
 import com.tdtd.presentation.util.setNavigationResult
 import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 
@@ -37,8 +38,7 @@ class CustomDialogFragment : DialogFragment() {
         view.apply {
             when (safeArgs.layoutId) {
                 R.layout.dialog_leave_room -> {
-                    submitButton.setOnClickListener {
-                        it.isEnabled = false
+                    submitButton.clickWithDebounce {
                         setNavigationResult(
                             getString(R.string.toast_leave_room_success),
                             "detail"
@@ -80,8 +80,7 @@ class CustomDialogFragment : DialogFragment() {
                     }
                 }
                 R.layout.dialog_delete_room -> {
-                    submitButton.setOnClickListener {
-                        it.isEnabled = false
+                    submitButton.clickWithDebounce {
                         setNavigationResult(
                             getString(R.string.toast_delete_room_success),
                             "detail"

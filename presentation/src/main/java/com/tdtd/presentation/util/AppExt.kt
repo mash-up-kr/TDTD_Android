@@ -3,13 +3,19 @@ package com.tdtd.presentation.util
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.util.DisplayMetrics
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.annotation.IdRes
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import com.tdtd.presentation.R
 import kotlinx.android.synthetic.main.layout_toast.view.*
 import java.util.concurrent.TimeUnit
@@ -119,4 +125,35 @@ fun playerFormat(duration: Long, endTime: TextView) {
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+fun View.onThrottleClick(action: (v: View) -> Unit) {
+    val listener = View.OnClickListener { action(it) }
+    setOnClickListener(OnThrottleClickListener(listener))
+}
+
+fun View.clickWithDebounce(debounceTime: Long = 300, action: () -> Unit) {
+    this.setOnClickListener(object : View.OnClickListener {
+        private var lastClickTime: Long = 0
+
+        override fun onClick(v: View) {
+            v.isEnabled = false
+            if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) return
+            else action()
+            lastClickTime = SystemClock.elapsedRealtime()
+        }
+    })
+}
+
+fun NavController.navigateSafe(
+    @IdRes resId: Int,
+    args: Bundle? = null,
+    navOptions: NavOptions? = null,
+    navExtras: Navigator.Extras? = null
+) {
+    val action = currentDestination?.getAction(resId) ?: graph.getAction(resId)
+
+    if (action != null && currentDestination?.id != action.destinationId) {
+        navigate(resId, args, navOptions, navExtras)
+    }
 }

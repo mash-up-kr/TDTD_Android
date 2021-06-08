@@ -21,12 +21,9 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailBinding
 import com.tdtd.presentation.ui.main.MainViewModel
+import com.tdtd.presentation.util.*
 import com.tdtd.presentation.util.Constants.STATE_PAUSE
 import com.tdtd.presentation.util.Constants.STATE_PLAYING
-import com.tdtd.presentation.util.MediaPlayerHelper
-import com.tdtd.presentation.util.getNavigationResult
-import com.tdtd.presentation.util.playerFormat
-import com.tdtd.presentation.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_text_comment.*
 import kotlinx.android.synthetic.main.fragment_voice_comment.*
@@ -345,7 +342,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun startRecordVoiceDialogFragment() {
-        binding.writeButton.setOnClickListener {
+        binding.writeButton.onThrottleClick {
             val action =
                 DetailFragmentDirections.actionDetailFragmentToRecordVoiceDialogFragment(
                     safeArgs.roomCode, safeArgs.host, isFavorite
@@ -355,7 +352,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun startWriteTextDetailFragment() {
-        binding.writeButton.setOnClickListener {
+        binding.writeButton.onThrottleClick {
             val action =
                 DetailFragmentDirections.actionDetailFragmentToWriteTextDialogFragment(
                     safeArgs.roomCode, safeArgs.host, isFavorite
@@ -365,7 +362,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun onClickMoreButton() {
-        binding.moreButton.setOnClickListener {
+        binding.moreButton.onThrottleClick {
             val action =
                 DetailFragmentDirections.actionDetailFragmentToDetailSharedBottomSheetFragment(
                     safeArgs.roomCode,
@@ -377,7 +374,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun onClickSharedButton() {
-        binding.sharedLinkButton.setOnClickListener {
+        binding.sharedLinkButton.onThrottleClick {
             val action =
                 DetailFragmentDirections.actionDetailFragmentToDetailSharedBottomSheetFragment(
                     safeArgs.roomCode,
@@ -423,7 +420,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun onClickLeaveRoomButton() {
-        binding.leaveRoomButton.setOnClickListener {
+        binding.leaveRoomButton.onThrottleClick {
             val action =
                 DetailFragmentDirections.actionDetailFragmentToCustomDialogFragment(
                     safeArgs.roomCode,
