@@ -10,20 +10,20 @@ import retrofit2.http.*
 
 interface RoomApi {
 
-    @POST("/api/v1/users/{roomCode}")
+    @POST("api/v1/users/{roomCode}")
     suspend fun postParticipateByRoomCode(
         @Path("roomCode") roomCode: String
     ): DeleteResponse
 
-    @GET("/api/v1/rooms")
+    @GET("api/v1/rooms")
     suspend fun getUserRoomList(): RoomsResponse
 
-    @POST("/api/v1/rooms")
+    @POST("api/v1/rooms")
     suspend fun postCreateUserRoom(
         @Body makeRoomInfo: MakeRoomRequest
     ): CreatedRoomCodeResponse
 
-    @DELETE("/api/v1/users/{roomCode}")
+    @DELETE("api/v1/users/{roomCode}")
     suspend fun deleteParticipatedUserRoom(
         @Path("roomCode") roomCode: String
     ): DeleteResponse

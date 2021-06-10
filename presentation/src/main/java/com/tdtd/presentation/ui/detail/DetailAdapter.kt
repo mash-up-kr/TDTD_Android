@@ -1,6 +1,5 @@
 package com.tdtd.presentation.ui.detail
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -35,6 +34,8 @@ class DetailAdapter(
 
         fun bind(data: Comments) {
             binding.setVariable(BR.listData, data)
+            binding.executePendingBindings()
+
             binding.characterImageView.setImageResource(getDefaultCharacter(data.presenterSticker_color))
             binding.characterImageView.rotation = data.sticker_angle.toFloat()
             binding.characterImageView.setOnClickListener {

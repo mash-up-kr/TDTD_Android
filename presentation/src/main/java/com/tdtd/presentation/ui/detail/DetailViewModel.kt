@@ -45,15 +45,6 @@ class DetailViewModel @Inject constructor(
     private val _alreadyReportEvent = SingleLiveEvent<Boolean>()
     val alreadyReportEvent: LiveData<Boolean> get() = _alreadyReportEvent
 
-    private val _deleteRoomValue = SingleLiveEvent<String>()
-    val deleteRoomValue: LiveData<String> get() = _deleteRoomValue
-
-    fun deleteRoom(text: String) {
-        if (text.isNotEmpty()) {
-            _deleteRoomValue.value = text
-        }
-    }
-
     fun getRoomDetailByRoomCode(roomCode: String) = viewModelScope.launch {
         getAllRoomsUseCase.invoke(roomCode).let { result ->
             showLoading()

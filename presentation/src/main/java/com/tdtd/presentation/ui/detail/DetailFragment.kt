@@ -73,18 +73,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         else
             userDetailFragment()
 
-        getNavigationResult<String>(R.id.detailFragment, "detail") {
-            findNavController().navigateUp()
-            detailViewModel.deleteRoom(it)
-        }
-
-        detailViewModel.deleteRoomValue.observe(viewLifecycleOwner) { text ->
-            if (text.isNotEmpty()) {
-                requireActivity().showToast(
-                    getString(R.string.toast_leave_room_success),
-                    requireView()
-                )
-            }
+        getNavigationResult<String>(R.id.detailFragment, "detail_leave_room") { text ->
+            requireActivity().showToast(text, requireView())
+            findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
         }
 
         detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
@@ -147,7 +138,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 )
             }
         }
-        binding.detailRecyclerView.adapter = detailAdapter
+        binding.detailRecyclerView.run {
+            setHasFixedSize(true)
+            adapter = detailAdapter
+        }
     }
 
     private fun showTextCommentBottomSheet(

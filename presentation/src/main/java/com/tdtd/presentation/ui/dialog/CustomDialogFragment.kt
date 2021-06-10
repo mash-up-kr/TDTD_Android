@@ -41,7 +41,7 @@ class CustomDialogFragment : DialogFragment() {
                     submitButton.clickWithDebounce {
                         setNavigationResult(
                             getString(R.string.toast_leave_room_success),
-                            "detail"
+                            "detail_leave_room"
                         ).also {
                             detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
                             val bundle = Bundle()
@@ -83,7 +83,7 @@ class CustomDialogFragment : DialogFragment() {
                     submitButton.clickWithDebounce {
                         setNavigationResult(
                             getString(R.string.toast_delete_room_success),
-                            "detail"
+                            "detail_delete_room"
                         ).also {
                             detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
                             val bundle = Bundle()
