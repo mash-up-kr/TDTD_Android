@@ -16,8 +16,8 @@ ext {
             compileSdk                  : 30,
             buildSdk                    : '30.0.2',
             targetSdk                   : 30,
-            versionCode                 : 8,
-            versionName                 : '1.0.4',
+            versionCode                 : 9,
+            versionName                 : '1.0.5',
     ]
     versions = [
             //Android
