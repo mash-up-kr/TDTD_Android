@@ -14,7 +14,7 @@ interface AdminApi {
         @Path("roomCode") roomCode: String
     ): RoomsResponse
 
-    @GET("/api/v1/host/rooms/{roomCode}")
+    @GET("api/v1/host/rooms/{roomCode}")
     suspend fun getSharedRoomUrl(
         @Path("roomCode") roomCode: String
     ): RoomUrlResponse

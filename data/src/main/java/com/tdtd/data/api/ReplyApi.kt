@@ -15,12 +15,12 @@ interface ReplyApi {
         @Part params: List<MultipartBody.Part>
     ): ReplyUserResponse
 
-    @DELETE("/api/v1/comments/{commentId}")
+    @DELETE("api/v1/comments/{commentId}")
     suspend fun deleteReplyUserComment(
         @Path("commentId") commentId: Long
     ): RoomDetailResponse
 
-    @POST("/api/v1/reports/{commentId}")
+    @POST("api/v1/reports/{commentId}")
     suspend fun postReportUserByCommentId(
         @Path("commentId") commentId: Long
     ): DeleteResponse
