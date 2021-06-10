@@ -11,7 +11,6 @@ import com.tdtd.presentation.ui.main.MainAdapter
 fun bindRecyclerView(recyclerView: RecyclerView, list: List<Room>?) {
     list?.let {
         (recyclerView.adapter as MainAdapter).submitList(it)
-        recyclerView.adapter?.notifyDataSetChanged()
     }
 }
 
@@ -19,6 +18,5 @@ fun bindRecyclerView(recyclerView: RecyclerView, list: List<Room>?) {
 fun bindRecyclerView(recyclerView: RecyclerView, list: PresenterRoomDetailEntity?) {
     list?.let {
         (recyclerView.adapter as DetailAdapter).submitList(it.result.comments)
-        recyclerView.adapter?.notifyDataSetChanged()
     }
 }

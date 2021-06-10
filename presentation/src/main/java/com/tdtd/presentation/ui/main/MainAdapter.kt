@@ -39,6 +39,8 @@ class MainAdapter(
 
         fun bind(data: Room) {
             binding.setVariable(BR.room, data)
+            binding.executePendingBindings()
+
             binding.container.setOnClickListener {
                 onClick(data)
             }

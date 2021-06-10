@@ -1,9 +1,13 @@
 package com.tdtd.presentation.util
 
+import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 
 fun <T> Fragment.getNavigationResultLiveData(key: String = "result") =
@@ -33,4 +37,23 @@ inline fun <T> Fragment.getNavigationResult(
             navBackStackEntry.lifecycle.removeObserver(observer)
         }
     })
+}
+
+fun NavController.navigateSafe(
+    @IdRes resId: Int,
+    args: Bundle? = null,
+    navOptions: NavOptions? = null,
+    navExtras: Navigator.Extras? = null
+) {
+    val action = currentDestination?.getAction(resId) ?: graph.getAction(resId)
+
+    if (action != null && currentDestination?.id != action.destinationId) {
+        navigate(resId, args, navOptions, navExtras)
+    }
+}
+
+fun NavController.navigateSafeUp(@IdRes currentFragmentResId: Int) {
+    if (currentDestination?.id == currentFragmentResId) {
+        navigateUp()
+    }
 }

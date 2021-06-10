@@ -74,7 +74,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             mainViewModel.deleteBookmarkByRoomCode(deleteFavorite.room_code)
         })
 
-        binding.mainRecyclerView.adapter = mainAdapter
+        binding.mainRecyclerView.run {
+            setHasFixedSize(true)
+            adapter = mainAdapter
+        }
     }
 
     private fun setBookmarkList() {
