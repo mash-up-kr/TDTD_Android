@@ -85,7 +85,7 @@ class CustomDialogFragment : DialogFragment() {
                             getString(R.string.toast_delete_room_success),
                             "detail_delete_room"
                         ).also {
-                            detailViewModel.deleteParticipatedUserRoom(safeArgs.roomCode)
+                            detailViewModel.deleteRoomByHost(safeArgs.roomCode)
                             val bundle = Bundle()
                             bundle.putString("value", "host")
                             firebaseAnalytics.logEvent("ExitRoom", bundle)

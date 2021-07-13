@@ -19,6 +19,8 @@ data class RoomResponse(
     var roomCode: String,
     @SerializedName("share_url")
     var shareUrl: String,
+    @SerializedName("type")
+    var type : String,
     @SerializedName("created_at")
     var createdAt: String,
     @SerializedName(value = "is_bookmark")
@@ -30,6 +32,7 @@ data class RoomResponse(
         title = title,
         roomCode = roomCode,
         shareUrl = shareUrl,
+        type = type,
         createdAt = createdAt,
         isBookmark = isBookmark,
         isHost = isHost

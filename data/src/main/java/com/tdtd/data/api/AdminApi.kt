@@ -9,10 +9,10 @@ import retrofit2.http.Path
 
 interface AdminApi {
 
-    @DELETE("api/v1/rooms/{roomCode}")
+    @DELETE("api/v1/host/rooms/{roomCode}")
     suspend fun deleteRoom(
         @Path("roomCode") roomCode: String
-    ): RoomsResponse
+    ): DeleteResponse
 
     @GET("api/v1/host/rooms/{roomCode}")
     suspend fun getSharedRoomUrl(

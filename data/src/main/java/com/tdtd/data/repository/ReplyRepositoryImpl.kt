@@ -32,7 +32,7 @@ class ReplyRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun deleteReplyUserComment(commentId: Long): Result<RoomDetailEntity> =
+    override suspend fun deleteReplyUserComment(commentId: Long): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 replyApi.deleteReplyUserComment(commentId).let { roomResponse ->

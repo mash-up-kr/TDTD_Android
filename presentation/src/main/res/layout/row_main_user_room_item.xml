@@ -13,20 +13,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:layout_margin="8dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/background_beige2_radius16"
         android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/badge" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="3"
             android:text="@{ room.title}"
             android:textAppearance="@style/text.20dp.bold.grayscale1"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageBadge"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="타이틀이 한 줄일 때 카드 높이 값은 122" />
 
