@@ -24,7 +24,15 @@ fun ReplyUserCommentWithFileEntity.toNetworkModel() = ReplyUserCommentRequest(
 
 fun RoomsResponse.toListRoomEntity(): List<RoomEntity> {
     return this.rooms!!.map {
-        RoomEntity(it.title, it.roomCode, it.shareUrl, it.createdAt, it.isBookmark, it.isHost)
+        RoomEntity(
+            it.title,
+            it.roomCode,
+            it.shareUrl,
+            it.type,
+            it.createdAt,
+            it.isBookmark,
+            it.isHost
+        )
     }
 }
 

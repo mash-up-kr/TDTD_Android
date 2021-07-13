@@ -13,7 +13,7 @@ interface AdminRepository {
     /**
      * 방 호스트가 만든 방을 삭제한다.
      */
-    suspend fun deleteRoom(roomCode: String): Result<RoomsEntity>
+    suspend fun deleteRoom(roomCode: String): Result<DeleteRoomEntity>
 
     /**
      * 방의 공유 URL 을 얻어온다.

@@ -126,8 +126,6 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
                 binding.apply {
                     contentText = s.toString()
                     writeTextEditView.setBackgroundResource(R.drawable.background_beige2_stroke1_gray2_radius16)
-                    currentContentTextView.text =
-                        getString(R.string.initial_and_max_content_number, s?.length)
                     nicknameEditText.setBackgroundResource(R.drawable.background_beige2_stroke1_beige3_radius16)
                 }
             }

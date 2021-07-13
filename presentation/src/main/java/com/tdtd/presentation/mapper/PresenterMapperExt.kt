@@ -5,7 +5,7 @@ import com.tdtd.presentation.entity.*
 
 fun List<RoomEntity>.toPresenterRoom(): List<Room> {
     return this.map {
-        Room(it.title, it.roomCode, it.shareUrl, it.createdAt, it.isBookmark, it.isHost)
+        Room(it.title, it.roomCode, it.shareUrl, it.type, it.createdAt, it.isBookmark, it.isHost)
     }
 }
 

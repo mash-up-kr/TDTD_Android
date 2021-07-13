@@ -18,7 +18,7 @@ interface ReplyApi {
     @DELETE("api/v1/comments/{commentId}")
     suspend fun deleteReplyUserComment(
         @Path("commentId") commentId: Long
-    ): RoomDetailResponse
+    ): DeleteResponse
 
     @POST("api/v1/reports/{commentId}")
     suspend fun postReportUserByCommentId(

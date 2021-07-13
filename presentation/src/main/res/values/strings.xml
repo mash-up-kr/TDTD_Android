@@ -16,7 +16,6 @@
     <string name="detail_admin_setting_bottom_sheet_delete_room_content">방 삭제하기</string>
     <string name="detail_admin_setting_bottom_sheet_do_nothing">아무것도 안 할래요</string>
 
-
     <!-- 방 만들기 -->
     <string name="make_room_bottom_sheet_title">롤링페이퍼 방 이름</string>
     <string name="room_name_hint_title">방 이름을 적어주세요</string>
@@ -32,6 +31,7 @@
     <string name="initial_and_max_content_number">%d/200</string>
     <string name="initial_and_max_input_number">%d/35</string>
     <string name="make_new_room">조금 전</string>
+    <string name="modify_room_name">방 이름 바꾸기</string>
 
     <string name="record_voice_whisper_title">남기고 싶은 말을 속삭여주세요!</string>
     <string name="record_voice_title_hint">방마다 닉네임을 다르게 쓸 수 있어요!</string>
@@ -77,4 +77,6 @@
     <!-- Toast -->
     <string name="toast_leave_room_success">방에서 탈출했어요!</string>
     <string name="toast_delete_room_success">방이 삭제되었어요!</string>
+    <string name="toast_modify_room_name">방 이름이 바뀌었어요!</string>
+    <string name="toast_error_occurred">오류가 발생했어요!</string>
 </resources>
