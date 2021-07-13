@@ -19,7 +19,7 @@ class GetAllReplyUseCase @Inject constructor(
 
     suspend operator fun invoke(
         commentId: Long
-    ): Result<RoomDetailEntity> =
+    ): Result<DeleteRoomEntity> =
         replyRepository.deleteReplyUserComment(commentId)
 
     suspend fun postReportUserByCommentId(commentId: Long): Result<DeleteRoomEntity> =

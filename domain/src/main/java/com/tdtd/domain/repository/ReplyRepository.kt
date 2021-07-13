@@ -22,7 +22,7 @@ interface ReplyRepository {
     /**
      * 사용자가 작성한 답장을 삭제한다.
      */
-    suspend fun deleteReplyUserComment(commentId: Long): Result<RoomDetailEntity>
+    suspend fun deleteReplyUserComment(commentId: Long): Result<DeleteRoomEntity>
 
     /**
      * 사용자가 작성된 답장을 신고한다.

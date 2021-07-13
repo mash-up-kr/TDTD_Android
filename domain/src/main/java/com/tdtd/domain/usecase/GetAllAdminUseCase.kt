@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetAllAdminUseCase @Inject constructor(
     private val adminRepository: AdminRepository
 ) {
-    suspend operator fun invoke(roomCode: String): Result<RoomsEntity> =
+    suspend operator fun invoke(roomCode: String): Result<DeleteRoomEntity> =
         adminRepository.deleteRoom(roomCode)
 
     suspend operator fun invoke(commentId: Long): Result<DeleteRoomEntity> =
