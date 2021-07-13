@@ -16,7 +16,7 @@ class AdminRepositoryImpl @Inject constructor(
     private val adminApi: AdminApi,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AdminRepository {
-    override suspend fun deleteRoom(roomCode: String): Result<RoomsEntity> =
+    override suspend fun deleteRoom(roomCode: String): Result<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 adminApi.deleteRoom(roomCode).let { roomResponse ->
