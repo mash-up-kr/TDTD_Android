@@ -5,7 +5,6 @@ import com.tdtd.data.request.ReplyUserCommentRequest
 import com.tdtd.data.response.room.RoomsResponse
 import com.tdtd.domain.entity.MakeRoomEntity
 import com.tdtd.domain.entity.ReplyUserCommentWithFileEntity
-import com.tdtd.domain.entity.ResultEntity
 import com.tdtd.domain.entity.RoomEntity
 
 fun MakeRoomEntity.toNetworkModel() = MakeRoomRequest(
@@ -35,7 +34,3 @@ fun RoomsResponse.toListRoomEntity(): List<RoomEntity> {
         )
     }
 }
-
-fun toResultEntity() = ResultEntity(
-
-)

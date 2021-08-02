@@ -3,7 +3,6 @@ package com.tdtd.presentation.ui.main
 import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -12,7 +11,9 @@ import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentMainBinding
-import com.tdtd.presentation.util.navigateSafe
+import com.tdtd.presentation.utils.navigateSafe
+import com.tdtd.presentation.utils.onThrottleClick
+import com.tdtd.presentation.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -38,7 +39,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun initObserves() {
         super.initObserves()
 
-        mainViewModel.emptyRoom.observe(viewLifecycleOwner, Observer { roomList ->
+        mainViewModel.emptyRoom.observe(viewLifecycleOwner) { roomList ->
             if (roomList) {
                 showNoRoomText()
                 hideRecyclerView()
@@ -46,8 +47,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 hideNoRoomText()
                 showRecyclerView()
             }
-        })
+        }
         mainViewModel.getUserRoomList()
+
+        mainViewModel.apiFailEvent.observe(viewLifecycleOwner) {
+            requireActivity().showToast(getString(R.string.toast_error_occurred), requireView())
+        }
     }
 
     private fun initBindings() {
@@ -62,12 +67,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun setAdapter() {
         mainAdapter = MainAdapter({ room ->
-            if (room.is_host) startDetailAdminFragment(
-                room.room_code,
-                room.created_at,
-                room.is_bookmark
-            )
-            else startDetailUserFragment(room.room_code, room.is_bookmark)
+            when (room.is_host) {
+                true -> {
+                    startDetailAdminFragment(
+                        room.room_code,
+                        room.created_at,
+                        room.is_bookmark
+                    )
+                }
+                false -> {
+                    startDetailUserFragment(room.room_code, room.is_bookmark)
+                }
+            }
         }, { addFavorite ->
             mainViewModel.postBookmarkByRoomCode(addFavorite.room_code)
         }, { deleteFavorite ->
@@ -75,15 +86,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         })
 
         binding.mainRecyclerView.run {
-            setHasFixedSize(true)
             adapter = mainAdapter
+            setHasFixedSize(true)
         }
     }
 
     private fun setBookmarkList() {
         binding.rollingPaPerCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) mainViewModel.getUserBookmarkList()
-            else mainViewModel.getUserRoomList()
+            when (isChecked) {
+                true -> mainViewModel.getUserBookmarkList()
+                false -> mainViewModel.getUserRoomList()
+            }
         }
     }
 
@@ -152,7 +165,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun onClickAddImageView() {
-        binding.rollingPaperAddImageView.setOnClickListener {
+        binding.rollingPaperAddImageView.onThrottleClick {
             findNavController().navigate(R.id.action_mainFragment_to_roomDialogFragment)
         }
     }

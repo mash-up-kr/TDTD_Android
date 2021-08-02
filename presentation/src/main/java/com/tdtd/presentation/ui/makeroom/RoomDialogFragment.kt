@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -23,8 +22,8 @@ import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
 import com.tdtd.presentation.ui.main.MainViewModel
-import com.tdtd.presentation.util.hideKeyboard
-import com.tdtd.presentation.util.setupFullHeight
+import com.tdtd.presentation.utils.hideKeyboard
+import com.tdtd.presentation.utils.setupFullHeight
 
 
 class RoomDialogFragment : BottomSheetDialogFragment() {
@@ -185,10 +184,10 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun observeMakeRoomCode() {
-        mainViewModel.makeRoom.observe(viewLifecycleOwner, Observer {
-            roomCode = it.result.roomCode
+        mainViewModel.makeRoom.observe(viewLifecycleOwner) { createRoom ->
+            roomCode = createRoom.result.roomCode
             startDetailFragment(roomCode)
-        })
+        }
     }
 
     private fun startDetailFragment(roomCode: String) {

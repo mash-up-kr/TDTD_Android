@@ -1,4 +1,4 @@
-package com.tdtd.presentation.util
+package com.tdtd.presentation.utils
 
 import android.os.Bundle
 import androidx.annotation.IdRes

@@ -4,12 +4,12 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.method.ScrollingMovementMethod
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,9 +21,9 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailBinding
 import com.tdtd.presentation.ui.main.MainViewModel
-import com.tdtd.presentation.util.*
-import com.tdtd.presentation.util.Constants.STATE_PAUSE
-import com.tdtd.presentation.util.Constants.STATE_PLAYING
+import com.tdtd.presentation.utils.*
+import com.tdtd.presentation.utils.Constants.STATE_PAUSE
+import com.tdtd.presentation.utils.Constants.STATE_PLAYING
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_text_comment.*
 import kotlinx.android.synthetic.main.fragment_voice_comment.*
@@ -47,7 +47,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     private var job = SupervisorJob()
     private var scope: CoroutineScope = CoroutineScope(Dispatchers.Default + job)
-    private var handler = Handler(Looper.getMainLooper())
+    private val handler by lazy { Handler(Looper.getMainLooper()) }
     private var currentProgress = 0
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -68,41 +68,42 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     override fun initObserves() {
         super.initObserves()
 
-        if (safeArgs.host)
-            hostDetailFragment()
-        else
-            userDetailFragment()
-
         getNavigationResult<String>(R.id.detailFragment, "detail_leave_room") { text ->
             requireActivity().showToast(text, requireView())
             findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
         }
 
-        detailViewModel.detailRoom.observe(viewLifecycleOwner, Observer { detailRoom ->
+        detailViewModel.apiFailEvent.observe(viewLifecycleOwner) {
+            requireActivity().showToast(getString(R.string.toast_error_occurred), requireView())
+        }
+
+        detailViewModel.detailRoom.observe(viewLifecycleOwner) { detailRoom ->
             binding.titleTextView.text = detailRoom.result.title
 
             if (detailRoom.result.comments.isEmpty() && safeArgs.host) {
                 hideDetailRecyclerView()
-            } else if (detailRoom.result.comments.isEmpty() && !safeArgs.host) {
-                hideEmptyDetailRoom()
-            } else {
+                hostDetailFragment()
+            } else if (detailRoom.result.comments.isEmpty() && safeArgs.host.not()) {
+                hideDetailRecyclerView()
+                userDetailFragment()
+            } else if (detailRoom.result.comments.isNotEmpty()) {
                 hideNoReplyTextView()
-                hideEmptyDetailRoom()
                 showDetailRecyclerView()
             }
 
             type = when (detailRoom.result.type) {
                 MakeRoomType.TEXT -> {
+                    showWriteButton()
                     startWriteTextDetailFragment()
                     "text"
                 }
                 MakeRoomType.VOICE -> {
+                    showRecordButton()
                     startRecordVoiceDialogFragment()
                     "voice"
                 }
             }
-        })
-
+        }
         detailViewModel.getRoomDetailByRoomCode(safeArgs.roomCode)
     }
 
@@ -110,6 +111,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = detailViewModel
         isFavorite = safeArgs.bookmark
+
+        when (safeArgs.host) {
+            true -> hostDetailFragment()
+            false -> userDetailFragment()
+        }
     }
 
     private fun initAnalytics() {
@@ -138,10 +144,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 )
             }
         }
+
         binding.detailRecyclerView.run {
-            setHasFixedSize(true)
             adapter = detailAdapter
+            setHasFixedSize(true)
         }
+
+        hideNoReplyTextView()
+        showDetailRecyclerView()
     }
 
     private fun showTextCommentBottomSheet(
@@ -160,7 +170,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             val remove = requireActivity().findViewById<ImageView>(R.id.removeImageView)
 
             nickName.text = name
-            contents.text = content
+            contents.apply {
+                text = content
+                scrollTo(0, 0)
+                movementMethod = ScrollingMovementMethod.getInstance()
+            }
 
             closeImageView.setOnClickListener {
                 bottomSheetBehavior.state =
@@ -302,7 +316,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private fun showDeleteCommentDialog(id: Long) {
         val action =
             DetailFragmentDirections.actionDetailFragmentToCustomDialogFragment(
-                "",
+                safeArgs.roomCode,
                 id,
                 R.layout.dialog_delete_reply,
                 isFavorite,
@@ -314,7 +328,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private fun showDeleteByHostCommentDialog(id: Long) {
         val action =
             DetailFragmentDirections.actionDetailFragmentToCustomDialogFragment(
-                "",
+                safeArgs.roomCode,
                 id,
                 R.layout.dialog_delete_reply_admin,
                 isFavorite,
@@ -336,7 +350,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun startRecordVoiceDialogFragment() {
-        binding.writeButton.onThrottleClick {
+        binding.recordButton.onThrottleClick {
             val action =
                 DetailFragmentDirections.actionDetailFragmentToRecordVoiceDialogFragment(
                     safeArgs.roomCode, safeArgs.host, isFavorite
@@ -443,10 +457,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         binding.sharedFriendTextView.isVisible = true
     }
 
-    private fun hideEmptyDetailRoom() {
-        binding.sharedLinkTextView.isVisible = false
-    }
-
     private fun showNoReplyTextView() {
         binding.sharedLinkButton.isVisible = false
         binding.sharedLinkTextView.isVisible = false
@@ -468,9 +478,31 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         binding.detailRecyclerView.isVisible = false
     }
 
+    private fun showWriteButton() {
+        binding.titleTextView.setCompoundDrawablesWithIntrinsicBounds(
+            R.drawable.badge,
+            0,
+            0,
+            0
+        )
+        binding.writeButton.isVisible = true
+        binding.recordButton.isVisible = false
+    }
+
+    private fun showRecordButton() {
+        binding.titleTextView.setCompoundDrawablesWithIntrinsicBounds(
+            R.drawable.property_1record,
+            0,
+            0,
+            0
+        )
+        binding.writeButton.isVisible = false
+        binding.recordButton.isVisible = true
+    }
+
     override fun onDestroy() {
-        if (isPlaying) {
-            mediaPlayer?.stop()
+        if (mediaPlayer != null) {
+            if (isPlaying) mediaPlayer?.stop()
             mediaPlayer?.release()
             mediaPlayer = null
         }

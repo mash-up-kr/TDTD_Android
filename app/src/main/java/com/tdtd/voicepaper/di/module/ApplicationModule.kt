@@ -1,7 +1,7 @@
 package com.tdtd.voicepaper.di.module
 
 import android.content.Context
-import com.tdtd.presentation.util.PreferenceManager
+import com.tdtd.presentation.utils.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

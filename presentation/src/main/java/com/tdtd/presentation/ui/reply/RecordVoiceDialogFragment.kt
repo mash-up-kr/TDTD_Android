@@ -26,15 +26,15 @@ import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentRecordVoiceBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
-import com.tdtd.presentation.util.*
-import com.tdtd.presentation.util.Constants.REQUEST_RECORD_AUDIO_PERMISSION
-import com.tdtd.presentation.util.Constants.STATE_NORMAL
-import com.tdtd.presentation.util.Constants.STATE_PAUSE
-import com.tdtd.presentation.util.Constants.STATE_PLAYING
-import com.tdtd.presentation.util.Constants.STATE_RECORD
-import com.tdtd.presentation.util.Constants.STATE_RECORD_STOP
-import com.tdtd.presentation.util.MultiPartForm.getAudioBody
-import com.tdtd.presentation.util.MultiPartForm.getBody
+import com.tdtd.presentation.utils.*
+import com.tdtd.presentation.utils.Constants.REQUEST_RECORD_AUDIO_PERMISSION
+import com.tdtd.presentation.utils.Constants.STATE_NORMAL
+import com.tdtd.presentation.utils.Constants.STATE_PAUSE
+import com.tdtd.presentation.utils.Constants.STATE_PLAYING
+import com.tdtd.presentation.utils.Constants.STATE_RECORD
+import com.tdtd.presentation.utils.Constants.STATE_RECORD_STOP
+import com.tdtd.presentation.utils.MultiPartForm.getAudioBody
+import com.tdtd.presentation.utils.MultiPartForm.getBody
 import okhttp3.MultipartBody
 import java.io.File
 

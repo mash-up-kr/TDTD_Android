@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.Voicepaper" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/beige1</item>
         <item name="colorPrimaryDark">@color/grayscale1</item>
@@ -10,7 +9,6 @@
         <item name="android:windowBackground">@color/beige1</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
-
 
     <style name="text.20dp.bold.grayscale1" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="fontFamily">@font/font</item>
@@ -147,7 +145,6 @@
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppBottomSheetModal</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 

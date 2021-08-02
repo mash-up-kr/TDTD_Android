@@ -15,8 +15,8 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.ui.detail.DetailViewModel
-import com.tdtd.presentation.util.clickWithDebounce
-import com.tdtd.presentation.util.setNavigationResult
+import com.tdtd.presentation.utils.clickWithDebounce
+import com.tdtd.presentation.utils.setNavigationResult
 import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 
 class CustomDialogFragment : DialogFragment() {

@@ -1,4 +1,4 @@
-package com.tdtd.presentation.util
+package com.tdtd.presentation.utils
 
 import okhttp3.Interceptor
 import okhttp3.Response
