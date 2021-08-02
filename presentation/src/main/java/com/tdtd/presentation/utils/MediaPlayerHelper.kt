@@ -1,4 +1,4 @@
-package com.tdtd.presentation.util
+package com.tdtd.presentation.utils
 
 import android.media.MediaPlayer
 
@@ -46,6 +46,7 @@ object MediaPlayerHelper {
     fun stopAndRelease() {
         mediaPlayer?.let { player ->
             player.stop()
+            player.reset()
             player.release()
             mediaPlayer = null
         }

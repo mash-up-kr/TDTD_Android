@@ -18,10 +18,10 @@ import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
-import com.tdtd.presentation.util.MultiPartForm.getBody
-import com.tdtd.presentation.util.hideKeyboard
-import com.tdtd.presentation.util.randomAngle
-import com.tdtd.presentation.util.setupFullHeight
+import com.tdtd.presentation.utils.MultiPartForm.getBody
+import com.tdtd.presentation.utils.hideKeyboard
+import com.tdtd.presentation.utils.randomAngle
+import com.tdtd.presentation.utils.setupFullHeight
 import okhttp3.MultipartBody
 
 

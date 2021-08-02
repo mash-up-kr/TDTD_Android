@@ -1,8 +1,8 @@
 package com.tdtd.voicepaper
 
 import android.app.Application
-import com.tdtd.presentation.util.DeviceInfo
-import com.tdtd.presentation.util.PreferenceManager
+import com.tdtd.presentation.utils.DeviceInfo
+import com.tdtd.presentation.utils.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -14,11 +14,12 @@ class TDTDApplication : Application() {
     }
 
     override fun onCreate() {
-        preferences = PreferenceManager(applicationContext)
-        preferences.saveToken(DeviceInfo(applicationContext).getDeviceId())
         super.onCreate()
 
-        //Initialize Timber
+        preferences = PreferenceManager(applicationContext).apply {
+            saveToken(DeviceInfo(applicationContext).getDeviceId())
+        }
+
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }

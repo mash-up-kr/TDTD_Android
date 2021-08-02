@@ -66,15 +66,17 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/contentsTextView"
             android:layout_width="0dp"
-            android:layout_height="184dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/background_beige2_radius16"
             android:padding="16dp"
+            android:scrollbars="vertical"
             android:textAppearance="@style/text.16dp.bold.grayscale1"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nicknameTextView"
             tools:text="안녕하세요 감사합니다 반갑습니다\n오예 오예 테스트 문자열 테스트 문자열 테스트 테스트 테스트으 룰루랄라 신난다 내일은 수요일 수 요 일\n수요일은 힘들어" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

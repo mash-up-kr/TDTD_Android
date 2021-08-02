@@ -1,4 +1,4 @@
-package com.tdtd.presentation.util
+package com.tdtd.presentation.utils
 
 import android.media.MediaRecorder
 
@@ -30,6 +30,7 @@ object MediaRecorderHelper {
     fun stopAndRelease() {
         mediaRecorder?.let { recorder ->
             recorder.stop()
+            recorder.reset()
             recorder.release()
         }
         mediaRecorder = null

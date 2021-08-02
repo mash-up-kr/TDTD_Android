@@ -1,7 +1,6 @@
 package com.tdtd.data.response.room
 
 import com.google.gson.annotations.SerializedName
-import com.tdtd.data.mapper.toResultEntity
 import com.tdtd.domain.entity.DeleteRoomEntity
 
 data class DeleteResponse(
@@ -10,13 +9,11 @@ data class DeleteResponse(
     @SerializedName("message")
     val message: String,
     @SerializedName("result")
-    val result: Result?
+    val result: Unit
 ) {
     fun toEntity() = DeleteRoomEntity(
         code = code,
         message = message,
-        result = toResultEntity()
+        result = Unit
     )
 }
-
-class Result

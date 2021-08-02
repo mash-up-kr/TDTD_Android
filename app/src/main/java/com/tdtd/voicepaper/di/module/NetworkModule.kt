@@ -7,9 +7,9 @@ import com.tdtd.data.api.AdminApi
 import com.tdtd.data.api.BookmarkApi
 import com.tdtd.data.api.ReplyApi
 import com.tdtd.data.api.RoomApi
-import com.tdtd.presentation.util.AuthorizationInterceptor
-import com.tdtd.presentation.util.Constants.BASE_URL
-import com.tdtd.presentation.util.PreferenceManager
+import com.tdtd.presentation.utils.AuthorizationInterceptor
+import com.tdtd.presentation.utils.Constants.BASE_URL
+import com.tdtd.presentation.utils.PreferenceManager
 import com.tdtd.voicepaper.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -57,25 +57,24 @@ object NetworkModule {
             }
             .addInterceptor(AuthorizationInterceptor(PreferenceManager(context)))
             .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(30, TimeUnit.MINUTES)
+            .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideRoomApiService(retrofit: Retrofit) = retrofit.create(RoomApi::class.java)
+    fun provideRoomApiService(retrofit: Retrofit): RoomApi = retrofit.create(RoomApi::class.java)
 
     @Provides
     @Singleton
-    fun provideReplyApiService(retrofit: Retrofit) = retrofit.create(ReplyApi::class.java)
+    fun provideReplyApiService(retrofit: Retrofit): ReplyApi = retrofit.create(ReplyApi::class.java)
 
     @Provides
     @Singleton
-    fun provideBookmarkApiService(retrofit: Retrofit) = retrofit.create(BookmarkApi::class.java)
+    fun provideBookmarkApiService(retrofit: Retrofit): BookmarkApi = retrofit.create(BookmarkApi::class.java)
 
     @Provides
     @Singleton
-    fun provideAdminApiService(retrofit: Retrofit) = retrofit.create(AdminApi::class.java)
-
+    fun provideAdminApiService(retrofit: Retrofit): AdminApi = retrofit.create(AdminApi::class.java)
 }

@@ -11,6 +11,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.BR
+import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RowMainUserRoomItemBinding
 import com.tdtd.presentation.entity.Room
 
@@ -44,6 +45,12 @@ class MainAdapter(
             binding.container.setOnClickListener {
                 onClick(data)
             }
+
+            when (data.type) {
+                "TEXT" -> binding.imageBadge.setImageResource(R.drawable.badge)
+                "VOICE" -> binding.imageBadge.setImageResource(R.drawable.property_1record)
+            }
+
             binding.favoritesButton.isSelected = data.is_bookmark
             binding.favoritesButton.setOnClickListener {
                 when (binding.favoritesButton.isSelected) {
@@ -70,12 +77,6 @@ class MainAdapter(
     }
 }
 
-/**
- * Callback for calculating the diff between two non-null items in a list.
- *
- * Used by ListAdapter to calculate the minimum number of changes between and old list and a new
- * list that's been passed to `submitList`.
- */
 class CategoryDiffCallback : DiffUtil.ItemCallback<Room>() {
     override fun areItemsTheSame(oldItem: Room, newItem: Room): Boolean {
         return oldItem.created_at == newItem.created_at

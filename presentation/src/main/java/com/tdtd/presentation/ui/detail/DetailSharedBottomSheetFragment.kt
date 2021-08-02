@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -18,7 +17,10 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.DetailAdminBottomSheetBinding
-import com.tdtd.presentation.util.*
+import com.tdtd.presentation.utils.getNavigationResult
+import com.tdtd.presentation.utils.navigateSafeUp
+import com.tdtd.presentation.utils.onThrottleClick
+import com.tdtd.presentation.utils.showToast
 
 class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -56,7 +58,10 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun deleteRoom() {
-        getNavigationResult<String>(R.id.detailSharedBottomSheetFragment, "detail_delete_room") { text ->
+        getNavigationResult<String>(
+            R.id.detailSharedBottomSheetFragment,
+            "detail_delete_room"
+        ) { text ->
             findNavController().popBackStack()
             requireActivity().showToast(text, requireView())
             findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
@@ -104,10 +109,10 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun observeSharedUrl() {
-        detailViewModel.sharedUrl.observe(viewLifecycleOwner, Observer {
+        detailViewModel.sharedUrl.observe(viewLifecycleOwner) {
             sharedUrl = it.result.shareUrl
             copySharedUrlToClipboard(sharedUrl)
-        })
+        }
     }
 
     private fun copySharedUrlToClipboard(url: String) {

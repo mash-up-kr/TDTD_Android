@@ -13,7 +13,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 
-//hilt version upgrade 하면서 ViewModelScope로 변경할 것
 @Module
 @InstallIn(ViewModelComponent::class)
 object UseCaseModule {

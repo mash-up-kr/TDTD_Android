@@ -1,27 +1,30 @@
 package com.tdtd.presentation.base.ui
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.tdtd.presentation.utils.SingleLiveEvent
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-abstract class BaseViewModel : ViewModel() {
+open class BaseViewModel : ViewModel() {
 
-    val isLoading = MutableLiveData<Boolean>()
+    private val _apiFailEvent = SingleLiveEvent<Boolean>()
+    val apiFailEvent: LiveData<Boolean> get() = _apiFailEvent
 
-    init {
-        isLoading.value = false
-    }
+    private val coroutineExceptionHandler =
+        CoroutineExceptionHandler { _, throwable ->
+            throwable.printStackTrace()
+            _apiFailEvent.postCall()
+        }
 
-    override fun onCleared() {
-        super.onCleared()
-
-        hideLoading()
-    }
-
-    fun showLoading() {
-        isLoading.value = true
-    }
-
-    fun hideLoading() {
-        isLoading.value = false
+    fun CoroutineScope.safeLaunch(
+        exceptionHandler: CoroutineExceptionHandler = coroutineExceptionHandler,
+        launchBody: suspend () -> Unit
+    ): Job {
+        return this.launch(exceptionHandler) {
+            launchBody.invoke()
+        }
     }
 }

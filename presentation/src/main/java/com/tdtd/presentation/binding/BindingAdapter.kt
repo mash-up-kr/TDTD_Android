@@ -9,14 +9,14 @@ import com.tdtd.presentation.ui.main.MainAdapter
 
 @BindingAdapter("bindRoomList")
 fun bindRecyclerView(recyclerView: RecyclerView, list: List<Room>?) {
-    list?.let {
-        (recyclerView.adapter as MainAdapter).submitList(it)
+    list?.let { roomList ->
+        (recyclerView.adapter as MainAdapter).submitList(roomList)
     }
 }
 
 @BindingAdapter("bindRoomDetail")
 fun bindRecyclerView(recyclerView: RecyclerView, list: PresenterRoomDetailEntity?) {
-    list?.let {
-        (recyclerView.adapter as DetailAdapter).submitList(it.result.comments)
+    list?.let { entity ->
+        (recyclerView.adapter as DetailAdapter).submitList(entity.result.comments)
     }
 }

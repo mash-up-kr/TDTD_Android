@@ -1,4 +1,4 @@
-package com.tdtd.presentation.util
+package com.tdtd.presentation.utils
 
 import androidx.annotation.MainThread
 import androidx.annotation.Nullable
@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
-    // setValue로 새로운 이벤트를 받으면 true로 바뀌고 그 이벤트가 실행되면 false로 돌아갑니다.
     private val mPending = AtomicBoolean(false)
 
     @MainThread
@@ -19,8 +18,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
             Timber.w("Multiple observers registered but only one will be notified of changes.")
         }
 
-        // Observe the internal MutableLiveData
-        super.observe(owner, Observer<T> { t ->
+        super.observe(owner, { t ->
             if (mPending.compareAndSet(true, false)) {
                 observer.onChanged(t)
             }
@@ -34,11 +32,17 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         super.setValue(t)
     }
 
-    /**
-     * Used for cases where T is Void, to make calls cleaner.
-     */
     @MainThread
     fun call() {
         value = null
+    }
+
+    fun postCall() {
+        postValue(null)
+    }
+
+    override fun postValue(@Nullable value: T?) {
+        mPending.set(true)
+        super.postValue(value)
     }
 }
