@@ -101,7 +101,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                 binding.textNumberTextView.text =
                     getString(R.string.initial_and_max_input_number, s?.length)
 
-                if (s!!.isNotEmpty()) {
+                if (s!!.isNotEmpty() && s.isNotBlank()) {
                     roomTitle = s.toString()
                     onClickVoice()
                     onClickText()
