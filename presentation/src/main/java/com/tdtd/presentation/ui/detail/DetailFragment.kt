@@ -73,6 +73,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
         }
 
+        getNavigationResult<String>(R.id.detailFragment, "modify_room_name") { newTitle ->
+            binding.titleTextView.text = newTitle
+        }
+
         detailViewModel.apiFailEvent.observe(viewLifecycleOwner) {
             requireActivity().showToast(getString(R.string.toast_error_occurred), requireView())
         }
@@ -479,25 +483,19 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun showWriteButton() {
-        binding.titleTextView.setCompoundDrawablesWithIntrinsicBounds(
-            R.drawable.badge,
-            0,
-            0,
-            0
-        )
-        binding.writeButton.isVisible = true
-        binding.recordButton.isVisible = false
+        binding.apply {
+            titleTextView.leftDrawable(R.drawable.badge)
+            writeButton.isVisible = true
+            recordButton.isVisible = false
+        }
     }
 
     private fun showRecordButton() {
-        binding.titleTextView.setCompoundDrawablesWithIntrinsicBounds(
-            R.drawable.property_1record,
-            0,
-            0,
-            0
-        )
-        binding.writeButton.isVisible = false
-        binding.recordButton.isVisible = true
+        binding.apply {
+            titleTextView.leftDrawable(R.drawable.property_1record)
+            writeButton.isVisible = false
+            recordButton.isVisible = true
+        }
     }
 
     override fun onDestroy() {

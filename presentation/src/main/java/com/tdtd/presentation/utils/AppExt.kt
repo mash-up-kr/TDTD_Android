@@ -11,6 +11,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import com.tdtd.presentation.R
 import kotlinx.android.synthetic.main.layout_toast.view.*
 import java.util.concurrent.TimeUnit
@@ -138,4 +139,8 @@ fun View.clickWithDebounce(debounceTime: Long = 300, action: () -> Unit) {
             lastClickTime = SystemClock.elapsedRealtime()
         }
     })
+}
+
+fun TextView.leftDrawable(@DrawableRes id: Int = 0) {
+    this.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0)
 }

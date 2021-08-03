@@ -49,6 +49,7 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
         initAnalytics()
         onClickCancelButton()
         onClickSharedLink()
+        onClickModifyRoomName()
         onClickDeleteRoomTextView()
         deleteRoom()
     }
@@ -105,6 +106,17 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
                 bundle.putString("value", "copy")
                 firebaseAnalytics.logEvent("CopyLink", bundle)
             }
+        }
+    }
+
+    private fun onClickModifyRoomName() {
+        binding.modifyRoomNameTextView.onThrottleClick {
+            dismiss()
+            val action =
+                DetailSharedBottomSheetFragmentDirections.actionDetailSharedBottomSheetFragmentToModifyBottomSheetFragment(
+                    safeArgs.roomCode
+                )
+            findNavController().navigate(action)
         }
     }
 

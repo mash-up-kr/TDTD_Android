@@ -95,6 +95,9 @@
             android:id="@+id/action_detailSharedBottomSheetFragment_to_detailFragment"
             app:destination="@id/detailFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_detailSharedBottomSheetFragment_to_modifyBottomSheetFragment"
+            app:destination="@id/modifyBottomSheetFragment" />
     </dialog>
 
     <dialog
@@ -160,6 +163,17 @@
             app:destination="@id/mainFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <dialog
+        android:id="@+id/modifyBottomSheetFragment"
+        android:name="com.tdtd.presentation.ui.modify.ModifyBottomSheetFragment"
+        android:label="ModifyBottomSheetFragment"
+        tools:layout="@layout/fragment_modify_bottom_sheet">
+
+        <argument
+            android:name="room_code"
+            app:argType="string" />
+    </dialog>
 
     <action
         android:id="@+id/action_global_mainFragment"

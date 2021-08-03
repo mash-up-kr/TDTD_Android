@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tdtd.domain.Result
+import com.tdtd.domain.entity.ModifyRoomNameEntity
 import com.tdtd.domain.getValue
 import com.tdtd.domain.usecase.GetAllAdminUseCase
 import com.tdtd.domain.usecase.GetAllReplyUseCase
@@ -45,6 +46,8 @@ class DetailViewModel @Inject constructor(
 
     private val _sharedUrl = MutableLiveData<PresenterRoomUrlEntity>()
     val sharedUrl: LiveData<PresenterRoomUrlEntity> get() = _sharedUrl
+
+    private val _modifyRoomNameByHost = MutableLiveData<PresenterDeleteRoom>()
 
     fun getRoomDetailByRoomCode(roomCode: String) {
         viewModelScope.safeLaunch {
@@ -123,6 +126,16 @@ class DetailViewModel @Inject constructor(
             when (val result = getAllAdminUseCase.getSharedRoomUrl(roomCode)) {
                 is Result.Error -> throw result.exception
                 is Result.Success -> _sharedUrl.value = result.getValue().toPresenterRoomUrlEntity()
+            }
+        }
+    }
+
+    fun modifyRoomNameByHost(roomCode: String, roomName: ModifyRoomNameEntity) {
+        viewModelScope.safeLaunch {
+            when (val result = getAllAdminUseCase.modifyRoomNameByHost(roomCode, roomName)) {
+                is Result.Error -> throw result.exception
+                is Result.Success -> _modifyRoomNameByHost.value =
+                    result.getValue().toPresenterDeleteRoom()
             }
         }
     }

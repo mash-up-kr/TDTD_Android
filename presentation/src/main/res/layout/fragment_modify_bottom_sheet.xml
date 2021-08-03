@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/modifyBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingLeft="16dp"
+        android:paddingTop="24dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        app:behavior_skipCollapsed="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/modifyRoomNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/modify_room_name"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textNumberTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/initial_input_number"
+            android:textAppearance="@style/text.14dp.bold.grayscale2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/modifyRoomNameEditView"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/background_beige2_stroke1_beige3_radius16"
+            android:gravity="center|start"
+            android:hint="@string/room_name_hint_title"
+            android:maxLength="35"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/text.20dp.regular.grayscale1"
+            android:textColorHint="@color/grayscale4"
+            android:textCursorDrawable="@drawable/cursor_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/modifyRoomNameTextView" />
+
+        <Button
+            android:id="@+id/modifyRoomNameButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/background_grayscale1_radius12"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="@string/shared_okay"
+            android:textAppearance="@style/text.20dp.regular.white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/modifyRoomNameEditView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

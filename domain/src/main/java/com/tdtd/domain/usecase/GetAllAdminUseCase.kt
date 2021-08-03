@@ -2,8 +2,8 @@ package com.tdtd.domain.usecase
 
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.DeleteRoomEntity
+import com.tdtd.domain.entity.ModifyRoomNameEntity
 import com.tdtd.domain.entity.RoomUrlEntity
-import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.repository.AdminRepository
 import javax.inject.Inject
 
@@ -18,4 +18,10 @@ class GetAllAdminUseCase @Inject constructor(
 
     suspend fun getSharedRoomUrl(roomCode: String): Result<RoomUrlEntity> =
         adminRepository.getSharedRoomUrl(roomCode)
+
+    suspend fun modifyRoomNameByHost(
+        roomCode: String,
+        roomName: ModifyRoomNameEntity
+    ): Result<DeleteRoomEntity> =
+        adminRepository.modifyRoomNameByHost(roomCode, roomName)
 }
