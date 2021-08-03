@@ -1,11 +1,12 @@
 package com.tdtd.data.repository
 
 import com.tdtd.data.api.AdminApi
+import com.tdtd.data.mapper.toNetworkModel
 import com.tdtd.domain.IoDispatcher
 import com.tdtd.domain.Result
 import com.tdtd.domain.entity.DeleteRoomEntity
+import com.tdtd.domain.entity.ModifyRoomNameEntity
 import com.tdtd.domain.entity.RoomUrlEntity
-import com.tdtd.domain.entity.RoomsEntity
 import com.tdtd.domain.repository.AdminRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -48,4 +49,21 @@ class AdminRepositoryImpl @Inject constructor(
                 Result.Error(e)
             }
         }
+
+    override suspend fun modifyRoomNameByHost(
+        roomCode: String,
+        roomName: ModifyRoomNameEntity
+    ): Result<DeleteRoomEntity> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                adminApi.modifyRoomNameByHost(roomCode, roomName.toNetworkModel())
+                    .let { modifyRoomNameResponse ->
+                        Result.Success(modifyRoomNameResponse.toEntity())
+                    }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+
+
 }

@@ -28,34 +28,47 @@
             android:id="@+id/sharedLinkTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:drawableStart="@drawable/ic_share_32"
-            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/union"
+            android:drawablePadding="15dp"
             android:foreground="@drawable/ripple_radius_8dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="8dp"
             android:text="@string/detail_admin_setting_bottom_sheet_share_link_content"
             android:textAppearance="@style/text.20dp.bold.grayscale1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateInfoTitleTextView"
-            tools:text="작성자 초대 링크 공유하기" />
+            app:layout_constraintTop_toBottomOf="@+id/dateInfoTitleTextView" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/modifyRoomNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawableStart="@drawable/edit"
+            android:drawablePadding="15dp"
+            android:foreground="@drawable/ripple_radius_8dp"
+            android:padding="8dp"
+            android:text="@string/modify_room_name"
+            android:textAppearance="@style/text.20dp.bold.grayscale1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sharedLinkTextView" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/deleteRoomTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_trash_32"
-            android:drawablePadding="8dp"
+            android:layout_marginStart="14dp"
+            android:drawableStart="@drawable/ic_trash_24"
+            android:drawablePadding="15dp"
             android:foreground="@drawable/ripple_radius_8dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="8dp"
             android:text="@string/detail_admin_setting_bottom_sheet_delete_room_content"
             android:textAppearance="@style/text.20dp.bold.grayscale1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sharedLinkTextView"
-            tools:text="방 삭제하기" />
+            app:layout_constraintTop_toBottomOf="@+id/modifyRoomNameTextView" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelButton"
@@ -68,8 +81,7 @@
             android:textAppearance="@style/text.20dp.bold.white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deleteRoomTextView"
-            tools:text="아무것도 안 할래요" />
+            app:layout_constraintTop_toBottomOf="@+id/deleteRoomTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
