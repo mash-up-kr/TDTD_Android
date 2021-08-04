@@ -100,9 +100,9 @@ class ModifyBottomSheetFragment : BottomSheetDialogFragment() {
                 ModifyRoomNameEntity(newRoomTitle)
             )
             requireActivity().showToast(getString(R.string.toast_modify_room_name), requireView())
+            setNavigationResult(newRoomTitle, "modify_room_name")
             dismiss()
         }.also {
-            setNavigationResult(newRoomTitle, "modify_room_name")
             val bundle = Bundle()
             bundle.putString("value", "roomTitle")
             firebaseAnalytics.logEvent("ModifyTitle", bundle)
