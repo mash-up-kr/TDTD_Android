@@ -21,7 +21,6 @@ import com.tdtd.presentation.databinding.FragmentModifyBottomSheetBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.utils.onThrottleClick
 import com.tdtd.presentation.utils.setNavigationResult
-import com.tdtd.presentation.utils.showToast
 
 class ModifyBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -99,7 +98,6 @@ class ModifyBottomSheetFragment : BottomSheetDialogFragment() {
                 safeArgs.roomCode,
                 ModifyRoomNameEntity(newRoomTitle)
             )
-            requireActivity().showToast(getString(R.string.toast_modify_room_name), requireView())
             setNavigationResult(newRoomTitle, "modify_room_name")
             dismiss()
         }.also {

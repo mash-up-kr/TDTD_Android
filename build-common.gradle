@@ -51,8 +51,6 @@ dependencies {
     //Hilt
     implementation "$libraries.hilt"
     kapt "$libraries.hiltCompiler"
-    implementation "$libraries.hiltLifecycle"
-    kapt "$libraries.hiltLifecycleCompiler"
     //DynamicLink
     implementation "$libraries.dynamicLink"
     //Analytics

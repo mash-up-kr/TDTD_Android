@@ -1,15 +1,15 @@
 package com.tdtd.data.response.reply
 
 import com.google.gson.annotations.SerializedName
-import com.tdtd.domain.entity.MakeRoomType
 import com.tdtd.domain.entity.ReplyUserCommentWithUrlEntity
+import com.tdtd.domain.entity.RoomTypeEntity
 import com.tdtd.domain.entity.StickerColorType
 
 data class UserCommentResponse(
     @SerializedName("nickname")
     val nickname: String,
     @SerializedName("message_type")
-    val messageType: MakeRoomType,
+    val messageTypeEntity: RoomTypeEntity,
     @SerializedName("text_message")
     val textMessage: String?,
     @SerializedName("voice_url")
@@ -21,7 +21,7 @@ data class UserCommentResponse(
 ) {
     fun toEntity() = ReplyUserCommentWithUrlEntity(
         nickname = nickname,
-        messageType = messageType,
+        messageTypeEntity = messageTypeEntity,
         textMessage = textMessage,
         voiceUrl = voiceUrl,
         stickerColor = stickerColor,

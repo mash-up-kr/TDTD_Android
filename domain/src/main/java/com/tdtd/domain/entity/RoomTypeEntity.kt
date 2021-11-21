@@ -1,6 +1,6 @@
 package com.tdtd.domain.entity
 
-enum class MakeRoomType {
+enum class RoomTypeEntity {
     TEXT,
     VOICE
 }

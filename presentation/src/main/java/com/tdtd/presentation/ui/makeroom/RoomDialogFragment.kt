@@ -18,7 +18,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tdtd.domain.entity.MakeRoomEntity
-import com.tdtd.domain.entity.MakeRoomType
+import com.tdtd.domain.entity.RoomTypeEntity
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.RoomBottomSheetBinding
 import com.tdtd.presentation.ui.main.MainViewModel
@@ -142,7 +142,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                     mainViewModel.postCreateUserRoom(
                         makeRoomEntity = MakeRoomEntity(
                             roomTitle,
-                            MakeRoomType.VOICE
+                            RoomTypeEntity.VOICE
                         )
                     ).also {
                         observeMakeRoomCode()
@@ -170,7 +170,7 @@ class RoomDialogFragment : BottomSheetDialogFragment() {
                     mainViewModel.postCreateUserRoom(
                         makeRoomEntity = MakeRoomEntity(
                             roomTitle,
-                            MakeRoomType.TEXT
+                            RoomTypeEntity.TEXT
                         )
                     ).also {
                         observeMakeRoomCode()

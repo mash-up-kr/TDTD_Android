@@ -2,11 +2,11 @@ package com.tdtd.data.repository
 
 import com.tdtd.data.api.BookmarkApi
 import com.tdtd.data.mapper.toListRoomEntity
-import com.tdtd.domain.IoDispatcher
-import com.tdtd.domain.Result
+import com.tdtd.data.util.IoDispatcher
 import com.tdtd.domain.entity.DeleteRoomEntity
 import com.tdtd.domain.entity.RoomEntity
 import com.tdtd.domain.repository.BookmarkRepository
+import com.tdtd.domain.util.State
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,36 +17,36 @@ class BookmarkRepositoryImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BookmarkRepository {
 
-    override suspend fun getUserBookmarkList(): Result<List<RoomEntity>> =
+    override suspend fun getUserBookmarkList(): State<List<RoomEntity>> =
         withContext(ioDispatcher) {
             return@withContext try {
                 bookmarkApi.getUserBookmarkList().let { roomsResponse ->
-                    Result.Success(roomsResponse.toListRoomEntity())
+                    State.Success(roomsResponse.toListRoomEntity())
                 }
             } catch (e: Exception) {
-                Result.Error(e)
+                State.Error(e)
             }
         }
 
-    override suspend fun postBookmarkByRoomCode(roomCode: String): Result<DeleteRoomEntity> =
+    override suspend fun postBookmarkByRoomCode(roomCode: String): State<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 bookmarkApi.postBookmarkByRoomCode(roomCode).let { roomResponse ->
-                    Result.Success(roomResponse.toEntity())
+                    State.Success(roomResponse.toEntity())
                 }
             } catch (e: Exception) {
-                Result.Error(e)
+                State.Error(e)
             }
         }
 
-    override suspend fun deleteBookmarkByRoomCode(roomCode: String): Result<DeleteRoomEntity> =
+    override suspend fun deleteBookmarkByRoomCode(roomCode: String): State<DeleteRoomEntity> =
         withContext(ioDispatcher) {
             return@withContext try {
                 bookmarkApi.deleteBookmarkByRoomCode(roomCode).let { roomResponse ->
-                    Result.Success(roomResponse.toEntity())
+                    State.Success(roomResponse.toEntity())
                 }
             } catch (e: Exception) {
-                Result.Error(e)
+                State.Error(e)
             }
         }
 }

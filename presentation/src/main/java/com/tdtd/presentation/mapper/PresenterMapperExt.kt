@@ -46,7 +46,7 @@ fun RoomDetailEntity.toPresenterRoomDetailEntity() = PresenterRoomDetailEntity(
 
 fun ResultRoomInfoEntity.toPresenterResultRoomInfoEntity() = PresenterResultRoomInfoEntity(
     title = this.title,
-    type = this.type,
+    typeEntity = this.typeEntity,
     shareUrl = this.shareUrl,
     comments = this.comments.toComments()
 )
@@ -77,7 +77,7 @@ fun ReplyUserEntity.toPresenterReplyUserEntity() = PresenterReplyUserEntity(
 fun ReplyUserCommentWithUrlEntity.toPresenterReplyUserCommentWithUrl() =
     PresenterReplyUserCommentWithUrl(
         nickname = this.nickname,
-        messageType = this.messageType,
+        messageTypeEntity = this.messageTypeEntity,
         textMessage = this.textMessage,
         voiceUrl = this.voiceUrl,
         stickerColor = this.stickerColor.toPresenterStickerColorType(),

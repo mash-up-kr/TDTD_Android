@@ -11,12 +11,12 @@ import com.tdtd.domain.entity.RoomEntity
 
 fun MakeRoomEntity.toNetworkModel() = MakeRoomRequest(
     this.id,
-    this.type
+    this.typeEntity
 )
 
 fun ReplyUserCommentWithFileEntity.toNetworkModel() = ReplyUserCommentRequest(
     this.nickname,
-    this.messageType,
+    this.messageTypeEntity,
     this.textMessage,
     this.voiceFile,
     this.stickerColor,
