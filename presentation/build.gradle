@@ -38,4 +38,7 @@ dependencies {
     implementation "$testing.junit"
     implementation "$testing.androidxTest"
     implementation "$testing.androidxJunit"
+    testImplementation "$testing.coroutineTest"
+    testImplementation "$testing.coreTest"
+    testImplementation "$testing.mockk"
 }

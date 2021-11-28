@@ -8,6 +8,7 @@ apply from: '../build-version.gradle'
 
 dependencies {
     implementation project("$modularization.domain")
+
     implementation "$libraries.retrofit"
     implementation "$libraries.okhttp"
     implementation "$libraries.converter"

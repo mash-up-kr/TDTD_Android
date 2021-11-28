@@ -5,15 +5,11 @@ apply plugin: 'kotlin-kapt'
 apply from: '../build-version.gradle'
 
 dependencies {
-    //Kotlin
-    implementation "$libraries.kotlin"
+    //Okhttp
     implementation "$libraries.okhttp"
-    //Logger
-    implementation "$libraries.timber"
     //Coroutines
     implementation "$libraries.coroutinesCore"
     implementation "$libraries.coroutinesAndroid"
-    //Hilt
-    implementation "$libraries.hilt"
-    kapt "$libraries.hiltCompiler"
+
+    implementation 'androidx.annotation:annotation:1.3.0'
 }
