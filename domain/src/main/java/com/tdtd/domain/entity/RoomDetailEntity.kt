@@ -8,7 +8,7 @@ data class RoomDetailEntity(
 
 data class ResultRoomInfoEntity(
     val title: String,
-    val type: MakeRoomType,
+    val typeEntity: RoomTypeEntity,
     val shareUrl: String,
     val comments: List<UserDetailCommentEntity>
 )

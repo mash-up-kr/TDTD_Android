@@ -3,11 +3,10 @@ package com.tdtd.presentation.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.tdtd.domain.Result
 import com.tdtd.domain.entity.MakeRoomEntity
-import com.tdtd.domain.getValue
-import com.tdtd.domain.usecase.GetAllBookmarksUseCase
-import com.tdtd.domain.usecase.GetAllRoomsUseCase
+import com.tdtd.domain.usecase.*
+import com.tdtd.domain.util.State
+import com.tdtd.domain.util.getValue
 import com.tdtd.presentation.base.ui.BaseViewModel
 import com.tdtd.presentation.entity.PresenterCreatedRoomCode
 import com.tdtd.presentation.entity.PresenterDeleteRoom
@@ -22,7 +21,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getAllRoomsUseCase: GetAllRoomsUseCase,
-    private val getAllBookmarksUseCase: GetAllBookmarksUseCase
+    private val getAllBookmarksUseCase: GetAllBookmarksUseCase,
+    private val addBookMarkUseCase: AddBookMarkUseCase,
+    private val deleteBookMarkUseCase: DeleteBookMarkUseCase,
+    private val createUserRoomUseCase: CreateUserRoomUseCase,
+    private val enterByRoomCodeUseCase: EnterByRoomCodeUseCase
 ) : BaseViewModel() {
 
     private val _roomList = MutableLiveData<List<Room>>()
@@ -41,10 +44,10 @@ class MainViewModel @Inject constructor(
     fun getUserRoomList() {
         viewModelScope.safeLaunch {
             when (val result = getAllRoomsUseCase.invoke()) {
-                is Result.Error -> {
+                is State.Error -> {
                     throw result.exception
                 }
-                is Result.Success -> {
+                is State.Success -> {
                     if (result.getValue().isEmpty()) {
                         _emptyRoom.value = true
                     } else {
@@ -59,46 +62,44 @@ class MainViewModel @Inject constructor(
     fun getUserBookmarkList() {
         viewModelScope.safeLaunch {
             when (val result = getAllBookmarksUseCase.invoke()) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _roomList.value = result.getValue().toPresenterRoom()
+                is State.Error -> throw result.exception
+                is State.Success -> _roomList.value = result.getValue().toPresenterRoom()
             }
         }
     }
 
     fun postBookmarkByRoomCode(roomCode: String) {
         viewModelScope.safeLaunch {
-            when (val result = getAllBookmarksUseCase.postBookmark(roomCode)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _favoriteRoom.postValue(
-                    result.getValue().toPresenterDeleteRoom()
-                )
+            when (val result = addBookMarkUseCase.invoke(roomCode)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _favoriteRoom.value = result.getValue().toPresenterDeleteRoom()
             }
         }
     }
 
     fun deleteBookmarkByRoomCode(roomCode: String) {
         viewModelScope.safeLaunch {
-            when (val result = getAllBookmarksUseCase.deleteBookmark(roomCode)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _favoriteRoom.value = result.getValue().toPresenterDeleteRoom()
+            when (val result = deleteBookMarkUseCase.invoke(roomCode)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _favoriteRoom.value = result.getValue().toPresenterDeleteRoom()
             }
         }
     }
 
     fun postCreateUserRoom(makeRoomEntity: MakeRoomEntity) {
         viewModelScope.safeLaunch {
-            when (val result = getAllRoomsUseCase.invoke(makeRoomEntity)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _makeRoom.value = result.getValue().toPresenterCreated()
+            when (val result = createUserRoomUseCase.invoke(makeRoomEntity)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _makeRoom.value = result.getValue().toPresenterCreated()
             }
         }
     }
 
     fun postParticipateByRoomCode(roomCode: String) {
         viewModelScope.safeLaunch {
-            when (val result = getAllRoomsUseCase.postParticipateByRoomCode(roomCode)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _inviteRoom.value = result.getValue().toPresenterDeleteRoom()
+            when (val result = enterByRoomCodeUseCase.invoke(roomCode)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _inviteRoom.value = result.getValue().toPresenterDeleteRoom()
             }
         }
     }

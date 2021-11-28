@@ -22,7 +22,7 @@ data class ResultRoomInfoResponse(
     @SerializedName("title")
     val title: String,
     @SerializedName("type")
-    val type: MakeRoomType,
+    val typeEntity: RoomTypeEntity,
     @SerializedName("share_url")
     val shareUrl: String,
     @SerializedName("comments")
@@ -30,7 +30,7 @@ data class ResultRoomInfoResponse(
 ) {
     fun toEntity() = ResultRoomInfoEntity(
         title = title,
-        type = type,
+        typeEntity = typeEntity,
         shareUrl = shareUrl,
         comments = comments.map { it.toEntity() }
     )

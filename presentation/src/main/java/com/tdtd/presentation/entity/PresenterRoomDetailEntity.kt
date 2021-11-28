@@ -1,6 +1,6 @@
 package com.tdtd.presentation.entity
 
-import com.tdtd.domain.entity.MakeRoomType
+import com.tdtd.domain.entity.RoomTypeEntity
 import com.tdtd.presentation.R
 
 data class PresenterRoomDetailEntity(
@@ -11,7 +11,7 @@ data class PresenterRoomDetailEntity(
 
 data class PresenterResultRoomInfoEntity(
     val title: String,
-    val type: MakeRoomType,
+    val typeEntity: RoomTypeEntity,
     val shareUrl: String,
     val comments: List<Comments>
 )

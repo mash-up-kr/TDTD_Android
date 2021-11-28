@@ -203,8 +203,12 @@
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include layout="@layout/fragment_text_comment" />
+        <include
+            android:id="@+id/textCommentBottomSheet"
+            layout="@layout/fragment_text_comment" />
 
-        <include layout="@layout/fragment_voice_comment" />
+        <include
+            android:id="@+id/voiceCommentBottomSheet"
+            layout="@layout/fragment_voice_comment" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

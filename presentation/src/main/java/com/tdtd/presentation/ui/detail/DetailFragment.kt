@@ -7,7 +7,6 @@ import android.os.Looper
 import android.text.method.ScrollingMovementMethod
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
-import com.tdtd.domain.entity.MakeRoomType
+import com.tdtd.domain.entity.RoomTypeEntity
 import com.tdtd.presentation.R
 import com.tdtd.presentation.base.ui.BaseFragment
 import com.tdtd.presentation.databinding.FragmentDetailBinding
@@ -74,6 +73,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }
 
         getNavigationResult<String>(R.id.detailFragment, "modify_room_name") { newTitle ->
+            requireActivity().showToast(getString(R.string.toast_modify_room_name), requireView())
             binding.titleTextView.text = newTitle
         }
 
@@ -95,13 +95,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 showDetailRecyclerView()
             }
 
-            type = when (detailRoom.result.type) {
-                MakeRoomType.TEXT -> {
+            type = when (detailRoom.result.typeEntity) {
+                RoomTypeEntity.TEXT -> {
                     showWriteButton()
                     startWriteTextDetailFragment()
                     "text"
                 }
-                MakeRoomType.VOICE -> {
+                RoomTypeEntity.VOICE -> {
                     showRecordButton()
                     startRecordVoiceDialogFragment()
                     "voice"
@@ -115,7 +115,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = detailViewModel
         isFavorite = safeArgs.bookmark
-
         when (safeArgs.host) {
             true -> hostDetailFragment()
             false -> userDetailFragment()
@@ -167,38 +166,36 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         bottomSheetBehavior = BottomSheetBehavior.from(textCommentBottomSheet).apply {
             this.state = BottomSheetBehavior.STATE_EXPANDED
 
-            val nickName = requireActivity().findViewById<TextView>(R.id.nicknameTextView)
-            val contents = requireActivity().findViewById<TextView>(R.id.contentsTextView)
-            val closeImageView = requireActivity().findViewById<ImageView>(R.id.closeImageView)
-            val report = requireActivity().findViewById<ImageView>(R.id.reportImageView)
-            val remove = requireActivity().findViewById<ImageView>(R.id.removeImageView)
+            with(binding.textCommentBottomSheet) {
+                nicknameTextView.text = name
 
-            nickName.text = name
-            contents.apply {
-                text = content
-                scrollTo(0, 0)
-                movementMethod = ScrollingMovementMethod.getInstance()
-            }
+                contentsTextView.apply {
+                    text = content
+                    scrollTo(0, 0)
+                    movementMethod = ScrollingMovementMethod.getInstance()
+                }
 
-            closeImageView.setOnClickListener {
-                bottomSheetBehavior.state =
-                    BottomSheetBehavior.STATE_HIDDEN
-            }
+                closeImageView.setOnClickListener {
+                    bottomSheetBehavior.state =
+                        BottomSheetBehavior.STATE_HIDDEN
+                }
 
-            report.setOnClickListener {
-                if (mine) requireActivity().showToast(
-                    getString(R.string.dialog_report_mine),
-                    requireView()
-                )
-                else showReportCommentDialog(id!!)
-            }
-            remove.setOnClickListener {
-                if (safeArgs.host) showDeleteByHostCommentDialog(id!!)
-                else if (!mine) requireActivity().showToast(
-                    getString(R.string.dialog_delete_not_mine),
-                    requireView()
-                )
-                else showDeleteCommentDialog(id!!)
+                reportImageView.setOnClickListener {
+                    if (mine) requireActivity().showToast(
+                        getString(R.string.dialog_report_mine),
+                        requireView()
+                    )
+                    else showReportCommentDialog(id!!)
+                }
+
+                removeImageView.setOnClickListener {
+                    if (safeArgs.host) showDeleteByHostCommentDialog(id!!)
+                    else if (!mine) requireActivity().showToast(
+                        getString(R.string.dialog_delete_not_mine),
+                        requireView()
+                    )
+                    else showDeleteCommentDialog(id!!)
+                }
             }
         }
     }
@@ -212,37 +209,31 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         bottomSheetBehavior = BottomSheetBehavior.from(voiceCommentBottomSheet).apply {
             this.state = BottomSheetBehavior.STATE_EXPANDED
 
-            val nickName = requireActivity().findViewById<TextView>(R.id.nicknameVoiceTextView)
-            val closeImageView = requireActivity().findViewById<ImageView>(R.id.closeVoiceImageView)
-            val report = requireActivity().findViewById<ImageView>(R.id.reportVoiceImageView)
-            val remove = requireActivity().findViewById<ImageView>(R.id.removeVoiceImageView)
-            val recordImageView =
-                requireActivity().findViewById<ImageView>(R.id.recordDefaultImageView)
-            val endTimeTextView = requireActivity().findViewById<TextView>(R.id.endTimeTextView)
-            val progressBar = requireActivity().findViewById<ProgressBar>(R.id.progressBar)
+            with(binding.voiceCommentBottomSheet) {
+                nicknameVoiceTextView.text = name
+                recordDefaultImageView.setImageResource(R.drawable.ic_speak_play_32)
 
-            nickName.text = name
-            recordImageView.setImageResource(R.drawable.ic_speak_play_32)
+                closeVoiceImageView.setOnClickListener {
+                    bottomSheetBehavior.state =
+                        BottomSheetBehavior.STATE_HIDDEN
+                }
 
-            closeImageView.setOnClickListener {
-                bottomSheetBehavior.state =
-                    BottomSheetBehavior.STATE_HIDDEN
-            }
+                reportVoiceImageView.setOnClickListener {
+                    if (mine) requireActivity().showToast(
+                        getString(R.string.dialog_report_mine),
+                        requireView()
+                    )
+                    else showReportCommentDialog(id!!)
+                }
 
-            report.setOnClickListener {
-                if (mine) requireActivity().showToast(
-                    getString(R.string.dialog_report_mine),
-                    requireView()
-                )
-                else showReportCommentDialog(id!!)
-            }
-            remove.setOnClickListener {
-                if (safeArgs.host) showDeleteByHostCommentDialog(id!!)
-                else if (!mine) requireActivity().showToast(
-                    getString(R.string.dialog_delete_not_mine),
-                    requireView()
-                )
-                else showDeleteCommentDialog(id!!)
+                removeVoiceImageView.setOnClickListener {
+                    if (safeArgs.host) showDeleteByHostCommentDialog(id!!)
+                    else if (!mine) requireActivity().showToast(
+                        getString(R.string.dialog_delete_not_mine),
+                        requireView()
+                    )
+                    else showDeleteCommentDialog(id!!)
+                }
             }
 
             initPlaying()
@@ -253,15 +244,18 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 currentProgress = mediaPlayer!!.currentPosition
             }
 
-            if (mediaPlayer!!.duration.toLong() > 60000) endTimeTextView.text =
+            if (mediaPlayer!!.duration.toLong() > 60000) binding.voiceCommentBottomSheet.endTimeTextView.text =
                 getString(R.string.record_voice_maximum_minute)
-            else playerFormat(mediaPlayer?.duration!!.toLong(), endTimeTextView)
+            else playerFormat(
+                mediaPlayer?.duration!!.toLong(),
+                binding.voiceCommentBottomSheet.endTimeTextView
+            )
 
             endTime = mediaPlayer!!.duration / 100
             progressBar.max = endTime
 
-            recordImageView.setOnClickListener {
-                changeByState(voiceFileUrl, recordImageView, progressBar)
+            binding.voiceCommentBottomSheet.recordDefaultImageView.run {
+                setOnClickListener { changeByState(voiceFileUrl, this, progressBar) }
             }
         }
     }

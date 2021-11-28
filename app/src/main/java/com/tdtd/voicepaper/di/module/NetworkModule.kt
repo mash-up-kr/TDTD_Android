@@ -21,13 +21,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     @Provides
-    @Singleton
     fun provideUserRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -43,7 +42,6 @@ object NetworkModule {
     }
 
     @Provides
-    @Singleton
     fun provideOkHttpClientForAccessToken(
         @ApplicationContext context: Context,
     ): OkHttpClient {
@@ -63,18 +61,15 @@ object NetworkModule {
     }
 
     @Provides
-    @Singleton
     fun provideRoomApiService(retrofit: Retrofit): RoomApi = retrofit.create(RoomApi::class.java)
 
     @Provides
-    @Singleton
     fun provideReplyApiService(retrofit: Retrofit): ReplyApi = retrofit.create(ReplyApi::class.java)
 
     @Provides
-    @Singleton
-    fun provideBookmarkApiService(retrofit: Retrofit): BookmarkApi = retrofit.create(BookmarkApi::class.java)
+    fun provideBookmarkApiService(retrofit: Retrofit): BookmarkApi =
+        retrofit.create(BookmarkApi::class.java)
 
     @Provides
-    @Singleton
     fun provideAdminApiService(retrofit: Retrofit): AdminApi = retrofit.create(AdminApi::class.java)
 }

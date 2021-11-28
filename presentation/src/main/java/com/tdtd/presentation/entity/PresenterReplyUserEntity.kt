@@ -1,6 +1,6 @@
 package com.tdtd.presentation.entity
 
-import com.tdtd.domain.entity.MakeRoomType
+import com.tdtd.domain.entity.RoomTypeEntity
 
 data class PresenterReplyUserEntity(
     var code: Int,
@@ -10,7 +10,7 @@ data class PresenterReplyUserEntity(
 
 data class PresenterReplyUserCommentWithUrl(
     val nickname: String,
-    val messageType: MakeRoomType,
+    val messageTypeEntity: RoomTypeEntity,
     val textMessage: String?,
     val voiceUrl: String?,
     val stickerColor: PresenterStickerColorType,

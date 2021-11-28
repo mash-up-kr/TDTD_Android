@@ -3,12 +3,10 @@ package com.tdtd.presentation.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.tdtd.domain.Result
 import com.tdtd.domain.entity.ModifyRoomNameEntity
-import com.tdtd.domain.getValue
-import com.tdtd.domain.usecase.GetAllAdminUseCase
-import com.tdtd.domain.usecase.GetAllReplyUseCase
-import com.tdtd.domain.usecase.GetAllRoomsUseCase
+import com.tdtd.domain.usecase.*
+import com.tdtd.domain.util.State
+import com.tdtd.domain.util.getValue
 import com.tdtd.presentation.base.ui.BaseViewModel
 import com.tdtd.presentation.entity.PresenterDeleteRoom
 import com.tdtd.presentation.entity.PresenterReplyUserEntity
@@ -24,9 +22,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val getAllRoomsUseCase: GetAllRoomsUseCase,
     private val getAllReplyUseCase: GetAllReplyUseCase,
-    private val getAllAdminUseCase: GetAllAdminUseCase
+    private val modifyRoomNameUseCase: ModifyRoomNameUseCase,
+    private val deleteRoomByAdminUseCase: DeleteRoomByAdminUseCase,
+    private val deleteCommentByAdminUseCase: DeleteCommentByAdminUseCase,
+    private val getShareRoomUseCase: GetShareRoomUseCase,
+    private val getRoomDetailUseCase: GetRoomDetailUseCase,
+    private val deleteRoomByUserUseCase: DeleteRoomByUserUseCase,
+    private val deleteCommentByUserUseCase: DeleteCommentByUserUseCase,
+    private val reportCommentUseCase: ReportCommentUseCase
 ) : BaseViewModel() {
 
     private val _detailRoom = MutableLiveData<PresenterRoomDetailEntity>()
@@ -51,9 +55,9 @@ class DetailViewModel @Inject constructor(
 
     fun getRoomDetailByRoomCode(roomCode: String) {
         viewModelScope.safeLaunch {
-            when (val result = getAllRoomsUseCase.invoke(roomCode)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _detailRoom.value =
+            when (val result = getRoomDetailUseCase.invoke(roomCode)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _detailRoom.value =
                     result.getValue().toPresenterRoomDetailEntity()
             }
         }
@@ -61,9 +65,9 @@ class DetailViewModel @Inject constructor(
 
     fun deleteParticipatedUserRoom(roomCode: String) {
         viewModelScope.safeLaunch {
-            when (val result = getAllRoomsUseCase.deleteRoom(roomCode)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _deleteRoom.value = result.getValue().toPresenterDeleteRoom()
+            when (val result = deleteRoomByUserUseCase.invoke(roomCode)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _deleteRoom.value = result.getValue().toPresenterDeleteRoom()
             }
         }
     }
@@ -74,8 +78,8 @@ class DetailViewModel @Inject constructor(
     ) {
         viewModelScope.safeLaunch {
             when (val result = getAllReplyUseCase.invoke(roomCode, params)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _replyValue.value =
+                is State.Error -> throw result.exception
+                is State.Success -> _replyValue.value =
                     result.getValue().toPresenterReplyUserEntity()
             }
         }
@@ -83,9 +87,9 @@ class DetailViewModel @Inject constructor(
 
     fun deleteReplyUserComment(commentId: Long) {
         viewModelScope.safeLaunch {
-            when (val result = getAllReplyUseCase.invoke(commentId)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _deleteComment.value =
+            when (val result = deleteCommentByUserUseCase.invoke(commentId)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _deleteComment.value =
                     result.getValue().toPresenterDeleteRoom()
             }
         }
@@ -93,9 +97,9 @@ class DetailViewModel @Inject constructor(
 
     fun postReportUserByCommentId(commentId: Long) {
         viewModelScope.safeLaunch {
-            when (val result = getAllReplyUseCase.postReportUserByCommentId(commentId)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _reportComment.value =
+            when (val result = reportCommentUseCase.invoke(commentId)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _reportComment.value =
                     result.getValue().toPresenterDeleteRoom()
             }
         }
@@ -103,9 +107,9 @@ class DetailViewModel @Inject constructor(
 
     fun deleteRoomByHost(roomCode: String) {
         viewModelScope.safeLaunch {
-            when (val result = getAllAdminUseCase.invoke(roomCode)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _deleteHostRoom.value =
+            when (val result = deleteRoomByAdminUseCase.invoke(roomCode)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _deleteHostRoom.value =
                     result.getValue().toPresenterDeleteRoom()
             }
         }
@@ -113,9 +117,9 @@ class DetailViewModel @Inject constructor(
 
     fun deleteOtherCommentByAdmin(commentId: Long) {
         viewModelScope.safeLaunch {
-            when (val result = getAllAdminUseCase.invoke(commentId)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _deleteCommentsByHost.value =
+            when (val result = deleteCommentByAdminUseCase.invoke(commentId)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _deleteCommentsByHost.value =
                     result.getValue().toPresenterDeleteRoom()
             }
         }
@@ -123,18 +127,18 @@ class DetailViewModel @Inject constructor(
 
     fun getSharedRoomUrl(roomCode: String) {
         viewModelScope.safeLaunch {
-            when (val result = getAllAdminUseCase.getSharedRoomUrl(roomCode)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _sharedUrl.value = result.getValue().toPresenterRoomUrlEntity()
+            when (val result = getShareRoomUseCase.invoke(roomCode)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _sharedUrl.value = result.getValue().toPresenterRoomUrlEntity()
             }
         }
     }
 
     fun modifyRoomNameByHost(roomCode: String, roomName: ModifyRoomNameEntity) {
         viewModelScope.safeLaunch {
-            when (val result = getAllAdminUseCase.modifyRoomNameByHost(roomCode, roomName)) {
-                is Result.Error -> throw result.exception
-                is Result.Success -> _modifyRoomNameByHost.value =
+            when (val result = modifyRoomNameUseCase.invoke(roomCode, roomName)) {
+                is State.Error -> throw result.exception
+                is State.Success -> _modifyRoomNameByHost.value =
                     result.getValue().toPresenterDeleteRoom()
             }
         }
