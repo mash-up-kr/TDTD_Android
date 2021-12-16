@@ -14,6 +14,8 @@ android {
         minSdkVersion configs.minSdk
         targetSdkVersion configs.targetSdk
 
+        versionCode configs.versionCode
+        versionName configs.versionName
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
