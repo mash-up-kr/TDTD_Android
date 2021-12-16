@@ -6,6 +6,9 @@ apply from: '../build-version.gradle'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+apply plugin: "kotlin-parcelize"
+apply plugin: 'kotlin-android'
+
 android {
     buildFeatures {
         dataBinding = true
