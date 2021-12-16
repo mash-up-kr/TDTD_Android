@@ -1,7 +1,5 @@
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 
 apply from: '../build-version.gradle'
@@ -58,4 +56,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     //Crashlytics
     implementation "$libraries.crashlytics"
+    //AdMob
+    implementation"$libraries.ads"
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 }

@@ -13,7 +13,6 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import com.tdtd.presentation.R
-import kotlinx.android.synthetic.main.layout_toast.view.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
@@ -21,7 +20,7 @@ fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toIn
 
 fun Context.showToast(text: String, view: View) {
     val popupView = LayoutInflater.from(this).inflate(R.layout.layout_toast, null).apply {
-        toastTextView.text = text
+        this.findViewById<TextView>(R.id.toastTextView).text = text
     }
 
     val popupWindow = PopupWindow(

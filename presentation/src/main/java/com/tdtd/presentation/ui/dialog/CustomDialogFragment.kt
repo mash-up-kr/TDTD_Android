@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,6 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.utils.clickWithDebounce
 import com.tdtd.presentation.utils.setNavigationResult
-import kotlinx.android.synthetic.main.dialog_leave_room.view.*
 
 class CustomDialogFragment : DialogFragment() {
 
@@ -38,7 +38,7 @@ class CustomDialogFragment : DialogFragment() {
         view.apply {
             when (safeArgs.layoutId) {
                 R.layout.dialog_leave_room -> {
-                    submitButton.clickWithDebounce {
+                    this.findViewById<Button>(R.id.submitButton).clickWithDebounce {
                         setNavigationResult(
                             getString(R.string.toast_leave_room_success),
                             "detail_leave_room"
@@ -52,13 +52,13 @@ class CustomDialogFragment : DialogFragment() {
                     }
                 }
                 R.layout.dialog_report_reply -> {
-                    submitButton.setOnClickListener {
+                    this.findViewById<Button>(R.id.submitButton).setOnClickListener {
                         detailViewModel.postReportUserByCommentId(safeArgs.id)
                         dismiss()
                     }
                 }
                 R.layout.dialog_delete_reply -> {
-                    submitButton.setOnClickListener {
+                    this.findViewById<Button>(R.id.submitButton).setOnClickListener {
                         detailViewModel.deleteReplyUserComment(safeArgs.id).apply {
                             deleteComment()
                             val bundle = Bundle()
@@ -69,7 +69,7 @@ class CustomDialogFragment : DialogFragment() {
                     }
                 }
                 R.layout.dialog_delete_reply_admin -> {
-                    submitButton.setOnClickListener {
+                    this.findViewById<Button>(R.id.submitButton).setOnClickListener {
                         detailViewModel.deleteOtherCommentByAdmin(safeArgs.id).apply {
                             deleteCommentByAdmin()
                             val bundle = Bundle()
@@ -80,7 +80,7 @@ class CustomDialogFragment : DialogFragment() {
                     }
                 }
                 R.layout.dialog_delete_room -> {
-                    submitButton.clickWithDebounce {
+                    this.findViewById<Button>(R.id.submitButton).clickWithDebounce {
                         setNavigationResult(
                             getString(R.string.toast_delete_room_success),
                             "detail_delete_room"
@@ -94,10 +94,10 @@ class CustomDialogFragment : DialogFragment() {
                     }
                 }
                 R.layout.dialog_share_room -> {
-                    cancelButton.setOnClickListener { dismiss() }
+                    this.findViewById<Button>(R.id.cancelButton).setOnClickListener { dismiss() }
                 }
             }
-            cancelButton.setOnClickListener { dismiss() }
+            this.findViewById<Button>(R.id.cancelButton).setOnClickListener { dismiss() }
         }
 
         return view

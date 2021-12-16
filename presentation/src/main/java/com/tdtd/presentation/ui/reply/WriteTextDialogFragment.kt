@@ -18,6 +18,8 @@ import com.tdtd.domain.entity.StickerColorType
 import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentWriteTextBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
+import com.tdtd.presentation.utils.AdsExt.initAds
+import com.tdtd.presentation.utils.AdsExt.showAds
 import com.tdtd.presentation.utils.MultiPartForm.getBody
 import com.tdtd.presentation.utils.hideKeyboard
 import com.tdtd.presentation.utils.randomAngle
@@ -63,6 +65,7 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeKeyboard()
+        initAds(requireContext())
         setNickNameEditFocus()
         setWriteTextEditFocus()
         setTextWatcher()
@@ -165,6 +168,8 @@ class WriteTextDialogFragment : BottomSheetDialogFragment() {
             completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
 
             completeButton.setOnClickListener {
+                showAds(requireActivity())
+
                 detailViewModel.postReplyUserComment(
                     safeArgs.roomCode,
                     part

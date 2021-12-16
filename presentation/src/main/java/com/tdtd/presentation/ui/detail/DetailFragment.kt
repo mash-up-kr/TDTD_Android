@@ -7,6 +7,7 @@ import android.os.Looper
 import android.text.method.ScrollingMovementMethod
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,8 +25,6 @@ import com.tdtd.presentation.utils.*
 import com.tdtd.presentation.utils.Constants.STATE_PAUSE
 import com.tdtd.presentation.utils.Constants.STATE_PLAYING
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_text_comment.*
-import kotlinx.android.synthetic.main.fragment_voice_comment.*
 import kotlinx.coroutines.*
 
 
@@ -69,12 +68,20 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
         getNavigationResult<String>(R.id.detailFragment, "detail_leave_room") { text ->
             requireActivity().showToast(text, requireView())
-            findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
+            requireView().postDelayed(
+                { findNavController().navigateSafeUp(findNavController().currentDestination!!.id) },
+                300
+            )
         }
 
         getNavigationResult<String>(R.id.detailFragment, "modify_room_name") { newTitle ->
-            requireActivity().showToast(getString(R.string.toast_modify_room_name), requireView())
-            binding.titleTextView.text = newTitle
+            requireView().postDelayed({
+                requireActivity().showToast(
+                    getString(R.string.toast_modify_room_name),
+                    requireView()
+                )
+                binding.titleTextView.text = newTitle
+            }, 300)
         }
 
         detailViewModel.apiFailEvent.observe(viewLifecycleOwner) {
@@ -163,6 +170,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         id: Long?,
         mine: Boolean
     ) {
+        val textCommentBottomSheet =
+            requireView().findViewById<ConstraintLayout>(R.id.textCommentBottomSheet)
+
         bottomSheetBehavior = BottomSheetBehavior.from(textCommentBottomSheet).apply {
             this.state = BottomSheetBehavior.STATE_EXPANDED
 
@@ -206,6 +216,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         mine: Boolean,
         voiceFileUrl: String?
     ) {
+        val voiceCommentBottomSheet =
+            requireView().findViewById<ConstraintLayout>(R.id.voiceCommentBottomSheet)
+
         bottomSheetBehavior = BottomSheetBehavior.from(voiceCommentBottomSheet).apply {
             this.state = BottomSheetBehavior.STATE_EXPANDED
 
@@ -236,7 +249,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 }
             }
 
-            initPlaying()
+            mediaPlayer = MediaPlayer()
+            MediaPlayerHelper.stopAndRelease()
+            job.cancelChildren()
+            currentState = STATE_PLAYING
+
+            val progressBar = voiceCommentBottomSheet.findViewById<ProgressBar>(R.id.progressBar)
+            progressBar.progress = 0
 
             mediaPlayer.let { mediaPlayer ->
                 mediaPlayer?.setDataSource(voiceFileUrl)
@@ -258,14 +277,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 setOnClickListener { changeByState(voiceFileUrl, this, progressBar) }
             }
         }
-    }
-
-    private fun initPlaying() {
-        mediaPlayer = MediaPlayer()
-        MediaPlayerHelper.stopAndRelease()
-        job.cancelChildren()
-        progressBar.progress = 0
-        currentState = STATE_PLAYING
     }
 
     private fun changeByState(
