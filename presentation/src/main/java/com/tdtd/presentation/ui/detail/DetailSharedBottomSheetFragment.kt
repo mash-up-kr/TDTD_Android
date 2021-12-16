@@ -63,9 +63,11 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
             R.id.detailSharedBottomSheetFragment,
             "detail_delete_room"
         ) { text ->
-            findNavController().popBackStack()
-            requireActivity().showToast(text, requireView())
-            findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
+            requireView().postDelayed({
+                findNavController().popBackStack()
+                requireActivity().showToast(text, requireView())
+                findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
+            }, 300)
         }
     }
 

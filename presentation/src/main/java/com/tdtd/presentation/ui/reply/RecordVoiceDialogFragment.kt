@@ -27,6 +27,7 @@ import com.tdtd.presentation.R
 import com.tdtd.presentation.databinding.FragmentRecordVoiceBinding
 import com.tdtd.presentation.ui.detail.DetailViewModel
 import com.tdtd.presentation.utils.*
+import com.tdtd.presentation.utils.AdsExt.showAds
 import com.tdtd.presentation.utils.Constants.REQUEST_RECORD_AUDIO_PERMISSION
 import com.tdtd.presentation.utils.Constants.STATE_NORMAL
 import com.tdtd.presentation.utils.Constants.STATE_PAUSE
@@ -83,6 +84,7 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeKeyboard()
+        AdsExt.initAds(requireContext())
         initRecord()
         onClickCancelButton()
         setNickNameEditFocus()
@@ -354,6 +356,8 @@ class RecordVoiceDialogFragment : BottomSheetDialogFragment() {
             completeButton.setBackgroundResource(R.drawable.backgroud_grayscale1_radius12_click)
 
             completeButton.setOnClickListener {
+                showAds(requireActivity())
+
                 detailViewModel.postReplyUserComment(
                     safeArgs.roomCode,
                     part

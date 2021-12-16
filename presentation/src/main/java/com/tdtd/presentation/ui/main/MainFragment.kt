@@ -3,6 +3,7 @@ package com.tdtd.presentation.ui.main
 import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -128,7 +129,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 host = false,
                 bookmark = false
             )
-        findNavController().navigateSafe(action.actionId, action.arguments)
+
+        lifecycleScope.launchWhenResumed {
+            findNavController().navigateSafe(action.actionId, action.arguments)
+        }
     }
 
     private fun startDetailAdminFragment(roomCode: String, date: String, bookmark: Boolean) {

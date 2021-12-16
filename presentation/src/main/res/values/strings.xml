@@ -79,4 +79,9 @@
     <string name="toast_delete_room_success">방이 삭제되었어요!</string>
     <string name="toast_modify_room_name">방 이름이 바뀌었어요!</string>
     <string name="toast_error_occurred">오류가 발생했어요!</string>
+
+    <!-- Ads -->
+    <string name="admob_app_id">ca-app-pub-7650949603072085~7019751682</string>
+    <string name="banner_ad_unit_id_for_test">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="banner_ad_unit_id_for_real">ca-app-pub-1355727484341694/4961309412</string>
 </resources>
