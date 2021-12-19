@@ -65,7 +65,9 @@ class DetailSharedBottomSheetFragment : BottomSheetDialogFragment() {
         ) { text ->
             requireView().postDelayed({
                 findNavController().popBackStack()
-                requireActivity().showToast(text, requireView())
+                if (!requireActivity().isFinishing) {
+                    requireActivity().showToast(text, requireView())
+                }
                 findNavController().navigateSafeUp(findNavController().currentDestination!!.id)
             }, 300)
         }

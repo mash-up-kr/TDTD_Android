@@ -2,7 +2,6 @@ package com.tdtd.voicepaper
 
 import android.app.Application
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 import com.tdtd.presentation.utils.DeviceInfo
 import com.tdtd.presentation.utils.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
@@ -19,5 +18,13 @@ class TDTDApplication : Application() {
         super.onCreate()
 
         MobileAds.initialize(this)
+
+        preferences = PreferenceManager(applicationContext).apply {
+            saveToken(DeviceInfo(applicationContext).getDeviceId())
+        }
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }
